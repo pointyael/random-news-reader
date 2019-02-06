@@ -11,5 +11,10 @@ var readItems = function(link) {
     });
 }
 
+module.exports = {
+    retrieveItemsFromLink,
+    readItems
+}
+
 
 // TODO : Chopper les items de tous les feeds de la table source et les enregistrer dans la table item
