@@ -49,8 +49,34 @@ main {
 	justify-content: center;
 }
 
-main .item {
-	min-height: 250px;
+/*-------*/
+/* ITEMS */
+/*-------*/
+.item {
+	display: flex;
+	cursor: pointer;
+	position: relative;
+	margin: 0 auto;
+}
+
+.item a{
+	color: #000;
+	text-decoration: none;
+}
+
+.item img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.item figcaption {
+	background: rgba(250,250,250, 0.9);
+	bottom: 0;
+	box-sizing: border-box;
+	position: absolute;
+	width: 100%;
+	padding: 16px;
 }
 
 /*----------------*/
