@@ -2,8 +2,8 @@ let Parser = require('rss-parser');
 let parser = new Parser();
 
 async function retrieveItemsFromLink(link) {
-    let webFeed = parser.parseURL(link);
-    return webFeed;
+    let parsedFeed = parser.parseURL(link);
+    return parsedFeed;
 }
 
 async function getFeedInfo(feed){
@@ -18,7 +18,7 @@ async function getFeedInfo(feed){
     return feedSchema;
 }
 
-async function feedToItemArray(feed){
+async function feedToArray(feed){
     let itemArray = [];
     let itemSchema = Object();
     feed.items.forEach(item => {
@@ -41,7 +41,8 @@ async function normalize(items) {
 
 module.exports = {
     retrieveItemsFromLink,
-    feedToItemArray
+    feedToArray,
+    getFeedInfo
 }
 
 
