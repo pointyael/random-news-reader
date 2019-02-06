@@ -52,31 +52,41 @@ main {
 /*-------*/
 /* ITEMS */
 /*-------*/
-.item {
+
+a.item {
 	display: flex;
+	cursor: pointer;
+}
+
+figure {
+	height: 100%;
 	cursor: pointer;
 	position: relative;
 	margin: 0 auto;
 }
 
-.item a{
+figure a {
 	color: #000;
-	text-decoration: none;
 }
 
-.item img{
+figure img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-.item figcaption {
+figure figcaption {
 	background: rgba(250,250,250, 0.9);
 	bottom: 0;
+	color: #000;
 	box-sizing: border-box;
 	position: absolute;
 	width: 100%;
+	font-size: 12px;
 	padding: 16px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 /*----------------*/
