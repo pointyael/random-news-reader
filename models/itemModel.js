@@ -34,7 +34,7 @@ const getAllItems = (request, response) => {
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
-    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
+    db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
