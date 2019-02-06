@@ -19,9 +19,4 @@ app.set('view engine', 'html');
 
 app.use('/', indexRouter);
 
-/* API for JSON results from queries */
-const db = require('./queriesItems');
-app.get('/all-items', db.getAllItems);
-app.get('/random-items', db.getRandomItems);
-
 module.exports = app;
