@@ -35,15 +35,9 @@ async function feedToArray(feed){
     });
     return itemArray;
 }
-async function normalize(items) {
-
-}
 
 module.exports = {
     retrieveItemsFromLink,
     feedToArray,
     getFeedInfo
 }
-
-
-// TODO : Chopper les items de tous les feeds de la table source et les enregistrer dans la table item
