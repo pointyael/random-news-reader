@@ -36,6 +36,7 @@ describe("items Cron script", () => {
 
         // Marche pas
         it.each(items,'items should have a title and a link not empty', function(item, next){
+            console.log(item);
             expect(item.title).to.be.a('string').not.empty;
             expect(item.link).to.be.a('string').not.empty;
         });
@@ -50,10 +51,3 @@ describe("items Cron script", () => {
         });
     });
 });
-
-
-/*items.retrieveItemsFromLink("https://www.reddit.com/r/ProgrammerHumor.rss").then(
-    items.readItems).catch(function(error){
-        console.log(error)
-    }
-);*/

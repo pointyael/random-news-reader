@@ -10,10 +10,7 @@ async function getFeedInfo(feed){
     let feedSchema = Object();
     feedSchema = {
         title: feed.title,
-        description: feed.description,
-        link: feed.link,
-        language: feed.language,
-        category: feed.category
+        link: feed.link
     }
     return feedSchema;
 }
@@ -36,8 +33,20 @@ async function feedToArray(feed){
     return itemArray;
 }
 
+async function getItemFromLink(link) {
+    parsedFeed = retrieveItemsFromLink(link);
+    return feedToArray(parsedFeed);
+}
+
+async function getFeedInfosFromLink(link) {
+    parsedFeed = retrieveItemsFromLink(link);
+    return getFeedInfo(parsedFeed);
+}
+
 module.exports = {
     retrieveItemsFromLink,
     feedToArray,
-    getFeedInfo
+    getFeedInfo,
+    getItemFromLink,
+    getFeedInfosFromLink
 }
