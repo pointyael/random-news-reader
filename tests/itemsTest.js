@@ -50,4 +50,13 @@ describe("items Cron script", () => {
             expect(parsedFeed).to.be.an('object').not.empty;
         });
     });
+
+    describe('"getItems"', () => {
+        before(async function () {
+            items = await itemRetrieving.getItems();
+        });
+        it('should be an array not empty', function () {
+            expect(feedInfo).to.be.an('array').not.empty;
+        });
+    });
 });
