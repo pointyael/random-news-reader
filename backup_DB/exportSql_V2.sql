@@ -25,12 +25,11 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
 
   vJson json[];
   vAItem json;
-  vSourceId integer[];
-  vId integer;
+  vSourceId integer;
 
 BEGIN
 
-	FOR vId IN
+	FOR vSourceId IN
 		(
 			SELECT sou_id FROM source
   			ORDER BY RANDOM()
@@ -46,7 +45,7 @@ BEGIN
       JOIN language ON ite_language=lan_id
       JOIN type ON ite_type=typ_id
       JOIN category ON ite_category=cat_id
-      WHERE ite_source=vId
+      WHERE ite_source=vSourceId
       ORDER BY RANDOM()
       LIMIT 1
     ) t ;
@@ -77,13 +76,9 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
       vCategoryId integer;
       vSourceId integer;
     BEGIN
-        --INSERT INTO public.item VALUES (id, title, desc, type -> NULL, link,
-        --                                datePub, lang, category, source);
 
         FOR vAItem in
-        SELECT * FROM json_array_elements("pItems")
-        --(SELECT ARRAY(pItems))
-        --ARRAY(pItems)
+          SELECT * FROM json_array_elements("pItems")
         LOOP
 
             SELECT MAX(ite_id)+1 INTO vNewId FROM item;
