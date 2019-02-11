@@ -1,5 +1,6 @@
 let Parser = require('rss-parser');
 let parser = new Parser();
+const feedModel = require("../models/feedModel");
 
 async function retrieveItemsFromLink(link) {
     let parsedFeed = parser.parseURL(link);
@@ -9,6 +10,7 @@ async function retrieveItemsFromLink(link) {
 async function getFeedInfo(feed){
     let feedSchema = Object();
     feedSchema = {
+        id: feed.id,
         title: feed.title,
         link: feed.link
     }
@@ -32,7 +34,13 @@ async function feedToArray(feed){
     return itemArray;
 }
 
-async function getItemsFromLink(link) {
+async function getItems() {
+    link = await feedModel.getSource().link;
+    parsedFeed = await retrieveItemsFromLink(link);
+    return await feedToArray(parsedFeed);
+}
+
+async function getItemsFromLink() {
     parsedFeed = await retrieveItemsFromLink(link);
     return await feedToArray(parsedFeed);
 }
@@ -47,5 +55,6 @@ module.exports = {
     feedToArray,
     getFeedInfo,
     getItemsFromLink,
-    getFeedInfosFromLink
+    getFeedInfosFromLink,
+    getItems
 }

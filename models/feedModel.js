@@ -19,7 +19,7 @@ let link;
 let name;
 
 /* Query source with id 1 to test items insert */
-const getSource = (request, response) => {
+const getSource = () => {
     db.one("SELECT * FROM source WHERE source.sou_id = 1")
         .then(function (data) {
             console.log("DATA:", data);
