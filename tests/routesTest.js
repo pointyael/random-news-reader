@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 /*
   * Test the /GET route
   */
- /*
+
 describe('/GET all-items', () => {
     it('it should GET an array of items', (done) => {
     chai.request(server)
@@ -20,4 +20,4 @@ describe('/GET all-items', () => {
             done();
         });
     });
-});*/
+});

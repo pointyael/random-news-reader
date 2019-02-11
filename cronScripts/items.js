@@ -22,7 +22,6 @@ async function feedToArray(feed){
         itemSchema = {
             title: item.title,
             description: item.description,
-            type: item.type,
             datePub: item.datePub,
             link: item.link,
             language: item.language,
@@ -33,20 +32,20 @@ async function feedToArray(feed){
     return itemArray;
 }
 
-async function getItemFromLink(link) {
-    parsedFeed = retrieveItemsFromLink(link);
-    return feedToArray(parsedFeed);
+async function getItemsFromLink(link) {
+    parsedFeed = await retrieveItemsFromLink(link);
+    return await feedToArray(parsedFeed);
 }
 
 async function getFeedInfosFromLink(link) {
-    parsedFeed = retrieveItemsFromLink(link);
-    return getFeedInfo(parsedFeed);
+    parsedFeed = await retrieveItemsFromLink(link);
+    return await getFeedInfo(parsedFeed);
 }
 
 module.exports = {
     retrieveItemsFromLink,
     feedToArray,
     getFeedInfo,
-    getItemFromLink,
+    getItemsFromLink,
     getFeedInfosFromLink
 }
