@@ -62,23 +62,63 @@ END;$$;
 
 ALTER FUNCTION public."getRandomItems"() OWNER TO postgres;
 
+
 --
--- Name: insertNewItems(json, json[]); Type: PROCEDURE; Schema: public; Owner: postgres
+-- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" json[])
+CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" json)
     LANGUAGE plpgsql
     AS $$
     DECLARE
+      vAItem json;
+      vNewId integer;
+      vLangId integer;
+      vCategoryId integer;
+      vSourceId integer;
     BEGIN
+        --INSERT INTO public.item VALUES (id, title, desc, type -> NULL, link,
+        --                                datePub, lang, category, source);
+
+        FOR vAItem in
+        SELECT * FROM json_array_elements("pItems")
+        --(SELECT ARRAY(pItems))
+        --ARRAY(pItems)
+        LOOP
+
+            SELECT MAX(ite_id)+1 INTO vNewId FROM item;
+
+            SELECT lan_id INTO vLangId
+            FROM language
+            WHERE lan_code=vAItem->>'language';
+
+            SELECT cat_id INTO vCategoryId
+            FROM category
+            WHERE cat_lib=vAItem->>'category';
+
+            INSERT INTO item VALUES
+              (
+                vNewId,
+                vAItem->>'title',
+                vAItem->>'description' ,
+                NULL,
+                vAItem->>'link',
+                to_date(vAItem->>'datePub', 'YYYY-MM-DD'),
+                vLangId,
+                vCategoryId,
+                to_number("pSource"->>'id', '99G999D9S')
+              );
+        END LOOP;
 END;$$;
 
 
-ALTER PROCEDURE public."insertNewItems"("pSource" json, "pItems" json[]) OWNER TO postgres;
+ALTER PROCEDURE public."insertNewItems"("pSource" json, "pItems" json) OWNER TO postgres;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+
 
 --
 -- Name: button; Type: TABLE; Schema: public; Owner: postgres
