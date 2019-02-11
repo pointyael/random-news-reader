@@ -1,4 +1,5 @@
 var pgp = require("pg-promise")();
+var items = require("../cronScripts/items");
 
 const cn = {
     host: process.env.DB_HOST,
@@ -29,9 +30,9 @@ let dateInsert;
 let language;
 let theme;
 
-/* Query items from data base */
-const getAllItems = (request, response) => {
-    db.any("SELECT * FROM item")
+/* Query 12 random items from data base */
+const getRandomItems = (request, response) => {
+    db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
@@ -41,9 +42,12 @@ const getAllItems = (request, response) => {
         });
 }
 
-/* Query 12 random items from data base */
-const getRandomItems = (request, response) => {
-    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
+/* Insert items in data base */
+const insertItems = (request, response) => {
+    let feedAndItemsInfo = [];
+    feedAndItemsInfo.push(items.getFeedInfosFromLink(), items.getItemFromLink());
+    console.log(feedAndItemsInfo);
+    db.any("CALL \"insertItems\"(feedAndItemsInfo)")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
@@ -54,6 +58,6 @@ const getRandomItems = (request, response) => {
 }
 
 module.exports = {
-    getAllItems,
-    getRandomItems
+    getRandomItems,
+    insertItems
 }
