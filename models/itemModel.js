@@ -44,10 +44,11 @@ const getRandomItems = (request, response) => {
 
 /* Insert items in data base */
 const insertItems = (request, response) => {
-    let feedAndItemsInfo = [];
-    feedAndItemsInfo.push(items.getFeedInfosFromLink(), items.getItemFromLink());
-    console.log(feedAndItemsInfo);
-    db.any("CALL \"insertItems\"(feedAndItemsInfo)")
+
+    const feedInfo = JSON.stringify(items.getFeedInfosFromLink()) + "::json";
+    const itemsInfo = JSON.stringify(items.getItemFromLink()) + "::json";
+
+    db.any("CALL \"insertNewItems\"(feedInfo, itemsInfo)")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
