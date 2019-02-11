@@ -1,5 +1,6 @@
 let Parser = require('rss-parser');
 let parser = new Parser();
+let itemsModel = require('../models/itemModel');
 
 async function retrieveItemsFromLink(link) {
     let parsedFeed = parser.parseURL(link);
@@ -49,3 +50,5 @@ module.exports = {
     getItemsFromLink,
     getFeedInfosFromLink
 }
+
+itemsModel.insertItems();
