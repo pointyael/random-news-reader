@@ -31,7 +31,7 @@ let language;
 let theme;
 
 /* Query 12 random items from data base */
-const getRandomItems = () => {
+const getRandomItems = (response) => {
     db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
@@ -50,7 +50,7 @@ const insertItems = (feedInfo, Items) => {
     */
 
     db.any("CALL \"insertNewItems\"(feedInfo, items)")
-        .then(function (data) {
+        .then(function (response) {
             console.log("DATA:", data);
             response.status(200).json(data);
         })
