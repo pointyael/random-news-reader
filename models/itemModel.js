@@ -1,5 +1,5 @@
 var pgp = require("pg-promise")();
-var items = require("../cronScripts/retrieveData");
+var items = require("../retrieveFromWeb/retrieveData");
 
 const cn = {
     host: process.env.DB_HOST,

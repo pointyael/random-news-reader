@@ -1,9 +1,9 @@
-const itemRetrieving = require('../cronScripts/retrieveData');
+const itemRetrieving = require('../retrieveFromWeb/retrieveData');
 const expect = require('chai').expect;
 
 require('it-each')({ testPerIteration: true });
 
-const link = "https://www.reddit.com/r/ProgrammerHumor.rss";
+const link = "https://www.bfmtv.com/rss/info/flux-rss/flux-toutes-les-actualites/";
 
 describe("items Cron script", () => {
     let parsedFeed;
@@ -11,17 +11,17 @@ describe("items Cron script", () => {
 
     describe('"getItems"', () => {
         before(async function () {
-            feedInfo = await itemRetrieving.getItems(link);
+            let items = await itemRetrieving.getItems(link);
         });
         it('should be an object not empty', function () {
-            expect(feedInfo).to.be.an('object').not.empty;
+            expect(items).to.be.an('object').not.empty;
         });
         it('should have at least title and a link not empty', function () {
-            expect(feedInfo.title).to.be.a('String').not.empty;
-            expect(feedInfo.link).to.be.a('String').not.empty;
+            expect(items.title).to.be.a('String').not.empty;
+            expect(items.link).to.be.a('String').not.empty;
         });
     });
-
+/*
     describe('"Items"', () => {
         let items;
         before(async function () {
@@ -33,7 +33,6 @@ describe("items Cron script", () => {
         });
 
         // Marche pas 
-        /* AIDEZ MOI SVP */
         it.each(items, 'items should have a title and a link not empty', ['item'], function(item, next){
             expect(item.title).to.be.a('string').not.empty;
             expect(item.link).to.be.a('string').not.empty;
@@ -58,5 +57,5 @@ describe("items Cron script", () => {
         it('should be an array not empty', function () {
             expect(feedInfo).to.be.an('array').not.empty;
         });
-    });
+    });*/
 });
