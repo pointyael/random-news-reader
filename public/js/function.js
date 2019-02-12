@@ -39,8 +39,9 @@ function displayItems() {
 	req.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 
+			
 			/* Recuperation */
-			var items = JSON.parse(this.responseText)[0]["getRandomItems"];
+			var items = JSON.parse(this.responseText);
 			var main = document.getElementsByTagName('main')[0];
 
 			/* Affichage */
