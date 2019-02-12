@@ -4,11 +4,12 @@
 <head>
     <title>Randomizer</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="../public//css/style.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/index.css">
+    <link rel="shortcut icon" href="../public/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body>       
 
     <header>
         <img src="../public/img/GoldfishNews.png" alt="Goldfish News Logo">
@@ -20,13 +21,27 @@
         </div>
     </header>
 
-    <div class="sidebar">
-        <a href="#">Filtrer par langue</a>
-        <a href="#">Filtrer par ceci</a>
-        <a href="#">Filtrer par cela</a>
-    </div>
+    <div class="modal displayNone">
+      <div class="modal-content">
+        <p>Bienvenue. Vous allez naviguer sur un site qui ne vous connaît pas et ne se souviendra pas de vous.</p>
 
-    <main>
+        <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information pertinente pour vous.</p>
+
+        <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48 heures.</p>
+
+        <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
+        <button class="close">Y[es]<span class="blink">|</span></button>
+    </div>
+</div>
+
+<div class="sidebar">
+    <a href="#">Filtrer par langue</a>
+    <a href="#">Filtrer par ceci</a>
+    <a href="#">Filtrer par cela</a>
+    <a class="bottomLink" href="./about.html">A propos</a>
+</div>
+
+<main>
 
         <a class="item" href="https://www.thefactsite.com/2019/01/emma-watson-facts.html" target="_blank">
             <figure>
@@ -146,7 +161,7 @@
         </div>
     </footer>
 
-    <script src="../public/js/function.js"></script>
+    <script src="../public/js/indexFunction.js"></script>
 
 </body>
 
