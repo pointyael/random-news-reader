@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --require co-mocha ./tests/**.js"
+    "test": "./node_modules/.bin/mocha --recursive -R xunit tests/**.js > build/test-result/test-reports.xml"
   },
   "dependencies": {
     "chai-http": "^4.2.1",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "co-mocha": "^1.2.2",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0"
   }
 }

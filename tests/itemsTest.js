@@ -32,14 +32,14 @@ describe("items Cron script", () => {
             expect(items).to.be.an('array').not.empty;
         });
 
-        // Marche pas 
+        // Marche pas
         /* AIDEZ MOI SVP */
         it.each(items, 'items should have a title and a link not empty', ['item'], function(item, next){
             expect(item.title).to.be.a('string').not.empty;
             expect(item.link).to.be.a('string').not.empty;
         });
 
-        
+
     });
 
     describe('"retrieveItemsFromLink"', () => {

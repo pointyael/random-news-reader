@@ -1,0 +1,21 @@
+[0mGET /all-items [33m404 [0m1.930 ms - 148[0m
+<testsuite name="Mocha Tests" tests="6" failures="3" errors="3" skipped="-1" timestamp="Tue, 12 Feb 2019 12:09:15 GMT" time="1.82">
+<testcase classname="items Cron script &#x22;getFeedInfo&#x22;" name="should be an object not empty" time="0.001"/>
+<testcase classname="items Cron script &#x22;getFeedInfo&#x22;" name="should have at least title and a link not empty" time="0"/>
+<testcase classname="items Cron script &#x22;Items&#x22;" name="should be an array not empty" time="0"/>
+<testcase classname="items Cron script &#x22;Items&#x22;" name="items should have a title and a link not empty undefined" time="0"><failure>Cannot read property &#x27;title&#x27; of undefined
+TypeError: Cannot read property &#x27;title&#x27; of undefined
+    at Context.&#x3C;anonymous&#x3E; (tests\itemsTest.js:38:25)
+    at Context.binding (node_modules\it-each\lib\it.each.js:37:43)</failure></testcase>
+<testcase classname="items Cron script &#x22;retrieveItemsFromLink&#x22;" name="should be an object not empty" time="0"/>
+<testcase classname="items Cron script &#x22;getItems&#x22;" name="&#x22;before all&#x22; hook" time="0.001"><failure>itemRetrieving.getItems is not a function
+TypeError: itemRetrieving.getItems is not a function
+    at Context.&#x3C;anonymous&#x3E; (tests\itemsTest.js:56:42)</failure></testcase>
+<testcase classname="/GET random-items" name="it should GET an array of items" time="0"><failure>expected { Object (_events, _eventsCount, ...) } to have status code 200 but got 404
+AssertionError: expected { Object (_events, _eventsCount, ...) } to have status code 200 but got 404
+    at chai.request.get.end (tests\routesTest.js:18:33)
+    at Test.Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+    at IncomingMessage.parser (node_modules\superagent\lib\node\index.js:916:18)
+    at endReadableNT (_stream_readable.js:1103:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure></testcase>
+</testsuite>
