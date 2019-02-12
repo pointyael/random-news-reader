@@ -10,6 +10,7 @@ async function _retrieveFeedData(link) {
 async function _processFeedInfo(parsedFeed){
     let feedSchema = Object();
     feedSchema = {
+        id: parsedFeed.id,
         title: parsedFeed.title,
         link: parsedFeed.link
     }
@@ -21,10 +22,15 @@ async function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
     parsedFeed.items.forEach(item => {
+        var regex = 
+        item.title = item.title.replace(/'/g, "''");
+        // Be careful --> content =/= description 
+        // In RSS the description field  is required instead of content
+        item.description = item.content.replace(/'/g, "''");
         itemSchema = {
             title: item.title,
             description: item.description,
-            content: item.content,
+            //content: item.content,
             enclosure: item.enclosure,
             datePub: item.datePub,
             link: item.link,
@@ -32,7 +38,6 @@ async function _processItems(parsedFeed){
             category: item.category
           }
           itemArray.push(itemSchema);
-          console.log(item.enclosure);
     });
     return itemArray;
 }

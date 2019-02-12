@@ -7,6 +7,8 @@ const cn = {
     password: process.env.DB_PASS
 };
 
+var db = pgp(cn);
+
 /*
 CREATE TABLE public.source (
     sou_id integer NOT NULL,
