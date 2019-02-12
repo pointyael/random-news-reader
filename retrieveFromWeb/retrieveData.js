@@ -33,13 +33,6 @@ async function _processItems(parsedFeed){
             category: item.category
           }
           itemArray.push(itemSchema);
-          if(typeof item.description !== 'undefined')
-          {
-           item.description = item.description.replace(/['"]+/g, '');
-          } else {
-              item.description = " ";
-          }
-          console.log("INSERT INTO item VALUES(id, \'" + item.title.replace(/['"]+/g, '') + "\',\'" + item.description + "\',1,\'"+ item.link + "\',\' 2011-02-4\',1, 2, 1" + ",\'"+ item.enclosure.url + "\');");
     });
     return itemArray;
 }
@@ -51,7 +44,8 @@ async function getItems(link) {
 
 async function getFeedData(link) {
     parsedFeed = await _retrieveFeedData(link);
-    return await _processFeedInfo(parsedFeed);
+    processedInfo = await _processFeedInfo(parsedFeed);
+    return processedInfo;
 }
 
 module.exports = {

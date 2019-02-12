@@ -31,7 +31,7 @@ let language;
 let theme;
 
 /* Query 12 random items from data base */
-const getRandomItems = (response) => {
+const getRandomItems = (request, response) => {
     db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
