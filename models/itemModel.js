@@ -1,5 +1,15 @@
 var pgp = require("pg-promise")();
-var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
+var items = require("../cronScripts/items");
+
+const cn = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
+};
+
+const db = pgp(cn);
 
 /*
 ite_id integer NOT NULL,
@@ -20,9 +30,9 @@ let dateInsert;
 let language;
 let theme;
 
-/* Query items from data base */
-const getAllItems = (request, response) => {
-    db.any("SELECT * FROM item")
+/* Query 12 random items from data base */
+const getRandomItems = (request, response) => {
+    db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
@@ -32,9 +42,13 @@ const getAllItems = (request, response) => {
         });
 }
 
-/* Query 12 random items from data base */
-const getRandomItems = (request, response) => {
-    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
+/* Insert items in data base */
+const insertItems = (request, response) => {
+
+    const feedInfo = JSON.stringify(items.getFeedInfosFromLink()) + "::json";
+    const itemsInfo = JSON.stringify(items.getItemFromLink()) + "::json";
+
+    db.any("CALL \"insertNewItems\"(feedInfo, itemsInfo)")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
@@ -45,6 +59,6 @@ const getRandomItems = (request, response) => {
 }
 
 module.exports = {
-    getAllItems,
-    getRandomItems
+    getRandomItems,
+    insertItems
 }
