@@ -94,8 +94,8 @@ function displayItems() {
 function displayItem(item){
 	var html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 				'<figure>' +
-					'<img src="https://www.freeiconspng.com/uploads/no-image-icon-13.png" alt=""/> '+
-					'<figcaption>'+ item["ite_name"] +'</figcaption>'+
+					'<img src="' +  item["ite_enclosure"] +'" alt=""/> '+
+					'<figcaption>'+ item["ite_title"] +'</figcaption>'+
 				'</figure>' +
 			'</a>';
 	return html;
