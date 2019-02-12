@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --require co-mocha ./tests/**.js"
+    "test": "mocha --require co-mocha ./tests/**.js",
+    "test-jenkins": "JUNIT_REPORT_PATH=/report.xml mocha --colors --reporter mocha-jenkins-reporter"
   },
   "dependencies": {
     "chai-http": "^4.2.1",
@@ -14,6 +15,7 @@
     "dotenv": "^6.2.0",
     "express": "~4.16.0",
     "it-each": "^0.4.0",
+    "mocha-jenkins-reporter": "0.4.1",
     "mongoose": "^5.4.10",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
