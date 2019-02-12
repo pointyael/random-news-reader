@@ -1,4 +1,4 @@
-const itemRetrieving = require('../cronScripts/items');
+const itemRetrieving = require('../cronScripts/retrieveData');
 const expect = require('chai').expect;
 
 require('it-each')({ testPerIteration: true });
@@ -9,9 +9,9 @@ describe("items Cron script", () => {
     let parsedFeed;
     let feedInfo;
 
-    describe('"getFeedInfo"', () => {
+    describe('"getItems"', () => {
         before(async function () {
-            feedInfo = await itemRetrieving.getFeedInfosFromLink(link);
+            feedInfo = await itemRetrieving.getItems(link);
         });
         it('should be an object not empty', function () {
             expect(feedInfo).to.be.an('object').not.empty;
@@ -25,7 +25,7 @@ describe("items Cron script", () => {
     describe('"Items"', () => {
         let items;
         before(async function () {
-            items = await itemRetrieving.getItemsFromLink(link);
+            items = await itemRetrieving.getItems(link);
         });
 
         it('should be an array not empty', function () {

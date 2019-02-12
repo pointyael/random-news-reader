@@ -1,5 +1,5 @@
 var pgp = require("pg-promise")();
-var items = require("../cronScripts/items");
+var items = require("../cronScripts/retrieveData");
 
 const cn = {
     host: process.env.DB_HOST,
@@ -31,7 +31,7 @@ let language;
 let theme;
 
 /* Query 12 random items from data base */
-const getRandomItems = (request, response) => {
+const getRandomItems = () => {
     db.any("SELECT \"getRandomItems\"()")
         .then(function (data) {
             console.log("DATA:", data);
@@ -43,12 +43,13 @@ const getRandomItems = (request, response) => {
 }
 
 /* Insert items in data base */
-const insertItems = (request, response) => {
+const insertItems = (feedInfo, Items) => {
+/*  SERA UTILISE DANS LE CRONSCRIPT
+    const feedInfo = JSON.stringify(items.getFeedInfo(link)) + "::json";
+    const items = JSON.stringify(items.getItems(link)) + "::json";
+    */
 
-    const feedInfo = JSON.stringify(items.getFeedInfosFromLink()) + "::json";
-    const itemsInfo = JSON.stringify(items.getItemFromLink()) + "::json";
-
-    db.any("CALL \"insertNewItems\"(feedInfo, itemsInfo)")
+    db.any("CALL \"insertNewItems\"(feedInfo, items)")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
