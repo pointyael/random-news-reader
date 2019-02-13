@@ -47,7 +47,7 @@ const getRandomItems = (request, response) => {
 const insertItems = (request, response) => {
 
     db
-    .any("SELECT * FROM source WHERE source.sou_id = 2")
+    .any("SELECT * FROM source WHERE source.sou_id=2")
     .then(function (data) {
         data = data[0];
         feedInfo = {
