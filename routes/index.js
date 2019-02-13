@@ -15,4 +15,7 @@ router.get('/about', function(req, res, next) {
 /* GET API random items. */
 router.get('/random-items', db.getRandomItems);
 
+/* GET API random items. */
+router.get('/insert', db.insertItems);
+
 module.exports = router;

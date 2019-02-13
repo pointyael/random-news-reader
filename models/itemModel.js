@@ -1,5 +1,6 @@
 var pgp = require("pg-promise")();
-var items = require("../cronScripts/items");
+var Items = require("../retrieveFromWeb/retrieveData.js");
+var FeedModel = require("./feedModel");
 
 const cn = {
     host: process.env.DB_HOST,
@@ -45,17 +46,36 @@ const getRandomItems = (request, response) => {
 /* Insert items in data base */
 const insertItems = (request, response) => {
 
-    const feedInfo = JSON.stringify(items.getFeedInfosFromLink()) + "::json";
-    const itemsInfo = JSON.stringify(items.getItemFromLink()) + "::json";
+    db
+    .any("SELECT * FROM source WHERE source.sou_id=2")
+    .then(function (data) {
+        data = data[0];
+        feedInfo = {
+            id: data.sou_id,
+            title: data.sou_name,
+            link: data.sou_link
+        }
+        feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
+        Items
+        .getItems(data.sou_link)
+        .then
+        (
+            function(res){
+                itemsJsonString = (JSON.stringify(res));
+                //console.log(res);
+                db
+                .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then( () => response.status(200) )
+                .catch(function (error2) {
+                    console.log("ERROR3", error2);
+                });
+            }
+        )
+        .catch( function(err) { console.log("ERROR4 : ", err); })
 
-    db.any("CALL \"insertNewItems\"(feedInfo, itemsInfo)")
-        .then(function (data) {
-            console.log("DATA:", data);
-            response.status(200).json(data);
         })
-        .catch(function (error) {
-            console.log("ERROR:", error);
-        });
+        .catch(function(err){ console.log("ERROR2:", err); });
+
 }
 
 module.exports = {
