@@ -47,42 +47,35 @@ const getRandomItems = (request, response) => {
 const insertItems = (request, response) => {
 
     db
-    .any("SELECT * FROM source WHERE source.sou_id = 1")
+    .any("SELECT * FROM source WHERE source.sou_id = 2")
     .then(function (data) {
-        console.log("DATA:", data);
         data = data[0];
-
+        feedInfo = {
+            id: data.sou_id,
+            title: data.sou_name,
+            link: data.sou_link
+        }
+        feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
         Items
-        .getFeedData(data.sou_link)
+        .getItems(data.sou_link)
         .then
-        ( function(value){ 
-            feedInfoJsonString = "'" + JSON.stringify(value).replace( /'/, "''") + "'::json";
-            console.log(feedInfoJsonString);
-
-            Items
-            .getItems(data.sou_link)
-            .then
-            ( 
-                function(res){
-                    itemsJsonString = (JSON.stringify(res));
-                    console.log(res);
-                    db
-                    .any("CALL \"insertNewItems\"("+feedInfoJsonString+", '"+itemsJsonString+"')")
-                    .then( () => response.status(200) )
-                    .catch(function (error2) {
-                        console.log("ERROR3", error2);
-                    });
-                }
-            )
-            .catch( function(err) { console.log("ERROR4 : ", err); })
+        ( 
+            function(res){
+                itemsJsonString = (JSON.stringify(res));
+                console.log(res);
+                db
+                .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then( () => response.status(200) )
+                .catch(function (error2) {
+                    console.log("ERROR3", error2);
+                });
+            }
+        )
+        .catch( function(err) { console.log("ERROR4 : ", err); })
 
         })
         .catch(function(err){ console.log("ERROR2:", err); });
-        
-    })
-    .catch(function (error) {
-        console.log("ERROR1:", error);
-    });       
+              
 }
 
 module.exports = {
