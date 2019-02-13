@@ -99,7 +99,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
                 vAItem->>'enclosure',
                 NULL,
                 vAItem->>'link',
-                to_date(vAItem->>'datePub', 'YYYY-MM-DD'),
+                to_timestamp(vAItem->>'pubDate', 'Dy, DD Mon YYYY HH24:MI:SS'),
                 vLangId,
                 vCategoryId,
                 to_number("pSource"->>'id', '99G999D9S')
@@ -151,7 +151,7 @@ CREATE TABLE public.item (
     ite_enclosure character varying(400),
     ite_type integer,
     ite_link character varying(250),
-    ite_datepub timestamp,
+    ite_pubdate timestamp,
     ite_language integer,
     ite_category integer,
     ite_source integer

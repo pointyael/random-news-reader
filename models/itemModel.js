@@ -47,7 +47,7 @@ const getRandomItems = (request, response) => {
 const insertItems = (request, response) => {
 
     db
-    .any("SELECT * FROM source WHERE source.sou_id = 1")
+    .any("SELECT * FROM source WHERE source.sou_id=1")
     .then(function (data) {
         console.log("DATA:", data);
         data = data[0];
@@ -55,17 +55,17 @@ const insertItems = (request, response) => {
         Items
         .getFeedData(data.sou_link)
         .then
-        ( function(value){ 
-            feedInfoJsonString = "'" + JSON.stringify(value).replace( /'/, "''") + "'::json";
+        ( function(value){
+            feedInfoJsonString = "'" + JSON.stringify(value)+ "'::json";
             console.log(feedInfoJsonString);
 
             Items
             .getItems(data.sou_link)
             .then
-            ( 
+            (
                 function(res){
                     itemsJsonString = (JSON.stringify(res));
-                    console.log(res);
+
                     db
                     .any("CALL \"insertNewItems\"("+feedInfoJsonString+", '"+itemsJsonString+"')")
                     .then( () => response.status(200) )
@@ -78,11 +78,11 @@ const insertItems = (request, response) => {
 
         })
         .catch(function(err){ console.log("ERROR2:", err); });
-        
+
     })
     .catch(function (error) {
         console.log("ERROR1:", error);
-    });       
+    });
 }
 
 module.exports = {
