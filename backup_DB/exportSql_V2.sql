@@ -101,7 +101,8 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
                 to_date(vAItem->>'datePub', 'YYYY-MM-DD'),
                 vLangId,
                 vCategoryId,
-                to_number("pSource"->>'id', '99G999D9S')
+                to_number("pSource"->>'id', '99G999D9S'),
+                vAItem->>'iamgeLink'
               );
         END LOOP;
 END;$$;
@@ -152,7 +153,8 @@ CREATE TABLE public.item (
     ite_datepub date,
     ite_language integer,
     ite_category integer,
-    ite_source integer
+    ite_source integer,
+    ite_imageLink character varying(250)
 );
 
 
