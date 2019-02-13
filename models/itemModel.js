@@ -68,9 +68,7 @@ const insertItems = (request, response) => {
                     console.log(res);
                     db
                     .any("CALL \"insertNewItems\"("+feedInfoJsonString+", '"+itemsJsonString+"')")
-                    .then(function (data) {
-                        response.status(200);
-                    })
+                    .then( () => response.status(200) )
                     .catch(function (error2) {
                         console.log("ERROR3", error2);
                     });
