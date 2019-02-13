@@ -23,10 +23,9 @@ describe("items Cron script", () => {
         it('getItems return should be an array not empty', async function(){
             expect(items).to.be.an('array').not.empty;
         });
-        // Marche pas 
+
         it('items should have a title and a link not empty', async function(){
             items.forEach(item => {
-                console.log(item);
                 expect(item.title).to.be.a('string').not.empty;
                 expect(item.link).to.be.a('string').not.empty;
             });
