@@ -21,4 +21,6 @@ app.set('view engine', 'html');
 
 app.use('/', indexRouter);
 
+app.use('/public', express.static('public'));
+
 module.exports = app;
