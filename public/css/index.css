@@ -121,7 +121,7 @@ div .fa.fa-refresh.fa-spin{
 	right: 0;
 	background-color: #000;
 	overflow-x: hidden;
-	padding-top: 60px;
+	padding-top: 20px;
 	transition: 0.5s;
 }
 
@@ -143,6 +143,36 @@ div .fa.fa-refresh.fa-spin{
 	bottom: 20px;
 	font-size: 12px;
 }
+
+/*----------------*/
+/* SIDEBAR  QUOTE */
+/*-----------------*/
+blockquote {
+	text-align: center;
+	font-size: 15px;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+	position: relative;
+	margin: 0px 18px 25px;
+	width: 220px;	
+}
+
+blockquote:after {
+	color:#eaeaea;
+	content: '\201D';
+	font-size: 80px;
+	position: absolute;
+	background:#000;
+	height: 55px;
+	width: 55px;
+	transform: translateX(-50%);
+	top: -30px;
+}
+
+blockquote p {
+	padding: 15px;
+	color: #eaeaea;
+}	
 
 /*------------------*/
 /* ANIMATION BURGER */

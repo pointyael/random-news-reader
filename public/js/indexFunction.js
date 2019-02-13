@@ -26,6 +26,9 @@ function switchDisplay() {
 	topbar.classList.toggle('top');
 	middlebar.classList.toggle('middle');
 	bottombar.classList.toggle('bottom');
+	if (sidebar.classList.contains('opened')){
+		displayQuote();
+	}
 }
 
 switchButton.addEventListener('click', switchDisplay);
@@ -84,6 +87,7 @@ function displayItems() {
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('click', refreshItems);
 				actualItems[i].addEventListener('click', displayRefreshPhrase);
+				actualItems[i].addEventListener('click', displayQuote);
 			}
 		}
 	};
@@ -105,7 +109,7 @@ function displayItem(item){
 window.onload = displayItems();
 
 /*----------------------------------------------------------*/
-/* 					BTN REFRESH PHRASE 						*/
+/* 					BTN REFRESH QUOTE 						*/
 /*----------------------------------------------------------*/
 function displayRefreshPhrase(){
 	var req = new XMLHttpRequest();
@@ -123,11 +127,36 @@ function displayRefreshPhrase(){
 			/* Refresh on click */
 			var btnRefresh = document.getElementById('btnRefresh');
 			btnRefresh.addEventListener('click', displayRefreshPhrase);
+			btnRefresh.addEventListener('click', displayQuote);
 		}
 	};
 	
-	req.open("GET", "http://localhost:3000/random-phrase");
+	req.open("GET", "http://localhost:3000/random-btnQuote");
 	req.send();
 }
 
 window.onload = displayRefreshPhrase();
+
+/*----------------------------------------------------------*/
+/* 							QUOTE 							*/
+/*----------------------------------------------------------*/
+function displayQuote(){
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var quote = JSON.parse(this.responseText)[0];
+			var quoteSpan = document.getElementById('quote');
+
+			/* Affichage */
+			quoteSpan.innerHTML = quote["quo_quote"];
+		}
+	};
+	
+	req.open("GET", "http://localhost:3000/random-quote");
+	req.send();
+}
+
+window.onload = displayQuote();

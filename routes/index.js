@@ -1,6 +1,6 @@
 var express = require('express');
 const db = require('../models/itemModel');
-const phraseDB = require('../models/phraseModel');
+const quoteDB = require('../models/quoteModel');
 var router = express.Router();
 
 /* GET home page. */
@@ -19,7 +19,10 @@ router.get('/all-items', db.getAllItems);
 /* GET API random items. */
 router.get('/random-items', db.getRandomItems);
 
-/* GET API button phrase. */
-router.get('/random-phrase', phraseDB.getButtonPhrase);
+/* GET API button quote. */
+router.get('/random-btnQuote', quoteDB.getButtonQuote);
+
+/* GET API quote. */
+router.get('/random-quote', quoteDB.getQuote);
 
 module.exports = router;
