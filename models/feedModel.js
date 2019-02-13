@@ -1,3 +1,5 @@
+var pgp = require("pg-promise")();
+
 /*
 CREATE TABLE public.source (
     sou_id integer NOT NULL,
@@ -8,3 +10,6 @@ CREATE TABLE public.source (
 
 let link;
 let name;
+
+module.exports = {
+}

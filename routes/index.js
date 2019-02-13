@@ -13,9 +13,6 @@ router.get('/about', function(req, res, next) {
   res.render('about', { title: 'À propos' });
 });
 
-/* GET API all items. */
-router.get('/all-items', db.getAllItems);
-
 /* GET API random items. */
 router.get('/random-items', db.getRandomItems);
 
