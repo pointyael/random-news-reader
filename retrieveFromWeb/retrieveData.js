@@ -49,7 +49,8 @@ async function getItems(link) {
 
 async function getFeedData(link) {
     parsedFeed = await _retrieveFeedData(link);
-    return await _processFeedInfo(parsedFeed);
+    processedInfo = await _processFeedInfo(parsedFeed);
+    return processedInfo;
 }
 
 module.exports = {
