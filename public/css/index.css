@@ -46,6 +46,7 @@ main {
 	flex: 1;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
+	grid-auto-rows: 45%;
 	grid-gap: 10px;
 	padding: 10px;
 	margin: 100px 0 50px;
@@ -58,6 +59,7 @@ main {
 /*-------*/
 
 a.item {
+	height: 100%;
 	display: flex;
 	cursor: pointer;
 }
@@ -82,7 +84,7 @@ figure figcaption {
 	box-sizing: border-box;
 	position: absolute;
 	width: 100%;
-	font-size: 12px;
+	font-size: 14px;
 	padding: 16px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -102,6 +104,10 @@ div.float {
 	text-align: center;
 }
 
+div .fa.fa-refresh.fa-spin{
+	margin-left: 10px;
+}
+
 /*---------*/
 /* SIDEBAR */
 /*---------*/
@@ -115,7 +121,7 @@ div.float {
 	right: 0;
 	background-color: #000;
 	overflow-x: hidden;
-	padding-top: 60px;
+	padding-top: 20px;
 	transition: 0.5s;
 }
 
@@ -137,6 +143,36 @@ div.float {
 	bottom: 20px;
 	font-size: 12px;
 }
+
+/*----------------*/
+/* SIDEBAR  QUOTE */
+/*-----------------*/
+blockquote {
+	text-align: center;
+	font-size: 15px;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+	position: relative;
+	margin: 0px 18px 25px;
+	width: 220px;	
+}
+
+blockquote:after {
+	color:#eaeaea;
+	content: '\201D';
+	font-size: 80px;
+	position: absolute;
+	background:#000;
+	height: 55px;
+	width: 55px;
+	transform: translateX(-50%);
+	top: -30px;
+}
+
+blockquote p {
+	padding: 15px;
+	color: #eaeaea;
+}	
 
 /*------------------*/
 /* ANIMATION BURGER */

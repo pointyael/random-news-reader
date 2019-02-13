@@ -26,6 +26,9 @@ function switchDisplay() {
 	topbar.classList.toggle('top');
 	middlebar.classList.toggle('middle');
 	bottombar.classList.toggle('bottom');
+	if (sidebar.classList.contains('opened')){
+		displayQuote();
+	}
 }
 
 switchButton.addEventListener('click', switchDisplay);
@@ -83,6 +86,8 @@ function displayItems() {
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('click', refreshItems);
+				actualItems[i].addEventListener('click', displayRefreshPhrase);
+				actualItems[i].addEventListener('click', displayQuote);
 			}
 		}
 	};
@@ -94,11 +99,64 @@ function displayItems() {
 function displayItem(item){
 	var html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 				'<figure>' +
-					'<img src="https://www.freeiconspng.com/uploads/no-image-icon-13.png" alt=""/> '+
-					'<figcaption>'+ item["ite_name"] +'</figcaption>'+
+					'<img src="' +  item["ite_enclosure"] +'" alt=""/> '+
+					'<figcaption>'+ item["ite_title"] +'</figcaption>'+
 				'</figure>' +
 			'</a>';
 	return html;
 }
 
 window.onload = displayItems();
+
+/*----------------------------------------------------------*/
+/* 						BTN REFRESH QUOTE 					*/
+/*----------------------------------------------------------*/
+function displayRefreshPhrase(){
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var phrase = JSON.parse(this.responseText)[0];
+			var spanPhrase = document.getElementById('randomizePhrase');
+
+			/* Affichage */
+			spanPhrase.innerHTML = phrase["but_quote"];
+
+			/* Refresh on click */
+			var btnRefresh = document.getElementById('btnRefresh');
+			btnRefresh.addEventListener('click', displayRefreshPhrase);
+			btnRefresh.addEventListener('click', displayQuote);
+		}
+	};
+	
+	req.open("GET", "http://localhost:3000/random-btnQuote");
+	req.send();
+}
+
+window.onload = displayRefreshPhrase();
+
+/*----------------------------------------------------------*/
+/* 							QUOTE 							*/
+/*----------------------------------------------------------*/
+function displayQuote(){
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var quote = JSON.parse(this.responseText)[0];
+			var quoteSpan = document.getElementById('quote');
+
+			/* Affichage */
+			quoteSpan.innerHTML = quote["quo_quote"];
+		}
+	};
+	
+	req.open("GET", "http://localhost:3000/random-quote");
+	req.send();
+}
+
+window.onload = displayQuote();
