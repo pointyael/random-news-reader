@@ -151,7 +151,7 @@ CREATE TABLE public.item (
     ite_enclosure character varying(400),
     ite_type integer,
     ite_link character varying(250),
-    ite_datepub date,
+    ite_datepub timestamp,
     ite_language integer,
     ite_category integer,
     ite_source integer
