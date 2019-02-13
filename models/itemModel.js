@@ -33,7 +33,7 @@ let theme;
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
-    db.any("SELECT \"getRandomItems\"()")
+    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
         .then(function (data) {
             console.log("DATA:", data);
             response.status(200).json(data);
