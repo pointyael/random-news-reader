@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --require co-mocha ./tests/**.js"
+    "test": "mocha --timeout 10000 --require co-mocha ./tests/**.js"
   },
   "dependencies": {
     "chai-http": "^4.2.1",

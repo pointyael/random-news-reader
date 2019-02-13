@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 describe('/GET random-items', () => {
     it('it should GET an array of items', (done) => {
     chai.request(server)
-        .get('/all-items')
+        .get('/random-items')
         .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
