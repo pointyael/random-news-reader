@@ -52,7 +52,7 @@ const insertItems = (request, response) => {
         data = data[0];
         feedInfo = {
             id: data.sou_id,
-            title: data.sou_name,
+            title: data.sou_title,
             link: data.sou_link
         }
         feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
