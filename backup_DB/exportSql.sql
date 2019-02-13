@@ -120,13 +120,13 @@ SET default_with_oids = false;
 -- Name: button; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.button (
+CREATE TABLE public.buttonQuote (
     but_id integer NOT NULL,
     but_quote character varying(50)
 );
 
 
-ALTER TABLE public.button OWNER TO postgres;
+ALTER TABLE public.buttonQuote OWNER TO postgres;
 
 --
 -- Name: category; Type: TABLE; Schema: public; Owner: postgres
@@ -177,13 +177,13 @@ ALTER TABLE public.language OWNER TO postgres;
 -- Name: quote; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.quote (
+CREATE TABLE public.sidebarQuote (
     quo_id integer NOT NULL,
     quo_quote character varying(500)
 );
 
 
-ALTER TABLE public.quote OWNER TO postgres;
+ALTER TABLE public.sidebarQuote OWNER TO postgres;
 
 --
 -- Name: source; Type: TABLE; Schema: public; Owner: postgres
@@ -214,49 +214,49 @@ ALTER TABLE public.type OWNER TO postgres;
 -- Data for Name: button; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.button VALUES (1, 'Encore !');
-INSERT INTO public.button VALUES (2, 'Moins de chats !');
-INSERT INTO public.button VALUES (3, 'Plus de chats !');
-INSERT INTO public.button VALUES (4, 'Moins de licornes !');
-INSERT INTO public.button VALUES (5, 'Plus de licornes !');
-INSERT INTO public.button VALUES (6, 'C’est nul...');
-INSERT INTO public.button VALUES (7, 'Je m’ennuie...');
-INSERT INTO public.button VALUES (8, 'Cap’ de tout ?');
-INSERT INTO public.button VALUES (9, 'Appuyez fort.');
-INSERT INTO public.button VALUES (10, 'Appuyez plus fort !');
-INSERT INTO public.button VALUES (11, 'Ça marche paaas !');
-INSERT INTO public.button VALUES (12, 'Ça marche toujours pas !');
-INSERT INTO public.button VALUES (13, 'Ça marche mal...');
-INSERT INTO public.button VALUES (14, 'Reloading !');
-INSERT INTO public.button VALUES (15, 'Je suis un bouton.');
-INSERT INTO public.button VALUES (16, 'Clique !');
-INSERT INTO public.button VALUES (17, 'Doh !');
-INSERT INTO public.button VALUES (18, 'Expelliarmus !');
-INSERT INTO public.button VALUES (19, 'FUS RO DAH !');
-INSERT INTO public.button VALUES (20, 'Rush B !');
-INSERT INTO public.button VALUES (21, 'Just Monika.');
-INSERT INTO public.button VALUES (22, 'Une simple pression.');
-INSERT INTO public.button VALUES (23, 'Oups...');
-INSERT INTO public.button VALUES (24, 'Ne pas toucher.');
-INSERT INTO public.button VALUES (25, 'Gogogadgeto actualisation !');
-INSERT INTO public.button VALUES (26, 'Wazaaa !');
-INSERT INTO public.button VALUES (27, 'Et caetera.');
-INSERT INTO public.button VALUES (28, 'Nani ?');
-INSERT INTO public.button VALUES (30, 'Tour gratuit.');
-INSERT INTO public.button VALUES (31, 'Un autre !');
-INSERT INTO public.button VALUES (32, 'I’ll be back.');
-INSERT INTO public.button VALUES (33, 'La roue tourne a tourné.');
-INSERT INTO public.button VALUES (34, 'Pas intéressé ?');
-INSERT INTO public.button VALUES (35, 'Essaye encore !');
-INSERT INTO public.button VALUES (36, 'Essaye pour voir.');
-INSERT INTO public.button VALUES (37, 'Nop.');
-INSERT INTO public.button VALUES (38, 'Rien.');
-INSERT INTO public.button VALUES (39, 'Pouf !');
-INSERT INTO public.button VALUES (40, 'Au suivant ?');
-INSERT INTO public.button VALUES (41, 'Un p’tit clic ?');
-INSERT INTO public.button VALUES (42, 'Swap !');
-INSERT INTO public.button VALUES (43, 'Tout oublier.');
-INSERT INTO public.button VALUES (44, '');
+INSERT INTO public.buttonQuote VALUES (1, 'Encore !');
+INSERT INTO public.buttonQuote VALUES (2, 'Moins de chats !');
+INSERT INTO public.buttonQuote VALUES (3, 'Plus de chats !');
+INSERT INTO public.buttonQuote VALUES (4, 'Moins de licornes !');
+INSERT INTO public.buttonQuote VALUES (5, 'Plus de licornes !');
+INSERT INTO public.buttonQuote VALUES (6, 'C’est nul...');
+INSERT INTO public.buttonQuote VALUES (7, 'Je m’ennuie...');
+INSERT INTO public.buttonQuote VALUES (8, 'Cap’ de tout ?');
+INSERT INTO public.buttonQuote VALUES (9, 'Appuyez fort.');
+INSERT INTO public.buttonQuote VALUES (10, 'Appuyez plus fort !');
+INSERT INTO public.buttonQuote VALUES (11, 'Ça marche paaas !');
+INSERT INTO public.buttonQuote VALUES (12, 'Ça marche toujours pas !');
+INSERT INTO public.buttonQuote VALUES (13, 'Ça marche mal...');
+INSERT INTO public.buttonQuote VALUES (14, 'Reloading !');
+INSERT INTO public.buttonQuote VALUES (15, 'Je suis un bouton.');
+INSERT INTO public.buttonQuote VALUES (16, 'Clique !');
+INSERT INTO public.buttonQuote VALUES (17, 'Doh !');
+INSERT INTO public.buttonQuote VALUES (18, 'Expelliarmus !');
+INSERT INTO public.buttonQuote VALUES (19, 'FUS RO DAH !');
+INSERT INTO public.buttonQuote VALUES (20, 'Rush B !');
+INSERT INTO public.buttonQuote VALUES (21, 'Just Monika.');
+INSERT INTO public.buttonQuote VALUES (22, 'Une simple pression.');
+INSERT INTO public.buttonQuote VALUES (23, 'Oups...');
+INSERT INTO public.buttonQuote VALUES (24, 'Ne pas toucher.');
+INSERT INTO public.buttonQuote VALUES (25, 'Gogogadgeto actualisation !');
+INSERT INTO public.buttonQuote VALUES (26, 'Wazaaa !');
+INSERT INTO public.buttonQuote VALUES (27, 'Et caetera.');
+INSERT INTO public.buttonQuote VALUES (28, 'Nani ?');
+INSERT INTO public.buttonQuote VALUES (30, 'Tour gratuit.');
+INSERT INTO public.buttonQuote VALUES (31, 'Un autre !');
+INSERT INTO public.buttonQuote VALUES (32, 'I’ll be back.');
+INSERT INTO public.buttonQuote VALUES (33, 'La roue tourne a tourné.');
+INSERT INTO public.buttonQuote VALUES (34, 'Pas intéressé ?');
+INSERT INTO public.buttonQuote VALUES (35, 'Essaye encore !');
+INSERT INTO public.buttonQuote VALUES (36, 'Essaye pour voir.');
+INSERT INTO public.buttonQuote VALUES (37, 'Nop.');
+INSERT INTO public.buttonQuote VALUES (38, 'Rien.');
+INSERT INTO public.buttonQuote VALUES (39, 'Pouf !');
+INSERT INTO public.buttonQuote VALUES (40, 'Au suivant ?');
+INSERT INTO public.buttonQuote VALUES (41, 'Un p’tit clic ?');
+INSERT INTO public.buttonQuote VALUES (42, 'Swap !');
+INSERT INTO public.buttonQuote VALUES (43, 'Tout oublier.');
+INSERT INTO public.buttonQuote VALUES (44, '');
 
 
 --
@@ -409,59 +409,59 @@ INSERT INTO public.language VALUES (96, 'uk', 'Ukranian');
 -- Data for Name: quote; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.quote VALUES (1, 'Il ne restera pas grand-chose.');
-INSERT INTO public.quote VALUES (2, 'Sortez du bocal.');
-INSERT INTO public.quote VALUES (3, 'Oubliez avant d’être lu.');
-INSERT INTO public.quote VALUES (4, 'Le rédac’ chef est malade.');
-INSERT INTO public.quote VALUES (5, 'Personne aux commandes.');
-INSERT INTO public.quote VALUES (6, 'Pourquoi lire tout ça ?');
-INSERT INTO public.quote VALUES (7, 'Il ne se passe jamais rien...');
-INSERT INTO public.quote VALUES (8, 'On vous ment pas !');
-INSERT INTO public.quote VALUES (9, 'Trié par le vent.');
-INSERT INTO public.quote VALUES (10, 'Choisir, c’est exclure !');
-INSERT INTO public.quote VALUES (11, 'Personne ne lit ça de toute façon...');
-INSERT INTO public.quote VALUES (12, 'Va falloir choisir !');
-INSERT INTO public.quote VALUES (13, 'Tu perds ton temps ici.');
-INSERT INTO public.quote VALUES (14, 'La proposition 3 va vous surprendre !');
-INSERT INTO public.quote VALUES (15, 'Chuck Norris approuve ce site.');
-INSERT INTO public.quote VALUES (16, 'Psst, alt + 128 = Ç, pour écrire ‘Ça va?’ proprement.');
-INSERT INTO public.quote VALUES (17, 'Yo.');
-INSERT INTO public.quote VALUES (18, 'Error. Quote not found.');
-INSERT INTO public.quote VALUES (19, 'Error 314 ? Tant ‘Pi’.');
-INSERT INTO public.quote VALUES (20, 'Vous savez… J’ai pas vraiment d’amis…');
-INSERT INTO public.quote VALUES (21, 'Tu trouves ton bonheur ?');
-INSERT INTO public.quote VALUES (22, 'srevne’l à etxet nu eril sias ut siam seiunne’t uT');
-INSERT INTO public.quote VALUES (23, '15 3 3 21 16 1 20 9 15 14');
-INSERT INTO public.quote VALUES (24, '53 27 65 6e 6e 75 79 65 72');
-INSERT INTO public.quote VALUES (25, '01010011 00100111 01100101 01101101 01101101 01100101 01110010 01100100 01100101 01110010');
-INSERT INTO public.quote VALUES (26, 'Les Coccinellidae, en français coccinellidés, sont une famille d’insectes de l’ordre des coléoptères, appelés aussi coccinelles, ou encore familièrement ou régionalement bêtes à bon Dieu ou pernettes. Ce taxon monophylétique regroupe environ 6 000 espèces réparties dans le monde entier.');
-INSERT INTO public.quote VALUES (27, 'Not on my watch.');
-INSERT INTO public.quote VALUES (28, 'Boit de l’eau.');
-INSERT INTO public.quote VALUES (29, 'Bomb has been planted.');
-INSERT INTO public.quote VALUES (30, 'Je vais mettre mon front dans ton back');
-INSERT INTO public.quote VALUES (31, 'T’as rien à dire ? Alors ta gueule !');
-INSERT INTO public.quote VALUES (32, 'Tu sais pas ? Alors ta gueule !');
-INSERT INTO public.quote VALUES (33, 'Eh ! Ta gueule !');
-INSERT INTO public.quote VALUES (34, 'Just Monika.');
-INSERT INTO public.quote VALUES (35, 'Ah qu’est-ce qu’on est serré, au fond de cette boîte.');
-INSERT INTO public.quote VALUES (36, 'Nous nous excusons au nom de toute l’équipe pour le potentiel contenu choquant… En fait non, on s’en fou !');
-INSERT INTO public.quote VALUES (37, 'Cordialement, la direction !');
-INSERT INTO public.quote VALUES (38, 'Par pur hasard, ce serai pas l’heure d’aller se coucher ?');
-INSERT INTO public.quote VALUES (39, 'Je crois que ta mère t’appelle pour manger.');
-INSERT INTO public.quote VALUES (40, 'Toujours là ? Tu ferais mieux de retourner bosser !');
-INSERT INTO public.quote VALUES (41, 'Le gâteau est-il vraiment un mensonge ?');
-INSERT INTO public.quote VALUES (42, 'Ça manque de tolérance tout ça… Et tu sais qui était pas très tolérant ?.. Hitler.');
-INSERT INTO public.quote VALUES (43, 'Être heureux comme un goldfish dans l’info.');
-INSERT INTO public.quote VALUES (44, 'Pourquoi ? Hmm… Je vais y réfléchir.');
-INSERT INTO public.quote VALUES (45, 'Vous savez, je ne pense pas qu’il y ait de bonne ou de mauvaise situation...');
-INSERT INTO public.quote VALUES (46, 'Eat. Randomize. Sleep. Repeat.');
-INSERT INTO public.quote VALUES (47, 'Encore là ? C’est vrai qu’ici, c’est pas si mal.');
-INSERT INTO public.quote VALUES (48, 'La réussite vient avant le travail… Dans le dictionnaire.');
-INSERT INTO public.quote VALUES (49, 'Ça parle de foot ?');
-INSERT INTO public.quote VALUES (50, 'Quoi ? Vous comptiez lire quelque chose de potentiellement intéressant ?');
-INSERT INTO public.quote VALUES (51, 'La vie n’est que frustration.');
-INSERT INTO public.quote VALUES (52, 'Arrêtez de vous battez !');
-INSERT INTO public.quote VALUES (53, '');
+INSERT INTO public.sidebarQuote VALUES (1, 'Il ne restera pas grand-chose.');
+INSERT INTO public.sidebarQuote VALUES (2, 'Sortez du bocal.');
+INSERT INTO public.sidebarQuote VALUES (3, 'Oubliez avant d’être lu.');
+INSERT INTO public.sidebarQuote VALUES (4, 'Le rédac’ chef est malade.');
+INSERT INTO public.sidebarQuote VALUES (5, 'Personne aux commandes.');
+INSERT INTO public.sidebarQuote VALUES (6, 'Pourquoi lire tout ça ?');
+INSERT INTO public.sidebarQuote VALUES (7, 'Il ne se passe jamais rien...');
+INSERT INTO public.sidebarQuote VALUES (8, 'On vous ment pas !');
+INSERT INTO public.sidebarQuote VALUES (9, 'Trié par le vent.');
+INSERT INTO public.sidebarQuote VALUES (10, 'Choisir, c’est exclure !');
+INSERT INTO public.sidebarQuote VALUES (11, 'Personne ne lit ça de toute façon...');
+INSERT INTO public.sidebarQuote VALUES (12, 'Va falloir choisir !');
+INSERT INTO public.sidebarQuote VALUES (13, 'Tu perds ton temps ici.');
+INSERT INTO public.sidebarQuote VALUES (14, 'La proposition 3 va vous surprendre !');
+INSERT INTO public.sidebarQuote VALUES (15, 'Chuck Norris approuve ce site.');
+INSERT INTO public.sidebarQuote VALUES (16, 'Psst, alt + 128 = Ç, pour écrire ‘Ça va?’ proprement.');
+INSERT INTO public.sidebarQuote VALUES (17, 'Yo.');
+INSERT INTO public.sidebarQuote VALUES (18, 'Error. Quote not found.');
+INSERT INTO public.sidebarQuote VALUES (19, 'Error 314 ? Tant ‘Pi’.');
+INSERT INTO public.sidebarQuote VALUES (20, 'Vous savez… J’ai pas vraiment d’amis…');
+INSERT INTO public.sidebarQuote VALUES (21, 'Tu trouves ton bonheur ?');
+INSERT INTO public.sidebarQuote VALUES (22, 'srevne’l à etxet nu eril sias ut siam seiunne’t uT');
+INSERT INTO public.sidebarQuote VALUES (23, '15 3 3 21 16 1 20 9 15 14');
+INSERT INTO public.sidebarQuote VALUES (24, '53 27 65 6e 6e 75 79 65 72');
+INSERT INTO public.sidebarQuote VALUES (25, '01010011 00100111 01100101 01101101 01101101 01100101 01110010 01100100 01100101 01110010');
+INSERT INTO public.sidebarQuote VALUES (26, 'Les Coccinellidae, en français coccinellidés, sont une famille d’insectes de l’ordre des coléoptères, appelés aussi coccinelles, ou encore familièrement ou régionalement bêtes à bon Dieu ou pernettes. Ce taxon monophylétique regroupe environ 6 000 espèces réparties dans le monde entier.');
+INSERT INTO public.sidebarQuote VALUES (27, 'Not on my watch.');
+INSERT INTO public.sidebarQuote VALUES (28, 'Boit de l’eau.');
+INSERT INTO public.sidebarQuote VALUES (29, 'Bomb has been planted.');
+INSERT INTO public.sidebarQuote VALUES (30, 'Je vais mettre mon front dans ton back');
+INSERT INTO public.sidebarQuote VALUES (31, 'T’as rien à dire ? Alors ta gueule !');
+INSERT INTO public.sidebarQuote VALUES (32, 'Tu sais pas ? Alors ta gueule !');
+INSERT INTO public.sidebarQuote VALUES (33, 'Eh ! Ta gueule !');
+INSERT INTO public.sidebarQuote VALUES (34, 'Just Monika.');
+INSERT INTO public.sidebarQuote VALUES (35, 'Ah qu’est-ce qu’on est serré, au fond de cette boîte.');
+INSERT INTO public.sidebarQuote VALUES (36, 'Nous nous excusons au nom de toute l’équipe pour le potentiel contenu choquant… En fait non, on s’en fou !');
+INSERT INTO public.sidebarQuote VALUES (37, 'Cordialement, la direction !');
+INSERT INTO public.sidebarQuote VALUES (38, 'Par pur hasard, ce serai pas l’heure d’aller se coucher ?');
+INSERT INTO public.sidebarQuote VALUES (39, 'Je crois que ta mère t’appelle pour manger.');
+INSERT INTO public.sidebarQuote VALUES (40, 'Toujours là ? Tu ferais mieux de retourner bosser !');
+INSERT INTO public.sidebarQuote VALUES (41, 'Le gâteau est-il vraiment un mensonge ?');
+INSERT INTO public.sidebarQuote VALUES (42, 'Ça manque de tolérance tout ça… Et tu sais qui était pas très tolérant ?.. Hitler.');
+INSERT INTO public.sidebarQuote VALUES (43, 'Être heureux comme un goldfish dans l’info.');
+INSERT INTO public.sidebarQuote VALUES (44, 'Pourquoi ? Hmm… Je vais y réfléchir.');
+INSERT INTO public.sidebarQuote VALUES (45, 'Vous savez, je ne pense pas qu’il y ait de bonne ou de mauvaise situation...');
+INSERT INTO public.sidebarQuote VALUES (46, 'Eat. Randomize. Sleep. Repeat.');
+INSERT INTO public.sidebarQuote VALUES (47, 'Encore là ? C’est vrai qu’ici, c’est pas si mal.');
+INSERT INTO public.sidebarQuote VALUES (48, 'La réussite vient avant le travail… Dans le dictionnaire.');
+INSERT INTO public.sidebarQuote VALUES (49, 'Ça parle de foot ?');
+INSERT INTO public.sidebarQuote VALUES (50, 'Quoi ? Vous comptiez lire quelque chose de potentiellement intéressant ?');
+INSERT INTO public.sidebarQuote VALUES (51, 'La vie n’est que frustration.');
+INSERT INTO public.sidebarQuote VALUES (52, 'Arrêtez de vous battez !');
+INSERT INTO public.sidebarQuote VALUES (53, '');
 
 
 
@@ -488,7 +488,7 @@ INSERT INTO public.type VALUES (2, 'article');
 -- Name: button button_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.button
+ALTER TABLE ONLY public.buttonQuote
     ADD CONSTRAINT button_pkey PRIMARY KEY (but_id);
 
 
@@ -520,7 +520,7 @@ ALTER TABLE ONLY public.language
 -- Name: quote quote_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.quote
+ALTER TABLE ONLY public.sidebarQuote
     ADD CONSTRAINT quote_pkey PRIMARY KEY (quo_id);
 
 
