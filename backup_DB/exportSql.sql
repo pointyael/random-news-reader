@@ -78,7 +78,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
     BEGIN
 
         FOR vAItem in
-          SELECT * FROM json_array_elements("pItems")
+          SELECT * FROM json_array_elements("pItems") 
         LOOP
 
             SELECT MAX(ite_id)+1 INTO vNewId FROM item;
