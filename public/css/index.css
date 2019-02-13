@@ -104,6 +104,10 @@ div.float {
 	text-align: center;
 }
 
+div .fa.fa-refresh.fa-spin{
+	margin-left: 10px;
+}
+
 /*---------*/
 /* SIDEBAR */
 /*---------*/

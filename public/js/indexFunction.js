@@ -83,6 +83,7 @@ function displayItems() {
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('click', refreshItems);
+				actualItems[i].addEventListener('click', displayRefreshPhrase);
 			}
 		}
 	};
@@ -102,3 +103,31 @@ function displayItem(item){
 }
 
 window.onload = displayItems();
+
+/*----------------------------------------------------------*/
+/* 					BTN REFRESH PHRASE 						*/
+/*----------------------------------------------------------*/
+function displayRefreshPhrase(){
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var phrase = JSON.parse(this.responseText)[0];
+			var spanPhrase = document.getElementById('randomizePhrase');
+
+			/* Affichage */
+			spanPhrase.innerHTML = phrase["but_quote"];
+
+			/* Refresh on click */
+			var btnRefresh = document.getElementById('btnRefresh');
+			btnRefresh.addEventListener('click', displayRefreshPhrase);
+		}
+	};
+	
+	req.open("GET", "http://localhost:3000/random-phrase");
+	req.send();
+}
+
+window.onload = displayRefreshPhrase();
