@@ -33,7 +33,7 @@ before_script:
   # - sudo sh -c 'echo "local all all trust" >> /etc/postgresql/11/main/pg_hba.conf'
   # - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
   #- sudo /etc/init.d/postgresql restart
-  #- sudo service postgres restart 11
+  - sudo service postgres restart
   - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
   - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
   - psql -c 'CREATE DATABASE randomizerTestCI;' -U postgres
