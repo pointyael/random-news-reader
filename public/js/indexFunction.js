@@ -1,6 +1,7 @@
 /*----------------------------------------------------------*/
 /* 					  REFRESH DE LA PAGE		 	   		*/
 /*----------------------------------------------------------*/
+var buttonRefresh = document.getElementById('btnRefresh');
 
 function refreshItems() {
 	var main = document.getElementsByTagName('main')[0];
@@ -8,7 +9,7 @@ function refreshItems() {
 	displayItems();
 }
 
-document.getElementsByClassName('float')[0].addEventListener('click', refreshItems);
+buttonRefresh.addEventListener('click', refreshItems);
 
 /*----------------------------------------------------------*/
 /* 			DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 			*/

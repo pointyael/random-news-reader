@@ -1,14 +1,11 @@
 html, body {
-	padding: 0;
-	margin: 0;
 	height: 100%;
-	width: 100%;
+	margin: 0;
 	font-family: Helvetica;
 }
 
 body {
 	display: flex;
-	flex-direction: column;
 }
 
 ::-webkit-scrollbar {
@@ -17,41 +14,35 @@ body {
 }
 
 header, footer {
-	display: flex;
-	background-color: #000;
 	position: fixed;
+	display: flex;
 	width: 100%;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+	background-color: #000;
 }
 
 a {
 	text-decoration: none;
 }
 
-footer q {
-	color: #ddd;
-	font-style: italic;
+footer { 
+	height: 50px; 
+	bottom: 0;
 }
-
-header { top: 0; height: 100px;}
-footer { bottom: 0; height: 50px;}
 
 header img {
 	height: 100px;
-	width: auto;
 }
 
 main {
-	flex: 1;
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-auto-rows: 45%;
-	grid-gap: 10px;
-	padding: 10px;
 	margin: 100px 0 50px;
+	padding: 10px;
+	grid-gap: 10px;
+	grid-auto-rows: 45%;
+	grid-template-columns: repeat(2, 1fr);
 	overflow-y: auto;
-	justify-content: center;
 }
 
 /*-------*/
@@ -59,16 +50,14 @@ main {
 /*-------*/
 
 a.item {
-	height: 100%;
-	display: flex;
 	cursor: pointer;
 }
 
 figure {
-	height: 100%;
-	cursor: pointer;
 	position: relative;
+	height: 100%;
 	margin: 0 auto;
+	cursor: pointer;
 }
 
 figure img {
@@ -78,30 +67,29 @@ figure img {
 }
 
 figure figcaption {
-	background: rgba(250,250,250, 0.9);
-	bottom: 0;
-	color: #000;
-	box-sizing: border-box;
 	position: absolute;
 	width: 100%;
-	font-size: 12px;
 	padding: 16px;
+	bottom: 0;
+	color: #000;
+	background: rgba(250,250,250, 0.9);	
+	box-sizing: border-box;
+	font-size: 14px;
+	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
 /*----------------*/
 /* BOUTON REFRESH */
 /*----------------*/
 
-div.float {
+div#btnRefresh {
 	padding: 10px 20px;
-	cursor: pointer;
-	background-color: #db5030;
 	color: #FFF;
+	background-color: #db5030;
 	border-radius: 50px;
-	text-align: center;
+	cursor: pointer;
 }
 
 div .fa.fa-refresh.fa-spin{
@@ -113,24 +101,23 @@ div .fa.fa-refresh.fa-spin{
 /*---------*/
 
 .sidebar {
-	height: 100%;
-	width: 0;
 	position: fixed;
-	z-index: 1;
+	width: 0;
+	height: 100%;
+	padding-top: 20px;
 	top: 100px;
 	right: 0;
 	background-color: #000;
-	overflow-x: hidden;
-	padding-top: 20px;
+	z-index: 1;
 	transition: 0.5s;
 }
 
 .sidebar a {
-	padding: 10px 20px;
-	font-size: 25px;
-	color: #818181;
-	white-space: nowrap;
 	display: block;
+	padding: 10px 20px;
+	color: #818181;
+	font-size: 25px;
+	white-space: nowrap;
 	transition: 0.3s;
 }
 
@@ -148,25 +135,25 @@ div .fa.fa-refresh.fa-spin{
 /* SIDEBAR  QUOTE */
 /*-----------------*/
 blockquote {
-	text-align: center;
-	font-size: 15px;
-	border-top: 1px solid #eaeaea;
-	border-bottom: 1px solid #eaeaea;
 	position: relative;
 	margin: 0px 18px 25px;
-	width: 220px;	
+	width: 220px;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+	text-align: center;
+	font-size: 15px;	
 }
 
 blockquote:after {
+	position: absolute;
+	width: 55px;
+	height: 55px;
+	top: -30px;
 	color:#eaeaea;
+	background:#000;
 	content: '\201D';
 	font-size: 80px;
-	position: absolute;
-	background:#000;
-	height: 55px;
-	width: 55px;
 	transform: translateX(-50%);
-	top: -30px;
 }
 
 blockquote p {
@@ -179,12 +166,11 @@ blockquote p {
 /*------------------*/
 
 .bar {
-	display: block;
-	height: 2px;
 	width: 25px;
-	border-radius: 50px;
-	background: #db5030;
+	height: 2px;
 	margin: 5px auto;
+	background: #db5030;
+	border-radius: 50px;
 	transition: all .5s ease;
 }
 
@@ -192,7 +178,6 @@ blockquote p {
 	position: absolute;
 	right: 20px;
 	cursor: pointer;
-	display: block;
 }
 
 .opened {
@@ -204,9 +189,9 @@ blockquote p {
 }
 
 .middle {
+	width: 0;
 	background-color: red;
 	transform: rotateZ(360deg);
-	width: 0;
 }
 
 .bottom {
@@ -219,29 +204,23 @@ blockquote p {
 
 .modal {
 	position: fixed;
-	justify-content: center;
-	align-items: center;
-	z-index: 1;
-	left: 0;
-	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
-	background-color: rgb(0,0,0);
+	align-items: center;
+	justify-content: center;
 	background-color: rgba(0,0,0,0.9);
+	z-index: 1;
 }
 
 .modal-content {
-	flex: 1;
 	display: flex;
 	flex-direction: column;
-	border-radius: 5px;
-	border: none;
-	background-color: #000;
-	color: #00ff01;
-	margin: 10%;
 	max-width: 500px;
+	margin: 10%;
 	padding: 20px;
+	border-radius: 5px;
+	color: #00ff01;
+	background-color: #000;
 }
 
 .modal-content p {
@@ -252,12 +231,12 @@ blockquote p {
 }
 
 .close {
-	cursor: pointer;
-	background: transparent;
 	border: none;
+	background: transparent;
 	color: #ccc;
 	font-size: 28px;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .displayNone {
@@ -269,20 +248,20 @@ blockquote p {
 }
 
 .blink {
-  animation: blink-animation 1s steps(5, start) infinite;
-  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+  	animation: blink-animation 1s steps(5, start) infinite;
+  	-webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
 
 @keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
+ 	to {
+    	visibility: hidden;
+  	}
 }
 
 @-webkit-keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
+  	to {
+    	visibility: hidden;
+  	}
 }
 
 /*---------------*/
