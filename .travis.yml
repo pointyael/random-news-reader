@@ -15,6 +15,7 @@ before_script:
   - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
   - sudo apt-get update
   - sudo apt-get install postgresql-11
+  - sudo /etc/init.d/postgresql restart
   - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
   - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
   - psql -c 'CREATE DATABASE randomizerTestCI;' -U postgres
