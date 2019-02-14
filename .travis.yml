@@ -29,10 +29,9 @@ before_script:
   - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 11" >> /etc/apt/sources.list.d/postgresql.list'
   - sudo apt-get update
   - sudo apt-get -y install postgresql-11
-   - sudo sh -c 'echo "local all postgres md5" > /etc/postgresql/11/main/pg_hba.conf'
+  - sudo sh -c 'echo "local all postgres md5" > /etc/postgresql/11/main/pg_hba.conf'
   # - sudo sh -c 'echo "local all all trust" >> /etc/postgresql/11/main/pg_hba.conf'
   # - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
-  -   service --status-all
   #- sudo /etc/init.d/postgresql restart
   #- sudo service postgres restart 11
   - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
