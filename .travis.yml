@@ -9,7 +9,7 @@ addons:
   postgresql: "11.1"
 
 before_script:
-  - sudo /etc/init.d/postgresql stop
+  #- sudo /etc/init.d/postgresql stop
   #- pg_ctl stop
   #- killall postgresqld
   #- ps ux | grep postgres*
