@@ -10,7 +10,6 @@ addons:
 
 before_script:
   - sudo /etc/init.d/postgresql stop
-  - pg_dropcluster --stop 11 main
   - sudo apt-get install curl ca-certificates
   - curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   - sudo touch /etc/apt/sources.list.d/pgdg.list
