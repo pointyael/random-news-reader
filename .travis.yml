@@ -25,4 +25,3 @@ script :
   - npm install
   - npm app.js
   - npm test
-.list
