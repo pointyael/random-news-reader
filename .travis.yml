@@ -5,6 +5,14 @@ node_js:
 services:
   - postgresql
 
-script :
- - npm test
+addons:
+  postgresql: "11.1"
 
+before_script:
+  - psql -c 'CREATE DATABASE randomizerTestCI;' -U postgres
+  - psql -U postgres randomizerTestCI < ./backup_DB/exportSql.sql
+
+script :
+  - npm install
+  - npm app.js
+  - npm test
