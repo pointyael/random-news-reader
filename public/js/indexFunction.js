@@ -2,9 +2,9 @@
 /* 					  REFRESH DE LA PAGE		 	   		*/
 /*----------------------------------------------------------*/
 var buttonRefresh = document.getElementById('btnRefresh');
+var main = document.getElementsByTagName('main')[0];
 
 function refreshItems() {
-	var main = document.getElementsByTagName('main')[0];
 	main.innerHTML = "";
 	displayItems();
 }
@@ -63,16 +63,14 @@ window.addEventListener('keypress', function(e) {
 	}
 });
 
-
 /*----------------------------------------------------------*/
-/* 							ITEMS 							*/
+/* 						DISPLAY ITEMS 						*/
 /*----------------------------------------------------------*/
 function displayItems() {
 	var req = new XMLHttpRequest();
 
 	req.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-
 			
 			/* Recuperation */
 			var items = JSON.parse(this.responseText);
@@ -86,6 +84,7 @@ function displayItems() {
 			/* Refresh on click */
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
+				actualItems[i].addEventListener('mouseup', checkButton);
 				actualItems[i].addEventListener('click', refreshItems);
 				actualItems[i].addEventListener('click', displayRefreshPhrase);
 				actualItems[i].addEventListener('click', displayQuote);
@@ -95,6 +94,14 @@ function displayItems() {
 	
 	req.open("GET", "http://localhost:3000/random-items");
 	req.send();
+}
+
+function checkButton(event) {
+	if (event.button == 1) {
+		refreshItems();
+		displayRefreshPhrase();
+		displayQuote();
+	}
 }
 
 function displayItem(item){
