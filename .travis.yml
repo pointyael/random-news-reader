@@ -15,7 +15,7 @@ before_script:
   - sudo touch /etc/apt/sources.list.d/pgdg.list
   - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
   - sudo apt-get update
-  #- sudo apt-get install postgresql-11 postgres-client-11
+  - sudo apt-get install postgresql-11 #postgres-client-11
   - /usr/lib/postgresql/11/bin/pg_ctl -D /var/lib/postgresql/11/main -l logfile start
   - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
   - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
