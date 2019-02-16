@@ -78,7 +78,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
     BEGIN
 
         FOR vAItem in
-          SELECT * FROM json_array_elements("pItems") 
+          SELECT * FROM json_array_elements("pItems")
         LOOP
 
             SELECT MAX(ite_id)+1 INTO vNewId FROM item;
@@ -172,6 +172,22 @@ CREATE TABLE public.language (
 
 
 ALTER TABLE public.language OWNER TO postgres;
+
+
+--
+-- Name: mot; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.mot (
+    mot_id integer NOT NULL,
+    mot_lib character varying(50),
+    mot_freq integer,
+    mot_language integer
+);
+
+
+ALTER TABLE public.mot OWNER TO postgres;
+
 
 --
 -- Name: quote; Type: TABLE; Schema: public; Owner: postgres
