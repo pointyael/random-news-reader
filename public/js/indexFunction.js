@@ -176,10 +176,10 @@ var styleLink = document.getElementById('style');
 var logo = document.getElementById('logo');
 
 function generateStyle(){
-	var randomNumber = Math.floor(Math.random() * 2) + 1;
-	
-    styleLink.setAttribute('href', '../public/css/style'+randomNumber+'.css')
-    logo.setAttribute('src', '../public/img/logo'+randomNumber+'.png');
+	var randomNumber = Math.floor(Math.random() * 5) + 1;
+
+    styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css')
+    logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
 }
 
 document.onload = generateStyle();
