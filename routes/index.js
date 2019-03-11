@@ -15,6 +15,7 @@ router.get('/about', function(req, res, next) {
 
 /* GET API random items. */
 router.get('/random-items', db.getRandomItems);
+router.get('/random', db.getAllItems);
 
 /* GET API button quote. */
 router.get('/random-btnQuote', quoteDB.getButtonQuote);
