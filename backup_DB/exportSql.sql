@@ -203,7 +203,7 @@ ALTER TABLE public.language OWNER TO postgres;
 --
 
 CREATE TABLE public.mot (
-    mot_id integer NOT NULL,
+    mot_id integer SERIAL NOT NULL,
     mot_lib character varying(50),
     mot_freq integer,
     mot_language integer

@@ -1,6 +1,6 @@
 var express = require('express');
-const db = require('../models/itemModel');
-const quoteDB = require('../models/quoteModel');
+const Item = require('../models/ItemModel');
+const Quote = require('../models/quoteModel');
 var router = express.Router();
 
 /* GET home page. */
@@ -13,14 +13,14 @@ router.get('/about', function(req, res, next) {
   res.render('about', { title: 'À propos' });
 });
 
-/* GET API random items. */
-router.get('/random-items', db.getRandomItems);
-router.get('/random', db.getAllItems);
+/* GET API random Items. */
+router.get('/random-items', Item.getRandomItems);
+router.get('/random', Item.getAllItems);
 
 /* GET API button quote. */
-router.get('/random-btnQuote', quoteDB.getButtonQuote);
+router.get('/random-btnQuote', Quote.getButtonQuote);
 
 /* GET API quote. */
-router.get('/random-quote', quoteDB.getQuote);
+router.get('/random-quote', Quote.getQuote);
 
 module.exports = router;
