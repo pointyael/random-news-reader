@@ -1,29 +1,6 @@
-var pgp = require("pg-promise")();
+var db = require("../database/dbFactory").db;
 var Items = require("../retrieveFromWeb/retrieveData.js");
 var FeedModel = require("./feedModel");
-
-// const cn = {
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     database: process.env.DB_NAME,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASS
-// };
-
-//const db = pgp(cn);
-var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
-
-/*
-ite_id integer NOT NULL,
-    ite_name character varying(250),
-    ite_description character varying(400),
-    ite_type integer,
-    ite_link character varying(250),
-    ite_dateinsert date,
-    ite_language integer,
-    ite_theme integer,
-ite_source integer
-*/
 
 let name;
 let description;

@@ -1,5 +1,4 @@
-var pgp = require("pg-promise")();
-var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
+var db = require("../database/dbFactory").db;
 
 /* Query button quote from data base */
 const getButtonQuote = (request, response) => {

@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const db = require('../models/itemModel.js');
+const Item = require('../models/itemModel.js');
 const moment = require('moment');
 
 require('it-each')({ testPerIteration: true });
@@ -15,8 +15,8 @@ describe(
         var itemsData;
         before( function()
         {
-          db.deleteOldItems();
-          itemsData = db.getAllItems();
+          Item.deleteOldItems();
+          itemsData = Item.getAllItems();
         });
         it
         (
