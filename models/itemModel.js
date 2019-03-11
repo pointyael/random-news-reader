@@ -27,14 +27,28 @@ const getAllItems = (request, response) =>
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
-    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
-        .then(function (data) {
-            console.log("DATA:", data);
-            response.status(200).json(data);
-        })
-        .catch(function (error) {
-            console.log("ERROR:", error);
-        });
+    db.any('SELECT "getRandomItems"()')
+      .then(function (data) {
+          response.status(200).json(data);
+      })
+      .catch(function (error) {
+          console.log("ERROR:", error);
+      });
+}
+
+/* Query 12 random items from data base */
+const getRandomItemsNotLike = (request, response) => {
+    db.any(
+        'SELECT "getRandomItemsNotLike"(\''
+        + request.params.notLike
+        +'\')'
+      )
+      .then(function (data) {
+          response.status(200).json(data);
+      })
+      .catch(function (error) {
+          console.log("ERROR:", error);
+      });
 }
 
 /* Insert items in data base */
@@ -88,6 +102,7 @@ const deleteOldItems =
 module.exports = {
     getAllItems,
     getRandomItems,
+    getRandomItemsNotLike,
     insertItems,
     deleteOldItems
 }
