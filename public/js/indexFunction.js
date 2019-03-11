@@ -175,21 +175,11 @@ window.onload = displayQuote();
 var styleLink = document.getElementById('style');
 var logo = document.getElementById('logo');
 
-function generateStyle() {
-
-	if (styleLink.getAttribute('theme')) {
-		var currentTheme = styleLink.getAttribute('theme');
-	}
-
+function generateStyle(){
 	var randomNumber = Math.floor(Math.random() * 5) + 1;
 
-	if (randomNumber != currentTheme) {
-		styleLink.setAttribute('theme', randomNumber);
-    	styleLink.setAttribute('href', '../public/css/style'+randomNumber+'.css');
-    	logo.setAttribute('src', '../public/img/logo'+randomNumber+'.png');
-	} else {
-		generateStyle();
-	}
+    styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css')
+    logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
 }
 
 document.onload = generateStyle();
