@@ -15,6 +15,11 @@ router.get('/about', function(req, res, next) {
 
 /* GET API random Items. */
 router.get('/random-items', Item.getRandomItems);
+
+/* GET API random Items not like parameter. */
+router.get('/random-items/:notLike', Item.getRandomItemsNotLike);
+
+/* GET API all items ==> ONLY FOR TEST */
 router.get('/random', Item.getAllItems);
 
 /* GET API button quote. */

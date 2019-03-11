@@ -16,10 +16,60 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: getRandomItemsNotLike(pKeyWord character varying DEFAULT NULL); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE OR REPLACE FUNCTION
+  public."getRandomItemsNotLike"(pKeyWord character varying DEFAULT NULL)
+    RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$DECLARE
+
+  vJson json[];
+  vAItem json;
+  vSourceId integer;
+
+BEGIN
+    FOR vSourceId IN
+    (
+      SELECT sou_id FROM source
+      ORDER BY RANDOM()
+      LIMIT 12
+    ) LOOP
+
+      SELECT row_to_json(t)
+      INTO vAItem
+      FROM
+      (
+        SELECT *
+        FROM item
+        JOIN language ON ite_language=lan_id
+        JOIN type ON ite_type=typ_id
+        JOIN category ON ite_category=cat_id
+        WHERE ite_source=vSourceId
+        AND ite_title NOT LIKE '%' || pKeyWord || '%'
+        ORDER BY RANDOM()
+        LIMIT 1
+      ) t ;
+
+
+      vJson := array_append(vJson, vAItem);
+  END LOOP;
+
+  RETURN vJson;
+
+END;$$;
+
+
+ALTER FUNCTION public."getRandomItemsNotLike"() OWNER TO postgres;
+
+
+--
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItems"()
+    RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -36,23 +86,22 @@ BEGIN
   			LIMIT 12
 		) LOOP
 
-    SELECT row_to_json(t)
-    INTO vAItem
-    FROM
-    (
-      SELECT *
-      FROM item
-      JOIN language ON ite_language=lan_id
-      JOIN type ON ite_type=typ_id
-      JOIN category ON ite_category=cat_id
-      WHERE ite_source=vSourceId
-      ORDER BY RANDOM()
-      LIMIT 1
-    ) t ;
-
+      SELECT row_to_json(t)
+      INTO vAItem
+      FROM
+      (
+        SELECT *
+        FROM item
+        JOIN language ON ite_language=lan_id
+        JOIN type ON ite_type=typ_id
+        JOIN category ON ite_category=cat_id
+        WHERE ite_source=vSourceId
+        ORDER BY RANDOM()
+        LIMIT 1
+      ) t ;
+      
     vJson := array_append(vJson, vAItem);
   END LOOP;
-
 
   RETURN vJson;
 
