@@ -1,0 +1,33 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #2b4162;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar{
+    color: #f5f0f6;
+    background-color: #ff5a5f;
+}
+
+figure figcaption {
+    background: rgb(234, 234, 234);
+}
+
+figcaption, p, a{
+    font-family: Arial Rounded MT;
+}
+
+.sidebar a{
+    color:#ff9699;
+}
+
+/* main {
+    background-color: #eaeaea;
+} */
+
+/*-------------------------*/
+/*     MATCHING COLORS     */
+/*-------------------------*/
+/* White Smoke : f5f0f6 */
+/* Deep Space Sparkle : 385f71 */
+/* Metalic Seaweed : 087e8b */
+/* Pastel Red : ff5a5f */
+/* Teal Deer : 94e8b4 */

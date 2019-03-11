@@ -19,7 +19,7 @@ header, footer {
 	width: 100%;
 	align-items: center;
 	justify-content: center;
-	background-color: #000;
+	/* background-color: #000; */
 }
 
 a {
@@ -87,7 +87,7 @@ figure figcaption {
 div#btnRefresh {
 	padding: 10px 20px;
 	color: #FFF;
-	background-color: #db5030;
+	/* background-color: #db5030; */
 	border-radius: 50px;
 	cursor: pointer;
 }
@@ -107,7 +107,7 @@ div .fa.fa-refresh.fa-spin{
 	padding-top: 20px;
 	top: 100px;
 	right: 0;
-	background-color: #000;
+	/* background-color: #000; */
 	z-index: 1;
 	transition: 0.5s;
 }
