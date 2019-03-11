@@ -9,7 +9,7 @@ function refreshItems() {
 	displayItems();
 }
 
-buttonRefresh.addEventListener('click', refreshItems);
+buttonRefresh.addEventListener('click', function(){ refreshItems(); randomizeStyle(); });
 
 /*----------------------------------------------------------*/
 /* 			DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 			*/
@@ -168,3 +168,17 @@ function displayQuote(){
 }
 
 window.onload = displayQuote();
+
+/*----------------------------------------------------------*/
+/* 							STYLE 							*/
+/*----------------------------------------------------------*/
+function randomizeStyle() {
+	var couleurs = ["#7BD389", "#0AEDCC0", "#F9DC5C", "#5BC0EB", "#2B303A", "#FCDE9C", "#33658A"];
+	var couleurRandom = Math.floor(Math.random() * couleurs.length);
+	var header = document.getElementsByTagName('header')[0];
+	var footer = document.getElementsByTagName('footer')[0];
+	header.style.backgroundColor = couleurs[couleurRandom];
+	footer.style.backgroundColor = couleurs[couleurRandom];
+}
+
+window.onload = randomizeStyle();
