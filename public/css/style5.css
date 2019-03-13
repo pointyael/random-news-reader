@@ -1,0 +1,47 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #000000;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar{
+    background-color: #246a73;
+    color: #fff;
+}
+
+figure img{
+    border-radius: 20px;
+}
+
+figure figcaption {
+    background: #246a73;
+    font-size: 12px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: #000;
+}
+
+figcaption, p, a {
+    text-transform: uppercase;
+    font-family: Oswald;
+}
+
+.sidebar a {
+    color:#090909;
+    font-size: 16px;
+}
+
+.sidebar a:hover {
+    color: #e8f6f8;
+}
+
+ main {
+    background-color: #f2f2f2;
+}
+
+blockquote {
+    border-top: 1px solid #090909;
+    border-bottom: 1px solid #090909;
+}
+
+blockquote p, blockquote::after {
+    color: #090909;
+}
