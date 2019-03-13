@@ -1,1 +1,1 @@
-set DEBUG=random-news-reader:* & npm install & npm start
+set DEBUG=random-news-reader:* & npm start
