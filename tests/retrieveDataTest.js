@@ -7,12 +7,16 @@ const link = "http://www.linternaute.com/rss/";
 
 describe("items Cron script", () => {
     describe('"getFeedData"', () => {
-        it('should be an object containing title and a link not empty', async function () {
+        it(
+          'should be an object containing title and a link not empty',
+          async function ()
+          {
             let feedData = await itemRetrieving.getFeedData(link);
             expect(feedData).to.be.an('object').not.empty;
             expect(feedData.title).to.be.a('String').not.empty;
             expect(feedData.link).to.be.a('String').not.empty;
-        });
+          }
+        );
     });
 
     describe('"Items"', () => {

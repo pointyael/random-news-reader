@@ -22,6 +22,9 @@ router.get('/random-items/:notLike', Item.getRandomItemsNotLike);
 /* GET API all items ==> ONLY FOR TEST */
 router.get('/random', Item.getAllItems);
 
+/* GET API random items. */
+router.get('/insert', Item.insertItems);
+
 /* GET API button quote. */
 router.get('/random-btnQuote', Quote.getButtonQuote);
 
