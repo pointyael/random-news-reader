@@ -9,18 +9,6 @@ let dateInsert;
 let language;
 let theme;
 
-<<<<<<< HEAD
-/* Query items from data base */
-const getAllItems = (request, response) => {
-    db.any("SELECT * FROM item")
-        .then(function (data) {
-            console.log("DATA:", data);
-            response.status(200).json(data);
-        })
-        .catch(function (error) {
-            console.log("ERROR:", error);
-        });
-=======
 /* Query all items from db => only for test */
 const getAllItems = (request, response) =>
 {
@@ -34,7 +22,6 @@ const getAllItems = (request, response) =>
     }
   )
   .catch(function (error) { console.log(error);});
->>>>>>> e4319148861426ca222a8745716a605f20013703
 }
 
 /* Query 12 random items from data base */
