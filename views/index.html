@@ -5,14 +5,15 @@
     <title>Randomizer</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../public/css/index.css">
+    <link id="style" rel="stylesheet" type="text/css" href="">
     <link rel="shortcut icon" href="../public/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>       
+<body>
 
     <header>
-        <img src="../public/img/GoldfishNews.png" alt="Goldfish News Logo">
+        <img id="logo" alt="Goldfish News Logo">
 
         <div class="switchButton">
             <div id="topbar" class="bar"></div>
@@ -22,34 +23,49 @@
     </header>
 
     <div class="modal displayNone">
-      <div class="modal-content">
-        <p>Bienvenue. Vous allez naviguer sur un site qui ne vous connaît pas et ne se souviendra pas de vous.</p>
+        <div class="modal-content">
+            <p>Bienvenue. Vous allez naviguer sur un site qui ne vous connaît pas et ne se souviendra pas de vous.</p>
 
-        <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information pertinente pour vous.</p>
+            <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information
+                pertinente pour vous.</p>
 
-        <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48 heures.</p>
+            <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48
+                heures.</p>
 
-        <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
-        <button class="close">Y[es]<span class="blink">|</span></button>
+            <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
+            <button class="close">Y[es]<span class="blink">|</span></button>
+        </div>
     </div>
-</div>
 
-<div class="sidebar">
-    <blockquote>
-        <p id="quote"></p>
-    </blockquote>
-    <a href="#">Filtrer par langue</a>
-    <a href="#">Filtrer par ceci</a>
-    <a href="#">Filtrer par cela</a>
-    <a class="bottomLink" href="./about">A propos</a>
-</div>
+    <div class="sidebar">
+        <blockquote>
+            <p id="quote"></p>
+        </blockquote>
+        <div href="#">Mots clés
+            <div id='keywordsFilter'>
+                <input type="checkbox" id="checkbox1" class="checkbox" value="NSFW">
+                <label class="label-check" for="checkbox1">#NSFW</label>
+                <input type="checkbox" id="checkbox2"class="checkbox" value="Politique">
+                <label class="label-check" for="checkbox2">#Politique</label>
+                <input type="checkbox" id="checkbox3"class="checkbox" value="Games">
+                <label class="label-check" for="checkbox3">#Games</label>
+                <input type="checkbox" id="checkbox4"class="checkbox" value="cadeau">
+                <label class="label-check" for="checkbox4">#Cadeau</label>
+                <input type="checkbox" id="checkbox5"class="checkbox" value="Voitures">
+                <label class="label-check" for="checkbox5">#Voitures</label>
+            </div>
+        </div> 
+        <div href="#">Filtrer par ceci</div>
+        <div href="#">Filtrer par cela</div>
+        <div class="bottomLink" href="./about">A propos</div>
+    </div>
 
-<main>
+    <main>
 
-</main>
+    </main>
 
     <footer>
-        <div class="float" id='btnRefresh'>
+        <div id='btnRefresh'>
             <span id="randomizePhrase"></span>
             <i class="fa fa-refresh fa-spin"></i>
         </div>
