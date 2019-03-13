@@ -115,5 +115,8 @@ const deleteOldItems =
 
 module.exports = {
     getAllItems,
-    getRandomItems
+    getRandomItems,
+    getRandomItemsNotLike,
+    insertItems,
+    deleteOldItems
 }

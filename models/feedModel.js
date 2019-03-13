@@ -1,3 +1,5 @@
+var db = require("../database/dbFactory").db;
+
 /*
 CREATE TABLE public.source (
     sou_id integer NOT NULL,
@@ -8,3 +10,6 @@ CREATE TABLE public.source (
 
 let link;
 let name;
+
+module.exports = {
+}

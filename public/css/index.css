@@ -1,11 +1,14 @@
 html, body {
-	height: 100%;
+	padding: 0;
 	margin: 0;
+	height: 100%;
+	width: 100%;
 	font-family: Helvetica;
 }
 
 body {
 	display: flex;
+	flex-direction: column;
 }
 
 ::-webkit-scrollbar {
@@ -14,35 +17,41 @@ body {
 }
 
 header, footer {
-	position: fixed;
 	display: flex;
+	background-color: #000;
+	position: fixed;
 	width: 100%;
-	align-items: center;
 	justify-content: center;
-	/* background-color: #000; */
+	align-items: center;
 }
 
 a {
 	text-decoration: none;
 }
 
-footer { 
-	height: 50px; 
-	bottom: 0;
+footer q {
+	color: #ddd;
+	font-style: italic;
 }
+
+header { top: 0; height: 100px;}
+footer { bottom: 0; height: 50px;}
 
 header img {
 	height: 100px;
+	width: auto;
 }
 
 main {
+	flex: 1;
 	display: grid;
-	margin: 100px 0 50px;
-	padding: 10px;
-	grid-gap: 10px;
-	grid-auto-rows: 45%;
 	grid-template-columns: repeat(2, 1fr);
+	grid-auto-rows: 45%;
+	grid-gap: 10px;
+	padding: 10px;
+	margin: 100px 0 50px;
 	overflow-y: auto;
+	justify-content: center;
 }
 
 /*-------*/
@@ -50,14 +59,16 @@ main {
 /*-------*/
 
 a.item {
+	height: 100%;
+	display: flex;
 	cursor: pointer;
 }
 
 figure {
-	position: relative;
 	height: 100%;
-	margin: 0 auto;
 	cursor: pointer;
+	position: relative;
+	margin: 0 auto;
 }
 
 figure img {
@@ -67,29 +78,30 @@ figure img {
 }
 
 figure figcaption {
-	position: absolute;
-	width: 100%;
-	padding: 16px;
+	background: rgba(250,250,250, 0.9);
 	bottom: 0;
 	color: #000;
-	background: rgba(250,250,250, 0.9);	
 	box-sizing: border-box;
+	position: absolute;
+	width: 100%;
 	font-size: 14px;
-	text-overflow: ellipsis;
+	padding: 16px;
 	overflow: hidden;
 	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 /*----------------*/
 /* BOUTON REFRESH */
 /*----------------*/
 
-div#btnRefresh {
+div.float {
 	padding: 10px 20px;
-	color: #FFF;
-	/* background-color: #db5030; */
-	border-radius: 50px;
 	cursor: pointer;
+	background-color: #db5030;
+	color: #FFF;
+	border-radius: 50px;
+	text-align: center;
 }
 
 div .fa.fa-refresh.fa-spin{
@@ -101,31 +113,32 @@ div .fa.fa-refresh.fa-spin{
 /*---------*/
 
 .sidebar {
-	position: fixed;
-	width: 0;
 	height: 100%;
-	padding-top: 20px;
+	width: 0;
+	position: fixed;
+	z-index: 1;
 	top: 100px;
 	right: 0;
-	/* background-color: #000; */
-	z-index: 1;
+	background-color: #000;
+	overflow-x: hidden;
+	padding-top: 20px;
 	transition: 0.5s;
 }
 
-.sidebar div {
-	display: block;
+.sidebar a {
 	padding: 10px 20px;
-	color: #818181;
 	font-size: 25px;
+	color: #818181;
 	white-space: nowrap;
+	display: block;
 	transition: 0.3s;
 }
 
-.sidebar div:hover {
+.sidebar a:hover {
 	color: #f1f1f1;
 }
 
-.sidebar div.bottomLink {
+.sidebar a.bottomLink {
 	position: fixed;
 	bottom: 20px;
 	font-size: 12px;
@@ -135,25 +148,25 @@ div .fa.fa-refresh.fa-spin{
 /* SIDEBAR  QUOTE */
 /*-----------------*/
 blockquote {
-	position: relative;
-	margin: 0px 18px 25px;
-	width: 220px;
+	text-align: center;
+	font-size: 15px;
 	border-top: 1px solid #eaeaea;
 	border-bottom: 1px solid #eaeaea;
-	text-align: center;
-	font-size: 15px;	
+	position: relative;
+	margin: 0px 18px 25px;
+	width: 220px;	
 }
 
 blockquote:after {
-	position: absolute;
-	width: 55px;
-	height: 55px;
-	top: -30px;
 	color:#eaeaea;
-	background:#000;
 	content: '\201D';
 	font-size: 80px;
+	position: absolute;
+	background:#000;
+	height: 55px;
+	width: 55px;
 	transform: translateX(-50%);
+	top: -30px;
 }
 
 blockquote p {
@@ -161,59 +174,17 @@ blockquote p {
 	color: #eaeaea;
 }	
 
-/*----------------*/
-/* SIDEBAR FILTER */
-/*----------------*/
-.sidebar div:first-of-type:hover{
-	pointer-events: none;
-}
-
-#keywordsFilter {
-	max-width: 250px;
-	display: flex;
-	min-width: 250px;
-	padding: 0;
-	flex-wrap: wrap;
-}
-
-.sidebar input {
-	display: none;
-}
-
-/* .checkbox:checked + .label-check{
-	background-color: red;
-	color: #fff;
-} */
-
-.sidebar label {
-	cursor: pointer;
-	margin: 5px 2px;
-	padding: 10px;
-	background-color: #fff;
-	font-size: 12px;
-	border-radius: 25px;
-	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
-}
-
-/* 
-.sidebar label:hover {
-	background: #66bd84;
-	color: #000;
-	font-weight: bold;
-} */
-
-
-
 /*------------------*/
 /* ANIMATION BURGER */
 /*------------------*/
 
 .bar {
-	width: 25px;
+	display: block;
 	height: 2px;
-	margin: 5px auto;
-	background: #db5030;
+	width: 25px;
 	border-radius: 50px;
+	background: #db5030;
+	margin: 5px auto;
 	transition: all .5s ease;
 }
 
@@ -221,6 +192,7 @@ blockquote p {
 	position: absolute;
 	right: 20px;
 	cursor: pointer;
+	display: block;
 }
 
 .opened {
@@ -232,9 +204,9 @@ blockquote p {
 }
 
 .middle {
-	width: 0;
 	background-color: red;
 	transform: rotateZ(360deg);
+	width: 0;
 }
 
 .bottom {
@@ -247,23 +219,29 @@ blockquote p {
 
 .modal {
 	position: fixed;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+	left: 0;
+	top: 0;
 	width: 100%;
 	height: 100%;
-	align-items: center;
-	justify-content: center;
+	overflow: auto;
+	background-color: rgb(0,0,0);
 	background-color: rgba(0,0,0,0.9);
-	z-index: 1;
 }
 
 .modal-content {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	max-width: 500px;
-	margin: 10%;
-	padding: 20px;
 	border-radius: 5px;
-	color: #00ff01;
+	border: none;
 	background-color: #000;
+	color: #00ff01;
+	margin: 10%;
+	max-width: 500px;
+	padding: 20px;
 }
 
 .modal-content p {
@@ -274,12 +252,12 @@ blockquote p {
 }
 
 .close {
-	border: none;
+	cursor: pointer;
 	background: transparent;
+	border: none;
 	color: #ccc;
 	font-size: 28px;
 	font-weight: bold;
-	cursor: pointer;
 }
 
 .displayNone {
@@ -291,20 +269,20 @@ blockquote p {
 }
 
 .blink {
-  	animation: blink-animation 1s steps(5, start) infinite;
-  	-webkit-animation: blink-animation 1s steps(5, start) infinite;
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
 
 @keyframes blink-animation {
- 	to {
-    	visibility: hidden;
-  	}
+  to {
+    visibility: hidden;
+  }
 }
 
 @-webkit-keyframes blink-animation {
-  	to {
-    	visibility: hidden;
-  	}
+  to {
+    visibility: hidden;
+  }
 }
 
 /*---------------*/

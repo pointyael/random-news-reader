@@ -1,15 +1,12 @@
 /*----------------------------------------------------------*/
 /* 					  REFRESH DE LA PAGE		 	   		*/
 /*----------------------------------------------------------*/
-var buttonRefresh = document.getElementById('btnRefresh');
 
-function refreshItems() {
-	var main = document.getElementsByTagName('main')[0];
-	main.innerHTML = "";
-	displayItems();
+function refreshPage() {
+	/* appel de la fonction qui randomize le fil d'actualité */
 }
 
-buttonRefresh.addEventListener('click', refreshItems);
+document.getElementsByClassName('float')[0].addEventListener('click', refreshPage);
 
 /*----------------------------------------------------------*/
 /* 		    	DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 		    	*/
@@ -30,59 +27,6 @@ function switchDisplay() {
 }
 
 switchButton.addEventListener('click', switchDisplay);
-
-/*----------------------------------------------------------*/
-/* 					BTN REFRESH QUOTE 						*/
-/*----------------------------------------------------------*/
-function displayRefreshPhrase(){
-	var req = new XMLHttpRequest();
-
-	req.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-
-			/* Recuperation */
-			var phrase = JSON.parse(this.responseText)[0];
-			var spanPhrase = document.getElementById('randomizePhrase');
-
-			/* Affichage */
-			spanPhrase.innerHTML = phrase["but_quote"];
-
-			/* Refresh on click */
-			var btnRefresh = document.getElementById('btnRefresh');
-			btnRefresh.addEventListener('click', displayRefreshPhrase);
-			btnRefresh.addEventListener('click', displayQuote);
-		}
-	};
-	
-	req.open("GET", "http://localhost:3000/random-btnQuote");
-	req.send();
-}
-
-window.onload = displayRefreshPhrase();
-
-/*----------------------------------------------------------*/
-/* 							QUOTE 							*/
-/*----------------------------------------------------------*/
-function displayQuote(){
-	var req = new XMLHttpRequest();
-
-	req.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-
-			/* Recuperation */
-			var quote = JSON.parse(this.responseText)[0];
-			var quoteSpan = document.getElementById('quote');
-
-			/* Affichage */
-			quoteSpan.innerHTML = quote["quo_quote"];
-		}
-	};
-	
-	req.open("GET", "http://localhost:3000/random-quote");
-	req.send();
-}
-
-window.onload = displayQuote();
 
 /*----------------------------------------------------------*/
 /*                  SHUFFLE TEXTE A PROPOS                  */
