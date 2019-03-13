@@ -1,10 +1,6 @@
 // Use python shell
 let {PythonShell} = require('python-shell');
 
-function getWebsiteUrl(word) {
-
-}
-
 function getFeedLinks(url, callback){
 
     var options = {
@@ -15,7 +11,6 @@ function getFeedLinks(url, callback){
 
     PythonShell.run('feedfinder.py', options, function (err, results) {
         if (err) throw err;
-        // results is an array consisting of messages collected during execution
         callback(results);
     });
 }
