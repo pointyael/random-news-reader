@@ -20,14 +20,17 @@ SET row_security = off;
 --
 
 CREATE OR REPLACE FUNCTION
-  public."getRandomItemsNotLike"(pKeyWord character varying DEFAULT NULL)
+  public."getRandomItemsNotLike"(pKeyWord text[])
     RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
   vJson json[];
   vAItem json;
+  vItemChosen item%ROWTYPE;
   vSourceId integer;
+  vSelectClause text;
+  vWhereClause text;
 
 BEGIN
     FOR vSourceId IN
@@ -37,32 +40,41 @@ BEGIN
       LIMIT 12
     ) LOOP
 
-      SELECT row_to_json(t)
-      INTO vAItem
-      FROM
-      (
-        SELECT *
+      vSelectClause :=
+        'SELECT *
         FROM item
         JOIN language ON ite_language=lan_id
         JOIN type ON ite_type=typ_id
         JOIN category ON ite_category=cat_id
-        WHERE ite_source=vSourceId
-        AND ite_title NOT LIKE '%' || pKeyWord || '%'
-        ORDER BY RANDOM()
-        LIMIT 1
-      ) t ;
+        WHERE ite_source=' || vSourceId;
 
+      FOREACH vWhereClause IN ARRAY pKeyWord
+      LOOP
+        vSelectClause :=
+          vSelectClause
+          || ' AND lower(ite_title) NOT LIKE ''%'
+          || lower(vWhereClause)
+          || '%''';
+      END LOOP;
+
+      vSelectClause :=
+        vSelectClause
+        || 'ORDER BY RANDOM() LIMIT 1';
+
+      EXECUTE vSelectClause INTO vItemChosen;
+
+      SELECT row_to_json(vItemChosen)
+      INTO vAItem;
 
       vJson := array_append(vJson, vAItem);
+
   END LOOP;
 
   RETURN vJson;
 
 END;$$;
 
-
-ALTER FUNCTION public."getRandomItemsNotLike"() OWNER TO postgres;
-
+ALTER FUNCTION public."getRandomItemsNotLike"(pKeyWord text[]) OWNER TO postgres;
 
 --
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -82,8 +94,8 @@ BEGIN
 	FOR vSourceId IN
 		(
 			SELECT sou_id FROM source
-  			ORDER BY RANDOM()
-  			LIMIT 12
+			ORDER BY RANDOM()
+			LIMIT 12
 		) LOOP
 
       SELECT row_to_json(t)
@@ -99,7 +111,7 @@ BEGIN
         ORDER BY RANDOM()
         LIMIT 1
       ) t ;
-      
+
     vJson := array_append(vJson, vAItem);
   END LOOP;
 
@@ -252,7 +264,7 @@ ALTER TABLE public.language OWNER TO postgres;
 --
 
 CREATE TABLE public.mot (
-    mot_id integer SERIAL NOT NULL,
+    mot_id SERIAL PRIMARY KEY,
     mot_lib character varying(50),
     mot_freq integer,
     mot_language integer

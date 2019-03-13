@@ -28,27 +28,39 @@ const getAllItems = (request, response) =>
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
     db.any('SELECT "getRandomItems"()')
-      .then(function (data) {
-          response.status(200).json(data);
-      })
-      .catch(function (error) {
-          console.log("ERROR:", error);
-      });
+    .then(function (data) {
+        response.status(200).json(data);
+    })
+    .catch(function (error) {
+        console.log("ERROR:", error);
+    });
 }
 
 /* Query 12 random items from data base */
 const getRandomItemsNotLike = (request, response) => {
-    db.any(
-        'SELECT "getRandomItemsNotLike"(\''
-        + request.params.notLike
-        +'\')'
-      )
-      .then(function (data) {
-          response.status(200).json(data);
-      })
-      .catch(function (error) {
-          console.log("ERROR:", error);
-      });
+  var notLike = "";
+  request.params.notLike
+  .split("+")
+  .forEach(
+    param =>
+    {
+      if(param.length > 1)
+      notLike += "'" + param + "',"
+    }
+  );
+  notLike = notLike.substring(0, notLike.length - 1);
+
+  db.any(
+      'SELECT "getRandomItemsNotLike"( ARRAY['
+      + notLike
+      +'])'
+    )
+    .then(function (data) {
+        response.status(200).json(data);
+    })
+    .catch(function (error) {
+        console.log("ERROR:", error);
+    });
 }
 
 /* Insert items in data base */
