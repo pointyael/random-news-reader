@@ -19,6 +19,9 @@ router.get('/all-items', db.getAllItems);
 /* GET API random items. */
 router.get('/random-items', db.getRandomItems);
 
+/* GET API random items. */
+router.get('/insert', Item.insertItems);
+
 /* GET API button quote. */
 router.get('/random-btnQuote', quoteDB.getButtonQuote);
 

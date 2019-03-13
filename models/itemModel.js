@@ -9,6 +9,7 @@ let dateInsert;
 let language;
 let theme;
 
+<<<<<<< HEAD
 /* Query items from data base */
 const getAllItems = (request, response) => {
     db.any("SELECT * FROM item")
@@ -19,13 +20,28 @@ const getAllItems = (request, response) => {
         .catch(function (error) {
             console.log("ERROR:", error);
         });
+=======
+/* Query all items from db => only for test */
+const getAllItems = (request, response) =>
+{
+  db
+  .any("SELECT * from item")
+  .then
+  (
+    function(data)
+    {
+      response.status(200).json(data);
+    }
+  )
+  .catch(function (error) { console.log(error);});
+>>>>>>> e4319148861426ca222a8745716a605f20013703
 }
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
     db.any('SELECT "getRandomItems"()')
     .then(function (data) {
-        response.status(200).json(data);
+      response.status(200).json(data[0].getRandomItems);
     })
     .catch(function (error) {
         console.log("ERROR:", error);
@@ -52,7 +68,7 @@ const getRandomItemsNotLike = (request, response) => {
       +'])'
   )
   .then(function (data) {
-      response.status(200).json(data);
+      response.status(200).json(data[0].getRandomItemsNotLike);
   })
   .catch(function (error) {
       console.log("ERROR:", error);
@@ -62,7 +78,7 @@ const getRandomItemsNotLike = (request, response) => {
 /* Insert items in data base */
 const insertItems = (request, response) => {
 
-    this.deleteOldItems;
+    deleteOldItems();
 
     db
     .any("SELECT * FROM source")
@@ -84,16 +100,15 @@ const insertItems = (request, response) => {
                   link: source.sou_link
                 }
                 feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
-                
+
                 itemsJsonString = (JSON.stringify(res));
 
                 db
                 .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
-                .then( () => response.status(200) )
                 .catch(function(err) {console.log(err)});
               }
             )
-            .catch();
+            .catch( function (err) {console.log(err);});
           }
         );
 
@@ -108,8 +123,7 @@ const deleteOldItems =
 {
   db
   .any('CALL "deleteOldItemsProc"()')
-  .then()
-  .catch();
+  .catch(function(err) {console.log(err);});
 }
 
 module.exports = {
