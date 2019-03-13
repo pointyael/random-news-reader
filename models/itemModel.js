@@ -1,5 +1,5 @@
 var db = require("../database/dbFactory").db;
-var Items = require("../retrieveFromWeb/retrieveData.js");
+var ItemsRetrieved = require("../retrieveFromWeb/retrieveData.js");
 var FeedModel = require("./feedModel");
 
 let name;
@@ -54,47 +54,52 @@ const getRandomItemsNotLike = (request, response) => {
       'SELECT "getRandomItemsNotLike"( ARRAY['
       + notLike
       +'])'
-    )
-    .then(function (data) {
-        response.status(200).json(data);
-    })
-    .catch(function (error) {
-        console.log("ERROR:", error);
-    });
+  )
+  .then(function (data) {
+      response.status(200).json(data);
+  })
+  .catch(function (error) {
+      console.log("ERROR:", error);
+  });
 }
 
 /* Insert items in data base */
 const insertItems = (request, response) => {
 
+    this.deleteOldItems;
+
     db
-    .any("SELECT * FROM source WHERE source.sou_id=2")
+    .any("SELECT * FROM source")
     .then(
       function (data)
       {
-          data = data[0];
-          feedInfo =
+        data.forEach(
+          source =>
           {
-              id: data.sou_id,
-              title: data.sou_title,
-              link: data.sou_link
-          }
-
-          feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
-
-          Items
-          .getItems(data.sou_link)
-          .then
-          (
+            ItemsRetrieved
+            .getItems(source.sou_link)
+            .then
+            (
               function(res){
-                  itemsJsonString = (JSON.stringify(res));
-                  //console.log(res);
-                  db
-                  .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
-                  .then( () => response.status(200) )
-                  .catch();
+                feedInfo =
+                {
+                  id: source.sou_id,
+                  title: source.sou_name,
+                  link: source.sou_link
+                }
+                feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
+                
+                itemsJsonString = (JSON.stringify(res));
+
+                db
+                .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then( () => response.status(200) )
+                .catch(function(err) {console.log(err)});
               }
-          )
-          .catch()
+            )
+            .catch();
+          }
+        );
 
       }
     )
