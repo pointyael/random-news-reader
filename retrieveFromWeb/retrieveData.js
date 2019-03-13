@@ -7,6 +7,7 @@ async function _retrieveFeedData(link) {
     return parsedFeed;
 }
 
+/* return object containing only attributes needed */
 async function _processFeedInfo(parsedFeed){
     let feedSchema = Object();
     parsedFeed.title = parsedFeed.title.replace(/'/g, "''");
@@ -18,7 +19,7 @@ async function _processFeedInfo(parsedFeed){
     return feedSchema;
 }
 
-
+/* return object containing only attributes needed */
 async function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
