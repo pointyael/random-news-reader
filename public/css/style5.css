@@ -25,23 +25,14 @@ figcaption, p, a {
 }
 
 .sidebar a {
-    color:#090909;
+    color:#fff;
     font-size: 16px;
 }
 
 .sidebar a:hover {
-    color: #e8f6f8;
+    color: #246a73;
 }
 
  main {
     background-color: #f2f2f2;
-}
-
-blockquote {
-    border-top: 1px solid #090909;
-    border-bottom: 1px solid #090909;
-}
-
-blockquote p, blockquote::after {
-    color: #090909;
 }

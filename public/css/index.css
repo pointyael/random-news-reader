@@ -161,10 +161,28 @@ blockquote p {
 	color: #eaeaea;
 }	
 
+/*----------------*/
+/* SIDEBAR FILTER */
+/*----------------*/
+.sidebar a:first-of-type{
+	pointer-events: none;
+}
+.sidebar input {
+	display: none;
+	z-index: 3;
+}
+
+.sidebar label {
+	margin-top: 5px;
+	padding: 10px;
+	background-color: #fff;
+	font-size: 12px;
+	border-radius: 25px;
+}
+
 /*------------------*/
 /* ANIMATION BURGER */
 /*------------------*/
-
 .bar {
 	width: 25px;
 	height: 2px;
