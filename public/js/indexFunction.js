@@ -197,31 +197,4 @@ document.onload = generateStyle();
 /*-----------------------------*/
 /*           FILTER            */
 /*-----------------------------*/
-var keywordsDiv = document.getElementById('keywordsFilter');
-var inputs = keywordsDiv.getElementsByTagName('input');
 
-for (var i = 0; i < inputs.length; i++) {
-	var label = inputs[index].labels[0];
-	if (inputs[index].checked) {
-		console.log('ok');
-		label.style.backgroundColor = "inherit";
-		label.style.color = "red";
-		// label.classList.add("selected");
-	}
-	else {
-		// label.classList.remove("selected");
-	}
-	// inputs[i].addEventListener('click', changeColorFilter(i));
-}
-
-function changeColorFilter(index) {
-	var label = inputs[index].labels[0];
-	if (inputs[index].checked) {
-		// label.style.backgroundColor = "inherit";
-		// label.style.color = "red";
-		label.classList.add("selected");
-	}
-	else {
-		label.classList.remove("selected");
-	}
-}
