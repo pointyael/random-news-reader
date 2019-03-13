@@ -89,6 +89,18 @@ function displayItems() {
 				actualItems[i].addEventListener('click', displayRefreshPhrase);
 				actualItems[i].addEventListener('click', displayQuote);
 			}
+
+			/*-----------------------------*/
+			/*           FILTER            */
+			/*-----------------------------*/
+			var keywordFilter = document.getElementById('keywordsFilter');
+			var inputs = document.getElementsByTagName("input");
+
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].checked) {
+					req = inputs[i].value;
+				}
+			}
 		}
 	};
 
@@ -197,4 +209,38 @@ document.onload = generateStyle();
 /*-----------------------------*/
 /*           FILTER            */
 /*-----------------------------*/
+// var keywordFilter = document.getElementById('keywordsFilter');
+// var inputs = document.getElementsByTagName("input");
 
+// for (var i = 0; i < inputs.length; i++){
+// 	if (inputs[i].checked){
+// 		randomizeWithFilter(inputs[i].value);
+// 	}
+// }
+
+// function randomizeWithFilter() {
+// 	var req = new XMLHttpRequest();
+
+// 	req.onreadystatechange = function () {
+// 		if (this.readyState == 4 && this.status == 200) {
+
+// 			/* Recuperation */
+// 			var phrase = JSON.parse(this.responseText)[0];
+// 			var spanPhrase = document.getElementById('randomizePhrase');
+
+// 			/* Affichage */
+// 			spanPhrase.innerHTML = phrase["but_quote"];
+
+// 			/* Refresh on click */
+// 			var btnRefresh = document.getElementById('btnRefresh');
+// 			btnRefresh.addEventListener('click', displayRefreshPhrase);
+// 			btnRefresh.addEventListener('click', displayQuote);
+// 		}
+// 	};
+
+// 	req.open("GET", "http://localhost:3000/random-btnQuote");
+// 	req.send();
+// }
+
+// req.open("GET", "http://localhost:3000/random-items/val1[+val2+...]");
+// 	req.send();
