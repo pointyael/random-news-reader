@@ -1,1 +1,0 @@
-/* Script appelé par cron */

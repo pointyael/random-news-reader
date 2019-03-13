@@ -1,8 +1,0 @@
-header, footer, .sidebar, blockquote::after {
-    background-color: #000;
-}
-
-div#btnRefresh, #topbar, #middlebar, #bottombar{
-    color: #fff;
-    background-color: #db5030;
-}
