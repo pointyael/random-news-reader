@@ -117,7 +117,7 @@ function displayItem(item){
 window.onload = displayItems();
 
 /*----------------------------------------------------------*/
-/* 					BTN REFRESH QUOTE 						*/
+/* 						BTN REFRESH QUOTE 					*/
 /*----------------------------------------------------------*/
 function displayRefreshPhrase(){
 	var req = new XMLHttpRequest();
