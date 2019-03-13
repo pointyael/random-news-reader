@@ -1,17 +1,6 @@
-var pgp = require("pg-promise")();
-var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
-
-/*
-ite_id integer NOT NULL,
-    ite_name character varying(250),
-    ite_description character varying(400),
-    ite_type integer,
-    ite_link character varying(250),
-    ite_dateinsert date,
-    ite_language integer,
-    ite_theme integer,
-ite_source integer
-*/
+var db = require("../database/dbFactory").db;
+var ItemsRetrieved = require("../retrieveFromWeb/retrieveData.js");
+var FeedModel = require("./feedModel");
 
 let name;
 let description;
@@ -34,14 +23,93 @@ const getAllItems = (request, response) => {
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
-    db.any("SELECT * FROM item ORDER BY RANDOM() LIMIT 12")
-        .then(function (data) {
-            console.log("DATA:", data);
-            response.status(200).json(data);
-        })
-        .catch(function (error) {
-            console.log("ERROR:", error);
-        });
+    db.any('SELECT "getRandomItems"()')
+    .then(function (data) {
+        response.status(200).json(data);
+    })
+    .catch(function (error) {
+        console.log("ERROR:", error);
+    });
+}
+
+/* Query 12 random items from data base */
+const getRandomItemsNotLike = (request, response) => {
+  var notLike = "";
+  request.params.notLike
+  .split("+")
+  .forEach(
+    param =>
+    {
+      if(param.length > 1)
+      notLike += "'" + param + "',"
+    }
+  );
+  notLike = notLike.substring(0, notLike.length - 1);
+
+  db.any(
+      'SELECT "getRandomItemsNotLike"( ARRAY['
+      + notLike
+      +'])'
+  )
+  .then(function (data) {
+      response.status(200).json(data);
+  })
+  .catch(function (error) {
+      console.log("ERROR:", error);
+  });
+}
+
+/* Insert items in data base */
+const insertItems = (request, response) => {
+
+    this.deleteOldItems;
+
+    db
+    .any("SELECT * FROM source")
+    .then(
+      function (data)
+      {
+        data.forEach(
+          source =>
+          {
+            ItemsRetrieved
+            .getItems(source.sou_link)
+            .then
+            (
+              function(res){
+                feedInfo =
+                {
+                  id: source.sou_id,
+                  title: source.sou_name,
+                  link: source.sou_link
+                }
+                feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
+                
+                itemsJsonString = (JSON.stringify(res));
+
+                db
+                .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then( () => response.status(200) )
+                .catch(function(err) {console.log(err)});
+              }
+            )
+            .catch();
+          }
+        );
+
+      }
+    )
+    .catch();
+
+}
+
+const deleteOldItems =
+() =>
+{
+  db
+  .any('CALL "deleteOldItemsProc"()')
+  .then()
+  .catch();
 }
 
 module.exports = {
