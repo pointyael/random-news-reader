@@ -16,7 +16,7 @@ figure figcaption {
     font-size: 12px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    color: #000;
+    color: #fff;
 }
 
 figcaption, p, a {
@@ -24,13 +24,18 @@ figcaption, p, a {
     font-family: Oswald;
 }
 
-.sidebar a {
-    color:#090909;
-    font-size: 16px;
+.sidebar div {
+    color:#fff;
+    font-family: Oswald;
 }
 
-.sidebar a:hover {
-    color: #e8f6f8;
+
+.sidebar label {
+    color:#000;
+}
+
+.sidebar div:hover {
+    color: #246a73;
 }
 
  main {
@@ -38,10 +43,15 @@ figcaption, p, a {
 }
 
 blockquote {
-    border-top: 1px solid #090909;
-    border-bottom: 1px solid #090909;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
 blockquote p, blockquote::after {
-    color: #090909;
+    color: #ffffff;
+}
+
+.checkbox:checked + .label-check{
+    background-color: #246a73;
+    color: #fff;
 }

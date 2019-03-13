@@ -6,3 +6,8 @@ div#btnRefresh, #topbar, #middlebar, #bottombar{
     color: #fff;
     background-color: #db5030;
 }
+
+.checkbox:checked + .label-check{
+    background-color: #db5030;
+    color: #fff;
+}

@@ -9,7 +9,7 @@ function refreshItems() {
 	displayItems();
 }
 
-buttonRefresh.addEventListener('click', function(){  generateStyle(); refreshItems();});
+buttonRefresh.addEventListener('click', function () { generateStyle(); refreshItems(); });
 
 /*----------------------------------------------------------*/
 /* 			DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 			*/
@@ -27,7 +27,7 @@ function switchDisplay() {
 	topbar.classList.toggle('top');
 	middlebar.classList.toggle('middle');
 	bottombar.classList.toggle('bottom');
-	if (sidebar.classList.contains('opened')){
+	if (sidebar.classList.contains('opened')) {
 		displayQuote();
 	}
 }
@@ -57,7 +57,7 @@ function closeModal() {
 window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 close.addEventListener('click', closeModal);
 
-window.addEventListener('keypress', function(e) {
+window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
 	}
@@ -69,15 +69,15 @@ window.addEventListener('keypress', function(e) {
 function displayItems() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			
+
 			/* Recuperation */
 			var items = JSON.parse(this.responseText);
 			var main = document.getElementsByTagName('main')[0];
 
 			/* Affichage */
-			for (var i = 0; i < items.length; i++){
+			for (var i = 0; i < items.length; i++) {
 				main.innerHTML += displayItem(items[i]);
 			}
 
@@ -91,7 +91,7 @@ function displayItems() {
 			}
 		}
 	};
-	
+
 	req.open("GET", "http://localhost:3000/random-items");
 	req.send();
 }
@@ -104,13 +104,13 @@ function checkButton(event) {
 	}
 }
 
-function displayItem(item){
+function displayItem(item) {
 	var html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
-				'<figure>' +
-					'<img src="' +  item["ite_enclosure"] +'" alt=""/> '+
-					'<figcaption>'+ item["ite_title"] +'</figcaption>'+
-				'</figure>' +
-			'</a>';
+		'<figure>' +
+		'<img src="' + item["ite_enclosure"] + '" alt=""/> ' +
+		'<figcaption>' + item["ite_title"] + '</figcaption>' +
+		'</figure>' +
+		'</a>';
 	return html;
 }
 
@@ -119,10 +119,10 @@ window.onload = displayItems();
 /*----------------------------------------------------------*/
 /* 					BTN REFRESH QUOTE 						*/
 /*----------------------------------------------------------*/
-function displayRefreshPhrase(){
+function displayRefreshPhrase() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
@@ -138,7 +138,7 @@ function displayRefreshPhrase(){
 			btnRefresh.addEventListener('click', displayQuote);
 		}
 	};
-	
+
 	req.open("GET", "http://localhost:3000/random-btnQuote");
 	req.send();
 }
@@ -148,10 +148,10 @@ window.onload = displayRefreshPhrase();
 /*----------------------------------------------------------*/
 /* 							QUOTE 							*/
 /*----------------------------------------------------------*/
-function displayQuote(){
+function displayQuote() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
@@ -162,7 +162,7 @@ function displayQuote(){
 			quoteSpan.innerHTML = quote["quo_quote"];
 		}
 	};
-	
+
 	req.open("GET", "http://localhost:3000/random-quote");
 	req.send();
 }
@@ -185,11 +185,43 @@ function generateStyle() {
 
 	if (randomNumber != currentTheme) {
 		styleLink.setAttribute('theme', randomNumber);
-    	styleLink.setAttribute('href', '../public/css/style'+randomNumber+'.css');
-    	logo.setAttribute('src', '../public/img/logo'+randomNumber+'.png');
+		styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css');
+		logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
 	} else {
 		generateStyle();
 	}
 }
 
 document.onload = generateStyle();
+
+/*-----------------------------*/
+/*           FILTER            */
+/*-----------------------------*/
+var keywordsDiv = document.getElementById('keywordsFilter');
+var inputs = keywordsDiv.getElementsByTagName('input');
+
+for (var i = 0; i < inputs.length; i++) {
+	var label = inputs[index].labels[0];
+	if (inputs[index].checked) {
+		console.log('ok');
+		label.style.backgroundColor = "inherit";
+		label.style.color = "red";
+		// label.classList.add("selected");
+	}
+	else {
+		// label.classList.remove("selected");
+	}
+	// inputs[i].addEventListener('click', changeColorFilter(i));
+}
+
+function changeColorFilter(index) {
+	var label = inputs[index].labels[0];
+	if (inputs[index].checked) {
+		// label.style.backgroundColor = "inherit";
+		// label.style.color = "red";
+		label.classList.add("selected");
+	}
+	else {
+		label.classList.remove("selected");
+	}
+}

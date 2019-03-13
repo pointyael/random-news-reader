@@ -112,7 +112,7 @@ div .fa.fa-refresh.fa-spin{
 	transition: 0.5s;
 }
 
-.sidebar a {
+.sidebar div {
 	display: block;
 	padding: 10px 20px;
 	color: #818181;
@@ -121,11 +121,11 @@ div .fa.fa-refresh.fa-spin{
 	transition: 0.3s;
 }
 
-.sidebar a:hover {
+.sidebar div:hover {
 	color: #f1f1f1;
 }
 
-.sidebar a.bottomLink {
+.sidebar div.bottomLink {
 	position: fixed;
 	bottom: 20px;
 	font-size: 12px;
@@ -160,6 +160,49 @@ blockquote p {
 	padding: 15px;
 	color: #eaeaea;
 }	
+
+/*----------------*/
+/* SIDEBAR FILTER */
+/*----------------*/
+.sidebar div:first-of-type:hover{
+	pointer-events: none;
+}
+
+#keywordsFilter {
+	max-width: 250px;
+	display: flex;
+	min-width: 250px;
+	padding: 0;
+	flex-wrap: wrap;
+}
+
+.sidebar input {
+	display: none;
+}
+
+/* .checkbox:checked + .label-check{
+	background-color: red;
+	color: #fff;
+} */
+
+.sidebar label {
+	cursor: pointer;
+	margin: 5px 2px;
+	padding: 10px;
+	background-color: #fff;
+	font-size: 12px;
+	border-radius: 25px;
+	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
+}
+
+/* 
+.sidebar label:hover {
+	background: #66bd84;
+	color: #000;
+	font-weight: bold;
+} */
+
+
 
 /*------------------*/
 /* ANIMATION BURGER */
