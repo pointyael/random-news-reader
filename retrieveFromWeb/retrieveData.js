@@ -1,4 +1,5 @@
 let Parser = require('rss-parser');
+const moment = require('moment');
 let parser = new Parser();
 
 /* use an URL to return parsed object containing feed infos and items */
@@ -22,6 +23,8 @@ async function _processFeedInfo(parsedFeed){
 async function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
+    let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
+
     parsedFeed.items.forEach(item => {
         item.title = item.title.replace(/'/g, "''");
         // Be careful --> content =/= description
@@ -38,6 +41,12 @@ async function _processItems(parsedFeed){
             language: item.language,
             category: item.category
           }
+
+        if
+        (
+          moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
+          > dateMinusTwoDays
+        )
           itemArray.push(itemSchema);
     });
     return itemArray;

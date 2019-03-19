@@ -98,7 +98,7 @@ function displayItems() {
 	}else{
 		req.open("GET", "http://localhost:3000/random-items");
 	}
-	
+
 	req.send();
 }
 
@@ -207,8 +207,8 @@ var keywordsDiv = document.getElementById('keywordsFilter');
 var inputs = keywordsDiv.getElementsByTagName('input');
 
 for (var i = 0; i < inputs.length; i++) {
-	var label = inputs[index].labels[0];
-	if (inputs[index].checked) {
+	var label = inputs[i].labels[0];
+	if (inputs[i].checked) {
 		console.log('ok');
 		label.style.backgroundColor = "inherit";
 		label.style.color = "red";

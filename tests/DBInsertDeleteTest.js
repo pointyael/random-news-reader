@@ -1,8 +1,12 @@
 const expect = require('chai').expect;
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../app');
 const Item = require('../models/itemModel.js');
 const moment = require('moment');
 
 require('it-each')({ testPerIteration: true });
+chai.use(chaiHttp);
 
 describe(
   "Delete items older than 48 hours",
@@ -16,8 +20,9 @@ describe(
         before(async function()
         {
           await Item.deleteOldItems();
-          itemsData = await Item.getAllItems();
+          await Item.getAllItems(itemsData);
         });
+
         it
         (
           'should be items with ite_pubdate > now() - 2 days',
@@ -32,7 +37,8 @@ describe(
                 expect(item).to.have.property("ite_pubdate");
                 expect
                 (
-                  moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss") > dateMinusTwoDays
+                  moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
+                    > dateMinusTwoDays
                 ).to.be.true;
               }
             );
@@ -48,8 +54,8 @@ describe(
         var itemsData;
         before(async function()
         {
-          await Item.insertItems();
-          itemsData = await Item.getAllItems();
+          await Item.insertItems;
+          await Item.getAllItems(itemsData);
         });
 
         it(
@@ -63,7 +69,6 @@ describe(
             (
               item =>
               {
-
                 expect(item).to.have.property("ite_pubdate");
                 expect
                 (

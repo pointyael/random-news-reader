@@ -10,16 +10,13 @@ let language;
 let theme;
 
 /* Query all items from db => only for test */
-const getAllItems = (request, response) =>
+const getAllItems = (response) =>
 {
   db
   .any("SELECT * from item")
   .then
   (
-    function(data)
-    {
-      response.status(200).json(data);
-    }
+    function(data) { response = data; }
   )
   .catch(function (error) { console.log(error);});
 }
@@ -92,6 +89,7 @@ const insertItems = (request, response) => {
 
                 db
                 .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then(function(status) {})
                 .catch(function(err) {console.log(err)});
               }
             )
