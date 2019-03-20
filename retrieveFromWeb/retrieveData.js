@@ -36,7 +36,7 @@ async function _processItems(parsedFeed){
             description: item.description,
             //content: item.content,
             enclosure: item.enclosure ? item.enclosure.url : "",
-            pubDate: item.pubDate,
+            pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
             link: item.link,
             language: item.language,
             category: item.category
@@ -48,7 +48,6 @@ async function _processItems(parsedFeed){
           > dateMinusTwoDays
         )
           itemArray.push(itemSchema);
-
     });
     return itemArray;
 }
