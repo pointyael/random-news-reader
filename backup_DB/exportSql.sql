@@ -599,7 +599,7 @@ INSERT INTO public.sidebarQuote VALUES (53, '');
 --
 
 INSERT INTO public.source VALUES (1, 'journal du net', 'https://www.journaldunet.com/rss/');
-INSERT INTO public.source VALUES (2, 'random news', 'https://www.journaldunet.com/retail/rss/');
+INSERT INTO public.source VALUES (2, 'jeuxvideo.com', 'http://www.jeuxvideo.com/rss/rss.xml');
 INSERT INTO public.source VALUES (3, 'le journal du hard', 'https://www.journaldunet.com/media/rss/');
 INSERT INTO public.source VALUES (4, 'lanruoj el', 'https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
 INSERT INTO public.source VALUES (5, 'gepludide', 'https://www.journaldunet.com/iot/rss/');
