@@ -14,7 +14,12 @@ router.get('/about', function(req, res, next) {
 });
 
 /* GET API random Items. */
-router.get('/random-items', Item.getRandomItems);
+router.get('/random-items',
+  async function(req, res, next)
+  {
+    Item.getRandomItems(req, res);
+  }
+);
 
 /* GET API random Items not like parameter. */
 router.get('/random-items/:notLike', Item.getRandomItemsNotLike);
@@ -23,7 +28,14 @@ router.get('/random-items/:notLike', Item.getRandomItemsNotLike);
 router.get('/random', Item.getAllItems);
 
 /* GET API random items. */
-router.get('/insert', Item.insertItems);
+router.get('/insert',
+  async function(req, res, next)
+  {
+    await Item.deleteOldItems();
+    await Item.insertItems(req, res);
+    res.end();
+  }
+);
 
 /* GET API button quote. */
 router.get('/random-btnQuote', Quote.getButtonQuote);

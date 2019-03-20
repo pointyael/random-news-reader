@@ -70,9 +70,9 @@ const insertItems = (request, response) => {
       function (data)
       {
         data.forEach(
-          source =>
+          async function(source)
           {
-            ItemsRetrieved
+            await ItemsRetrieved
             .getItems(source.sou_link)
             .then
             (

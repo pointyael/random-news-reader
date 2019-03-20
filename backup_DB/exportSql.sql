@@ -151,8 +151,9 @@ BEGIN
     SELECT row_to_json(i) FROM item i
   LOOP
     IF
-      to_timestamp(vAItem->>'ite_pubdate', 'YYYY/MM/DD HH24:MI:SS')
-        < (NOW() - interval '2 days')::timestamp
+    (vAItem->>'ite_pubdate'||'+01') :: timestamp < (NOW() - interval '2 days') :: timestamp
+      --to_timestamp(vAItem->>'ite_pubdate', 'YYYY/MM/DD HH24:MI:SS')
+        --< (NOW() - interval '2 days')::timestamp
     THEN
       DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
     END IF;

@@ -44,10 +44,11 @@ async function _processItems(parsedFeed){
 
         if
         (
-          moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
+          moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
           > dateMinusTwoDays
         )
           itemArray.push(itemSchema);
+
     });
     return itemArray;
 }
