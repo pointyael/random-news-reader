@@ -11,12 +11,8 @@ function refreshItems() {
 
 buttonRefresh.addEventListener('click', function () { 
 	generateStyle(); 
-	refreshItems(); 
-	document.getElementsByClassName('sidebar')[0].classList.remove('opened');
-
-	topbar.classList.remove('top');
-	middlebar.classList.remove('middle');
-	bottombar.classList.remove('bottom');
+	refreshItems();
+	closeSidebarMenu();
 });
 
 /*----------------------------------------------------------*/
@@ -93,9 +89,13 @@ function displayItems() {
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('mouseup', checkButton);
-				actualItems[i].addEventListener('click', refreshItems);
-				actualItems[i].addEventListener('click', displayRefreshPhrase);
-				actualItems[i].addEventListener('click', displayQuote);
+				actualItems[i].addEventListener('click', function(){
+					refreshItems();
+					displayRefreshPhrase();
+					displayQuote();
+					generateStyle();
+					closeSidebarMenu();
+				});
 			}
 		}
 	};
@@ -220,3 +220,14 @@ function generateStyle() {
 }
 
 document.onload = generateStyle();
+
+/*----------------------------------------------------------*/
+/*                    CLOSE SIDEBAR MENU                    */
+/*----------------------------------------------------------*/
+function closeSidebarMenu(){
+	document.getElementsByClassName('sidebar')[0].classList.remove('opened');
+
+	topbar.classList.remove('top');
+	middlebar.classList.remove('middle');
+	bottombar.classList.remove('bottom');
+}
