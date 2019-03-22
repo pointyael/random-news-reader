@@ -161,9 +161,8 @@ BEGIN
     SELECT row_to_json(i) FROM item i
   LOOP
     IF
-    (vAItem->>'ite_pubdate'||'+01') :: timestamp < (NOW() - interval '2 days') :: timestamp
-      --to_timestamp(vAItem->>'ite_pubdate', 'YYYY/MM/DD HH24:MI:SS')
-        --< (NOW() - interval '2 days')::timestamp
+      (vAItem->>'ite_pubdate'||'+01') :: timestamp
+      < (NOW() - interval '2 days') :: timestamp
     THEN
       DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
     END IF;
@@ -185,49 +184,51 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
       vLangId integer;
       vCategoryId integer;
       vSourceId integer;
+      vCountItem integer;
     BEGIN
 
         FOR vAItem in
           SELECT * FROM json_array_elements("pItems")
         LOOP
 
-            --SELECT MAX(ite_id)+1 INTO vNewId FROM item;
+            SELECT COUNT(*) INTO vCountItem FROM item
+            WHERE ite_title like vAItem->>'title';
 
+            IF vCountItem = 0 THEN
 
+              SELECT lan_id INTO vLangId
+              FROM language
+              WHERE lan_code=vAItem->>'language';
 
-            SELECT lan_id INTO vLangId
-            FROM language
-            WHERE lan_code=vAItem->>'language';
+              SELECT cat_id INTO vCategoryId
+              FROM category
+              WHERE cat_lib=vAItem->>'category';
 
-            SELECT cat_id INTO vCategoryId
-            FROM category
-            WHERE cat_lib=vAItem->>'category';
-
-            INSERT INTO public.item
-             (
-               ite_title,
-               ite_description,
-               ite_enclosure,
-               ite_type,
-               ite_link,
-               ite_pubdate,
-               ite_language,
-               ite_category,
-               ite_source
-             )
-            VALUES
-              (
-              --  vNewId,
-                vAItem->>'title',
-                vAItem->>'description' ,
-                vAItem->>'enclosure',
-                NULL,
-                vAItem->>'link',
-                to_timestamp(vAItem->>'pubDate', 'YYY-MM-DD HH24:MI:SS'),
-                vLangId,
-                vCategoryId,
-                to_number("pSource"->>'id', '99G999D9S')
-              );
+              INSERT INTO public.item
+               (
+                 ite_title,
+                 ite_description,
+                 ite_enclosure,
+                 ite_type,
+                 ite_link,
+                 ite_pubdate,
+                 ite_language,
+                 ite_category,
+                 ite_source
+               )
+              VALUES
+                (
+                  vAItem->>'title',
+                  vAItem->>'description' ,
+                  vAItem->>'enclosure',
+                  NULL,
+                  vAItem->>'link',
+                  to_timestamp(vAItem->>'pubDate', 'YYY-MM-DD HH24:MI:SS'),
+                  vLangId,
+                  vCategoryId,
+                  to_number("pSource"->>'id', '99G999D9S')
+                );
+            END IF;
         END LOOP;
 END;$$;
 
