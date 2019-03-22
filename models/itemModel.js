@@ -25,6 +25,7 @@ const getAllItems = (response) =>
 const getRandomItems = (request, response) => {
     db.any('SELECT "getRandomItems"()')
     .then(function (data) {
+      console.log(data[0].getRandomItems);
       response.status(200).json(data[0].getRandomItems);
     })
     .catch(function (error) {

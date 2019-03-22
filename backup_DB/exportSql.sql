@@ -602,7 +602,18 @@ INSERT INTO public.source VALUES (1, 'journal du net', 'https://www.journaldunet
 INSERT INTO public.source VALUES (2, 'jeuxvideo.com', 'http://www.jeuxvideo.com/rss/rss.xml');
 INSERT INTO public.source VALUES (3, 'le journal du hard', 'https://www.journaldunet.com/media/rss/');
 INSERT INTO public.source VALUES (4, 'lanruoj el', 'https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
-INSERT INTO public.source VALUES (5, 'gepludide', 'https://www.journaldunet.com/iot/rss/');
+INSERT INTO public.source VALUES (5, 'L''internaute', 'http://www.linternaute.com/rss/');
+INSERT INTO public.source VALUES (6, 'Libération - Unes', 'http://rss.liberation.fr/rss/9/');
+INSERT INTO public.source VALUES (7, 'Le Monde - Unes', 'https://www.lemonde.fr/rss/une.xml');
+INSERT INTO public.source VALUES (8, 'Mediapart - Chroniques', 'http://www.mediapart.fr/journal/podcast/chronique/rss');
+INSERT INTO public.source VALUES (9, 'La Dépêche', 'https://www.ladepeche.fr/rss.xml');
+INSERT INTO public.source VALUES (10, 'Les Echos - société et monde', 'https://syndication.lesechos.fr/rss/rss_politique_societe.xml');
+INSERT INTO public.source VALUES (11, 'Les Echos - idées', 'https://syndication.lesechos.fr/rss/rss_idee.xml');
+INSERT INTO public.source VALUES (12, 'Courrier Internationale', 'https://www.courrierinternational.com/feed/all/rss.xml');
+INSERT INTO public.source VALUES (13, 'Huffing Post', 'https://www.huffingtonpost.fr/feeds/index.xml');
+INSERT INTO public.source VALUES (14, 'New York Times - US HomePage', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+INSERT INTO public.source VALUES (15, 'Washington Post - Politic Fast Checker', 'http://feeds.washingtonpost.com/rss/rss_fact-checker');
+INSERT INTO public.source VALUES (15, 'Washington Post - WorldViews', 'http://feeds.washingtonpost.com/rss/rss_blogpost');
 
 
 --
