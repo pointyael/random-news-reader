@@ -29,7 +29,7 @@ async function _processItems(parsedFeed){
         item.title = item.title.replace(/'/g, "''");
         // Be careful --> content =/= description
         // In RSS the description field  is required instead of content
-        item.description = item.content.replace(/'/g, "''");
+        item.description = item.content ? item.content.replace(/'/g, "''") : "";
 
         itemSchema = {
             title: item.title,
@@ -49,6 +49,7 @@ async function _processItems(parsedFeed){
         )
           itemArray.push(itemSchema);
     });
+
     return itemArray;
 }
 

@@ -65,17 +65,17 @@ describe(
             let dateMinusTwoDays = moment().add(-2, 'days');
 
             for(var index in itemsData)
-            itemsData.forEach
-            (
-              item =>
-              {
-                expect(item).to.have.property("ite_pubdate");
-                expect
-                (
-                  moment(item.ite_pubdate) > dateMinusTwoDays
-                ).to.be.true;
-              }
-            );
+              itemsData.forEach
+              (
+                item =>
+                {
+                  expect(item).to.have.property("ite_pubdate");
+                  expect
+                  (
+                    moment(item.ite_pubdate) > dateMinusTwoDays
+                  ).to.be.true;
+                }
+              );
           }
         );
       }

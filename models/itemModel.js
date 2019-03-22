@@ -25,7 +25,6 @@ const getAllItems = (response) =>
 const getRandomItems = (request, response) => {
     db.any('SELECT "getRandomItems"()')
     .then(function (data) {
-      console.log(data[0].getRandomItems);
       response.status(200).json(data[0].getRandomItems);
     })
     .catch(function (error) {
@@ -73,6 +72,7 @@ const insertItems = () => {
         data.forEach(
           async function(source)
           {
+
             await ItemsRetrieved
             .getItems(source.sou_link)
             .then
@@ -84,6 +84,7 @@ const insertItems = () => {
                   title: source.sou_name,
                   link: source.sou_link
                 }
+
                 feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
 
                 itemsJsonString = (JSON.stringify(res));

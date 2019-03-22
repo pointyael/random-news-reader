@@ -36,6 +36,11 @@ BEGIN
     FOR vSourceId IN
     (
       SELECT sou_id FROM source
+      WHERE
+        sou_id IN (
+        	SELECT ite_source FROM item
+        	GROUP BY ite_source
+        )
       ORDER BY RANDOM()
       LIMIT 12
     ) LOOP
@@ -103,6 +108,11 @@ BEGIN
 	FOR vSourceId IN
 		(
 			SELECT sou_id FROM source
+      WHERE
+        sou_id IN (
+        	SELECT ite_source FROM item
+        	GROUP BY ite_source
+        )
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
@@ -612,8 +622,8 @@ INSERT INTO public.source VALUES (11, 'Les Echos - idées', 'https://syndication
 INSERT INTO public.source VALUES (12, 'Courrier Internationale', 'https://www.courrierinternational.com/feed/all/rss.xml');
 INSERT INTO public.source VALUES (13, 'Huffing Post', 'https://www.huffingtonpost.fr/feeds/index.xml');
 INSERT INTO public.source VALUES (14, 'New York Times - US HomePage', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
-INSERT INTO public.source VALUES (15, 'Washington Post - Politic Fast Checker', 'http://feeds.washingtonpost.com/rss/rss_fact-checker');
-INSERT INTO public.source VALUES (15, 'Washington Post - WorldViews', 'http://feeds.washingtonpost.com/rss/rss_blogpost');
+INSERT INTO public.source VALUES (15, 'Washington Post - Fast Checker', 'http://feeds.washingtonpost.com/rss/rss_fact-checker');
+INSERT INTO public.source VALUES (16, 'Washington Post - WorldViews', 'http://feeds.washingtonpost.com/rss/rss_blogpost');
 
 
 --
