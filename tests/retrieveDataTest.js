@@ -106,10 +106,17 @@ describe("items Cron script", () => {
       expect(itemA).to.be.a('object').not.empty;
       expect(itemB).to.be.a('object').not.empty;
     });
-    it('itemA must have a title and a link not empty', function() {
+    it('itemA must have an enclosure with type "article"', function() {
       expect(itemA.title).to.be.a('string').not.empty;
       expect(itemA.link).to.be.a('string').not.empty;
       expect(itemA.enclosure).to.be.a('string').not.empty;
+      expect(itemA.type === 1).to.be.true;
+    });
+    it('itemB must have an enclosure with type "mp3"', function() {
+      expect(itemB.title).to.be.a('string').not.empty;
+      expect(itemB.link).to.be.a('string').not.empty;
+      expect(itemB.enclosure).to.be.a('string').not.empty;
+      expect(itemB.type == 2).to.be.true;
     });
   });
 

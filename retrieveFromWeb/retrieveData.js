@@ -8,6 +8,7 @@ let parser = new Parser({
   }
 });
 const moment = require('moment');
+let ETypeMedia = {"article":1, "mp3": 2};
 
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
@@ -56,6 +57,7 @@ function parseItem(item) {
       title: item.title.replace(/'/g, "''"),
       description: item.content ? item.content.replace(/'/g, "''") : "",
       pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
+      type : ETypeMedia.article,
       link: item.link,
       language: item.language,
       category: item.category
@@ -64,11 +66,19 @@ function parseItem(item) {
   if(item['media:content']){
     parsedItem.enclosure = item['media:content'].$.url;
   } else if (item.image) {
-    parsedItem.enclosure = item.image.url;
+    parsedItem.enclosure =
+      Array.isArray(item.image.url)
+        ?  item.image.url[0]
+        : item.image.url;
   } else if (item.enclosure) {
     parsedItem.enclosure = item.enclosure.url;
   }
-  
+
+  if(parsedItem.enclosure && parsedItem.enclosure.endsWith(".mp3")){
+      parsedItem.type = ETypeMedia.mp3;
+  }
+
+
   return parsedItem;
 }
 

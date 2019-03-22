@@ -221,7 +221,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
                   vAItem->>'title',
                   vAItem->>'description',
                   vAItem->>'enclosure',
-                  NULL,
+                  to_number(vAItem->>'type', '99G999D9S'),
                   vAItem->>'link',
                   to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
@@ -631,8 +631,8 @@ INSERT INTO public.source VALUES (16, 'Washington Post - WorldViews', 'http://fe
 -- Data for Name: type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.type VALUES (1, 'image');
-INSERT INTO public.type VALUES (2, 'article');
+INSERT INTO public.type VALUES (1, 'article');
+INSERT INTO public.type VALUES (2, 'mp3');
 
 
 --
