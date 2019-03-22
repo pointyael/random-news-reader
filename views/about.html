@@ -1,13 +1,79 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
-  <title>A Propos</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+	<title>Randomizer</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../public/css/about.css">
+	<link rel="shortcut icon" href="../public/img/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-  <h1>A Propos</h1>
-  <p>Lorem ipsum</p>
+<body id="about">
+
+	<header>
+		<a href="./"><img src="../public/img/GoldfishNews.png" alt="Goldfish News Logo"></a>
+
+		<div class="switchButton">
+			<div id="topbar" class="bar"></div>
+			<div id="middlebar" class="bar"></div>
+			<div id="bottombar" class="bar"></div>
+		</div>
+	</header>
+
+	<div class="sidebar">
+		<blockquote>
+			<p id="quote"></p>
+		</blockquote>
+		<a href="#">Filtrer par langue</a>
+		<a href="#">Filtrer par ceci</a>
+		<a href="#">Filtrer par cela</a>
+		<a class="bottomLink" href="./about">A propos</a>
+	</div>
+
+	<main>
+		<h1 id="headline">WELCOME TO THE INTERNET!</h1>
+		<p class="text">Internet est censé être un océan immense proposant les contenus les plus divers.</p>
+		<p class="text">On y trouve pourtant les mêmes articles, abordant le même sujet, à la même date.</p>
+		<p class="text"> C’est parce que les contenus qui vous parviennent, qu’il s’agisse d’actualité brûlante,
+			amusante, ou d’articles de fond ont été triés au préalable.</p>
+		<p class="text">Nous vous proposons une expérience de navigation dépersonnalisée : c’est uniquement le hasard
+			qui va déterminer les contenus qui vous seront proposés.</p>
+		<p class="text">Si vous pensez que le monde est bien plus vaste que son reflet médiatique, que l’on prend pour
+			la réalité, si vous ne comprenez pas pourquoi un logiciel devrait faire semblant d’avoir été conçu
+			exclusivement pour vous, essayez GOLDFISH NEWS.</p>
+		<p class="text">Nous vous proposons de faire l’expérience rafraîchissante d’un fil d’actualité qui se fiche
+			complètement de vos préférences présumées, de votre activité sur les réseaux sociaux, ou de la longue liste
+			de vos clics précédents.</p>
+		<p class="text">Pas d’algorithme surpuissant visant à restreindre votre navigation.</p>
+		<p class="text">Aucun contrôle éditorial.</p>
+		<p class="text">Si internet est un océan plein de bons trucs à manger, nous sommes des poissons rouges dans un
+			bocal.</p>
+		<p class="text">Trois fois par jour, une main intéressée saupoudre la surface de nourriture lyophilisée.</p>
+		<p class="text">Sortons du bocal et avalons ce que l’on veut, on verra bien ce que l’on est capable de digérer.
+		</p>
+		<p class="text">Ce site vous propose d’accéder à un contenu puisé au hasard dans les fils d’actualité du monde
+			entier.</p>
+		<p class="text">Si vous le souhaitez, vous pourrez éliminer certains types de contenu de l’affichage.</p>
+		<p class="text">Informez-vous
+			comme vous le souhaitez.</p>
+		<p class="text">Soit personne n’a raison, soit tout le monde a raison. A vous de choisir.</p>
+		<p class="text">Bonus! Prenez le pouls de la planète Terre. Le jour où tous les articles sur GOLDFISH NEWS
+			parleront de la même
+			chose, elle sera dans le coma.</p>
+	</main>
+
+	<footer>
+		<a href="./">
+			<div id="btnRefresh">
+				<span id="randomizePhrase"></span>
+				<i class="fa fa-refresh fa-spin"></i>
+			</div>
+		</a>
+	</footer>
+
+	<script src="../public/js/aboutFunction.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,26 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #2b4162;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar{
+    color: #f5f0f6;
+    background-color: #ff5a5f;
+}
+
+figure figcaption {
+    background: rgb(234, 234, 234);
+}
+
+figcaption, p, a{
+    font-family: Arial Rounded MT;
+}
+
+.sidebar div{
+    color:#ff9699;
+    font-family: Arial Rounded MT;
+}
+
+.checkbox:checked + .label-check{
+    background-color: #ff9699;
+    color: #f5f0f6;
+}

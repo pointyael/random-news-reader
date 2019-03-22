@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./node_modules/.bin/mocha --recursive -R xunit tests/**.js > build/test-result/test-reports.xml"
+    "test": "mocha --timeout 10000 --require co-mocha ./tests/**.js"
   },
   "dependencies": {
     "chai-http": "^4.2.1",
@@ -14,6 +14,7 @@
     "dotenv": "^6.2.0",
     "express": "~4.16.0",
     "it-each": "^0.4.0",
+    "moment": "^2.24.0",
     "mongoose": "^5.4.10",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
