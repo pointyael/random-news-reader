@@ -219,11 +219,11 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
               VALUES
                 (
                   vAItem->>'title',
-                  vAItem->>'description' ,
+                  vAItem->>'description',
                   vAItem->>'enclosure',
                   NULL,
                   vAItem->>'link',
-                  to_timestamp(vAItem->>'pubDate', 'YYY-MM-DD HH24:MI:SS'),
+                  to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
                   vCategoryId,
                   to_number("pSource"->>'id', '99G999D9S')

@@ -1,6 +1,13 @@
 let Parser = require('rss-parser');
+let parser = new Parser({
+  customFields: {
+    item: [
+      ['image', 'image'],
+      ['media:content', 'media:content']
+    ]
+  }
+});
 const moment = require('moment');
-let parser = new Parser();
 
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
@@ -26,21 +33,8 @@ async function _processItems(parsedFeed){
     let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
 
     parsedFeed.items.forEach(item => {
-        item.title = item.title.replace(/'/g, "''");
-        // Be careful --> content =/= description
-        // In RSS the description field  is required instead of content
-        item.description = item.content ? item.content.replace(/'/g, "''") : "";
 
-        itemSchema = {
-            title: item.title,
-            description: item.description,
-            //content: item.content,
-            enclosure: item.enclosure ? item.enclosure.url : "",
-            pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
-            link: item.link,
-            language: item.language,
-            category: item.category
-          }
+        itemSchema = parseItem(item);
 
         if
         (
@@ -51,6 +45,31 @@ async function _processItems(parsedFeed){
     });
 
     return itemArray;
+}
+
+function parseItem(item) {
+
+  // Be careful --> content =/= description
+  // In RSS the description field  is required instead of content
+  var parsedItem =
+  {
+      title: item.title.replace(/'/g, "''"),
+      description: item.content ? item.content.replace(/'/g, "''") : "",
+      pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
+      link: item.link,
+      language: item.language,
+      category: item.category
+  };
+
+  if(item['media:content']){
+    parsedItem.enclosure = item['media:content'].$.url;
+  } else if (item.image) {
+    parsedItem.enclosure = item.image.url;
+  } else if (item.enclosure) {
+    parsedItem.enclosure = item.enclosure.url;
+  }
+  
+  return parsedItem;
 }
 
 async function getItems(link) {
@@ -66,5 +85,6 @@ async function getFeedData(link) {
 
 module.exports = {
     getItems,
-    getFeedData
+    getFeedData,
+    parseItem
 }
