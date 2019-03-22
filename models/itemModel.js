@@ -60,7 +60,7 @@ const getRandomItemsNotLike = (request, response) => {
 }
 
 /* Insert items in data base */
-const insertItems = (request, response) => {
+const insertItems = () => {
 
     deleteOldItems();
 
@@ -104,12 +104,13 @@ const insertItems = (request, response) => {
 }
 
 const deleteOldItems =
-() =>
-{
-  db
-  .any('CALL "deleteOldItemsProc"()')
-  .catch(function(err) {console.log(err);});
-}
+  function()
+  {
+    db
+    .any('CALL "deleteOldItemsProc"()')
+    .then( function() {})
+    .catch(function(err) {console.log(err);} );
+  }
 
 module.exports = {
     getAllItems,

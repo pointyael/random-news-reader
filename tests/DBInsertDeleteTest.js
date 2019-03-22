@@ -54,7 +54,7 @@ describe(
         var itemsData;
         before(async function()
         {
-          await Item.insertItems;
+          await Item.insertItems();
           await Item.getAllItems(itemsData);
         });
 
