@@ -1,0 +1,30 @@
+<!--
+  Description:  sx:sync without sharing
+  Expect:       !Error
+-->
+
+<feed xmlns="http://www.w3.org/2005/Atom"
+    xmlns:sx="http://feedsync.org/2007/feedsync">
+ <title>To Do List</title>
+ <subtitle>A list of items to do</subtitle>
+ <link rel="self" href="http://example.com/partial.xml"/>
+ <author>
+   <name>Ray Ozzie</name>
+ </author>
+ <updated>2005-05-21T11:43:33Z</updated>
+ <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0aaa</id>
+ <entry>
+  <title>Buy groceries</title>
+  <content>Get milk, eggs, butter and bread</content>
+  <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0aa0</id>
+  <author>
+   <name>Ray Ozzie</name>
+  </author>
+  <updated>2005-05-21T11:43:33Z</updated>
+  <sx:sync id="item_1_myapp_2005-05-21T11:43:33Z" updates="3">
+   <sx:history sequence="3" when="2005-05-21T11:43:33Z" by="JEO2000"/>
+   <sx:history sequence="2" when="2005-05-21T10:43:33Z" by="REO1750"/>
+   <sx:history sequence="1" when="2005-05-21T09:43:33Z" by="REO1750"/>
+  </sx:sync>
+ </entry>
+</feed>
