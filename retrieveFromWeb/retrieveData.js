@@ -70,7 +70,7 @@ function parseItem(item) {
       Array.isArray(item.image.url)
         ?  item.image.url[0]
         : item.image.url;
-  } else if (item.enclosure) {
+  } else if (item.enclosure && item.enclosure.url.length > 0) {
     parsedItem.enclosure = item.enclosure.url;
   }
 

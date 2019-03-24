@@ -38,8 +38,7 @@ BEGIN
       SELECT sou_id FROM source
       WHERE
         sou_id IN (
-        	SELECT ite_source FROM item
-        	GROUP BY ite_source
+        	SELECT DISTINCT ite_source FROM item
         )
       ORDER BY RANDOM()
       LIMIT 12
