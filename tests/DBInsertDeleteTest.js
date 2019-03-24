@@ -25,7 +25,7 @@ describe(
 
         it
         (
-          'should be items with ite_pubdate > now() - 2 days',
+          'After delete, all items should have ite_pubdate > now() - 2 days',
           function () {
             let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
 
@@ -59,7 +59,7 @@ describe(
         });
 
         it(
-          'items must be inserted into the database and must be younger than two days',
+          'after insert, all items must be inserted into the database and must be younger than two days',
           function()
           {
             let dateMinusTwoDays = moment().add(-2, 'days');
