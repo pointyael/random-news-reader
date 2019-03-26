@@ -63,12 +63,22 @@ describe("Item parser test", () => {
          keywords: 'Loi renseignement,' },
       description:
        'Le Monde selon Edwy Plenel, tous les jeudi matin sur France Culture.'
-    };
+    },
+    itemToParseC =
+    {
+      title: 'The Cause launches fundraising tour in honour of Keith Flint',
+      description:'<p><img src="https://mixmag.net/assets/uploads/images/_twoThirds/flint.jpg"></p><p>All proceeds will be donated to mental health charities Mind and CALM</p><p><a href="https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news">Continue reading...</a></p>',
+      pubDate: '2019-03-24 13:30:00',
+      link:'https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news',
+      guid : "https://mixmag.net/read/gather-outdoors-festival-phase-two-line-up-news",
+      enclosure: 'https://mixmag.net/assets/uploads/images/_twoThirds/flint.jpg'
+   };
 
     before(function()
     {
       itemA = parser.aItem(itemToParseA);
       itemB = parser.aItem(itemToParseB);
+      itemC = parser.aItem(itemToParseC);
     });
     it('items must be parsed and not null', function() {
       expect(itemA).to.be.a('object').not.empty;
@@ -85,6 +95,12 @@ describe("Item parser test", () => {
       expect(itemB.link).to.be.a('string').not.empty;
       expect(itemB.enclosure).to.be.a('string').not.empty;
       expect(itemB.type == 2).to.be.true;
+    });
+    it('itemC must have an enclosure with type "article"', function() {
+      expect(itemC.title).to.be.a('string').not.empty;
+      expect(itemC.link).to.be.a('string').not.empty;
+      expect(itemC.enclosure).to.be.a('string').not.empty;
+      expect(itemC.type == 1).to.be.true;
     });
   });
 });

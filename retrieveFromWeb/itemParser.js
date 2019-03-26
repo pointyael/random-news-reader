@@ -32,9 +32,41 @@ const getEnclosure = (item) => {
       Array.isArray(item.image.url)
         ?  item.image.url[0]
         : item.image.url;
-  } else if (item.enclosure && item.enclosure.url.length > 0) {
+  } else if (item.enclosure && item.enclosure.url) {
     parsedItem.enclosure = item.enclosure.url;
+  } else {
+    analyseContent(item);
   }
+}
+
+const analyseContent = (item) => {
+  var enclosureHead = null ;
+
+  if(
+    item.description
+    && (
+      enclosureHead =
+        item.description
+        .split(/img src="/)[1]
+    )
+  ) {
+    parsedItem.enclosure =
+      enclosureHead
+      .split(/"/)[0];
+  }
+  else if(
+    item.content
+    && (
+      enclosureHead =
+        item.content
+        .split(/img src="/)[1]
+    )
+  ) {
+    parsedItem.enclosure =
+      enclosureHead
+      .split(/"/)[0];
+  }
+
 }
 
 module.exports =
