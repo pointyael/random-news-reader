@@ -4,6 +4,7 @@ const expect = require('chai').expect;
 require('it-each')({ testPerIteration: true });
 
 const link = "http://www.linternaute.com/rss/";
+const linkLibe = "http://rss.liberation.fr/rss/9/";
 
 describe("items Cron script", () => {
     describe('"getFeedData" from one link : linternaute.com/rss/', () => {
@@ -19,7 +20,7 @@ describe("items Cron script", () => {
         );
     });
 
-    describe('"Items" from one link : linternaute.com/rss/', () => {
+    describe('"getItems" from one link : linternaute.com/rss/', () => {
         var items;
         before(async function(){
             items = await itemRetrieving.getItems(link);
@@ -36,5 +37,21 @@ describe("items Cron script", () => {
         });
     });
 
+    describe('"getItems" from one link : rss.liberation.fr/rss/9/', () => {
+        var items;
+        before(async function(){
+            items = await itemRetrieving.getItems(linkLibe);
+        });
+        it('getItems return should be an array not empty', async function(){
+            expect(items).to.be.an('array').not.empty;
+        });
 
+        it('items should have an enclosure not empty too', async function(){
+            items.forEach(item => {
+                expect(item.title).to.be.a('string').not.empty;
+                expect(item.link).to.be.a('string').not.empty;
+                //expect(item.enclosure).to.be.a('string').not.empty;
+            });
+        });
+    });
 });

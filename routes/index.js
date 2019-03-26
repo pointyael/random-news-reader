@@ -17,7 +17,7 @@ router.get('/about', function(req, res, next) {
 router.get('/random-items',
   async function(req, res, next)
   {
-    Item.getRandomItems(req, res);
+    await Item.getRandomItems(req, res);
   }
 );
 

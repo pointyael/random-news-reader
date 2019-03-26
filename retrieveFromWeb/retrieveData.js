@@ -1,10 +1,19 @@
-let Parser = require('rss-parser');
+const Parser = require('rss-parser');
+const RSSParser = new Parser({
+  customFields: {
+    item: [
+      ['image', 'image'],
+      ['media:content', 'media:content']
+    ]
+  }
+});
+
 const moment = require('moment');
-let parser = new Parser();
+const itemParser = require('./itemParser.js');
 
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
-    let parsedFeed = await parser.parseURL(link);
+    let parsedFeed = await RSSParser.parseURL(link);
     return parsedFeed;
 }
 
@@ -26,21 +35,8 @@ async function _processItems(parsedFeed){
     let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
 
     parsedFeed.items.forEach(item => {
-        item.title = item.title.replace(/'/g, "''");
-        // Be careful --> content =/= description
-        // In RSS the description field  is required instead of content
-        item.description = item.content ? item.content.replace(/'/g, "''") : "";
 
-        itemSchema = {
-            title: item.title,
-            description: item.description,
-            //content: item.content,
-            enclosure: item.enclosure ? item.enclosure.url : "",
-            pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
-            link: item.link,
-            language: item.language,
-            category: item.category
-          }
+        itemSchema = parseItem(item);
 
         if
         (
@@ -51,6 +47,10 @@ async function _processItems(parsedFeed){
     });
 
     return itemArray;
+}
+
+function parseItem(item) {
+  return itemParser.aItem(item);
 }
 
 async function getItems(link) {
@@ -66,5 +66,6 @@ async function getFeedData(link) {
 
 module.exports = {
     getItems,
-    getFeedData
+    getFeedData,
+    parseItem
 }
