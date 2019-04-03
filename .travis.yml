@@ -15,8 +15,6 @@ before_install:
 - sudo apt-get -y install postgresql-11 postgresql-client-11
 - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
 - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
-
-before_script:
 - sudo service postgresql restart 11.1
 - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
 - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
