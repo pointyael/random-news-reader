@@ -3,9 +3,15 @@
 rURL = require('../retrieveFromWeb/retrieveURL');
 rFL = require('../retrieveFromWeb/retrieveFeedLinks');
 rURL.getRandomWord(function(word){
-    rURL.getRandomURL(word, function(randomURL){
-        rFL.getFeedLinks(randomURL, function(feed) {
-            console.log(feed);
-        })
+    rURL.getSearchResult(word, function(label, searchResult, search_engine){
+        rURL.processSearchResults(label, searchResult, search_engine, function(URL){
+            if(URL) {
+                rFL.getFeedLinks(URL, function(feed) {
+                    console.log(feed);
+                });
+            }
+        });
     });
 })
+
+

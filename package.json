@@ -17,6 +17,8 @@
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
     "pg-promise": "^8.5.5",
+    "puppeteer": "^1.14.0",
+    "python-shell": "^1.0.7",
     "request": "^2.88.0",
     "rss-parser": "^3.6.2",
     "se-scraper": "^1.2.11",
