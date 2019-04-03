@@ -119,10 +119,11 @@ div .fa.fa-refresh.fa-spin{
 	font-size: 25px;
 	white-space: nowrap;
 	transition: 0.3s;
-}
+	cursor: pointer;
+} 
 
-.sidebar div:hover {
-	color: #f1f1f1;
+.sidebar div:nth-child(n+2):hover {
+	color: #fff;
 }
 
 .sidebar div.bottomLink {
@@ -180,11 +181,6 @@ blockquote p {
 	display: none;
 }
 
-/* .checkbox:checked + .label-check{
-	background-color: red;
-	color: #fff;
-} */
-
 .sidebar label {
 	cursor: pointer;
 	margin: 5px 2px;
@@ -194,14 +190,6 @@ blockquote p {
 	border-radius: 25px;
 	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
 }
-
-/* 
-.sidebar label:hover {
-	background: #66bd84;
-	color: #000;
-	font-weight: bold;
-} */
-
 
 
 /*------------------*/
