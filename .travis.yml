@@ -14,7 +14,8 @@ addons:
 
 
 before_script:
-  - sudo apt-get install python2
+  - apt-cache search python | less
+  - sudo apt-get install python2.7
   - sudo /etc/init.d/postgresql stop
   - sudo apt-get -y remove --purge postgresql*
   - sudo apt-get -y autoremove
