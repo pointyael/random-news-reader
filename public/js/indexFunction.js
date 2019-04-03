@@ -1,14 +1,19 @@
 /*----------------------------------------------------------*/
 /* 					  REFRESH DE LA PAGE		 	   		*/
 /*----------------------------------------------------------*/
+var buttonRefresh = document.getElementById('btnRefresh');
+var main = document.getElementsByTagName('main')[0];
 
 function refreshItems() {
-	var main = document.getElementsByTagName('main')[0];
 	main.innerHTML = "";
 	displayItems();
 }
 
-document.getElementsByClassName('float')[0].addEventListener('click', refreshItems);
+buttonRefresh.addEventListener('click', function () { 
+	generateStyle(); 
+	refreshItems();
+	closeSidebarMenu();
+});
 
 /*----------------------------------------------------------*/
 /* 			DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 			*/
@@ -26,7 +31,7 @@ function switchDisplay() {
 	topbar.classList.toggle('top');
 	middlebar.classList.toggle('middle');
 	bottombar.classList.toggle('bottom');
-	if (sidebar.classList.contains('opened')){
+	if (sidebar.classList.contains('opened')) {
 		displayQuote();
 	}
 }
@@ -56,65 +61,95 @@ function closeModal() {
 window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 close.addEventListener('click', closeModal);
 
-window.addEventListener('keypress', function(e) {
+window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
 	}
 });
 
-
 /*----------------------------------------------------------*/
-/* 							ITEMS 							*/
+/* 						DISPLAY ITEMS 						*/
 /*----------------------------------------------------------*/
 function displayItems() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 
-			
 			/* Recuperation */
 			var items = JSON.parse(this.responseText);
 			var main = document.getElementsByTagName('main')[0];
 
 			/* Affichage */
-			for (var i = 0; i < items.length; i++){
+			for (var i = 0; i < items.length; i++) {
 				main.innerHTML += displayItem(items[i]);
 			}
 
 			/* Refresh on click */
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
-				actualItems[i].addEventListener('click', refreshItems);
-				actualItems[i].addEventListener('click', displayRefreshPhrase);
-				actualItems[i].addEventListener('click', displayQuote);
+				actualItems[i].addEventListener('mouseup', checkButton);
+				actualItems[i].addEventListener('click', function(){
+					refreshItems();
+					displayRefreshPhrase();
+					displayQuote();
+					generateStyle();
+					closeSidebarMenu();
+				});
 			}
 		}
 	};
-	
-	req.open("GET", "http://localhost:3000/random-items");
+
+	var exclusion="";
+	var checkboxs = document.getElementsByClassName('checkbox');
+	for (var i = 0; i < checkboxs.length; i++){
+		if (checkboxs[i].checked){
+			if (exclusion == ""){
+				exclusion += checkboxs[i].value;
+			}
+			else{
+				exclusion += "+" + checkboxs[i].value;
+			}
+		}
+	}
+
+	if (exclusion != ""){
+		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+	}
+	else{
+		req.open("GET", "http://localhost:3000/random-items");
+	}
+
 	req.send();
 }
 
-function displayItem(item){
+function checkButton(event) {
+	if (event.button == 1) {
+		refreshItems();
+		displayRefreshPhrase();
+		displayQuote();
+	}
+}
+
+function displayItem(item) {
 	var html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
-				'<figure>' +
-					'<img src="' +  item["ite_enclosure"] +'" alt=""/> '+
-					'<figcaption>'+ item["ite_title"] +'</figcaption>'+
-				'</figure>' +
-			'</a>';
+		'<figure>' +
+		'<img src="' + item["ite_enclosure"] + '" alt=""/> ' +
+		'<figcaption>' + item["ite_title"] + '</figcaption>' +
+		'</figure>' +
+		'</a>';
 	return html;
 }
 
 window.onload = displayItems();
 
 /*----------------------------------------------------------*/
-/* 						BTN REFRESH QUOTE 					*/
+/* 					BTN REFRESH QUOTE 						*/
 /*----------------------------------------------------------*/
-function displayRefreshPhrase(){
+function displayRefreshPhrase() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
@@ -130,7 +165,7 @@ function displayRefreshPhrase(){
 			btnRefresh.addEventListener('click', displayQuote);
 		}
 	};
-	
+
 	req.open("GET", "http://localhost:3000/random-btnQuote");
 	req.send();
 }
@@ -140,10 +175,10 @@ window.onload = displayRefreshPhrase();
 /*----------------------------------------------------------*/
 /* 							QUOTE 							*/
 /*----------------------------------------------------------*/
-function displayQuote(){
+function displayQuote() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function() {
+	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
@@ -154,9 +189,45 @@ function displayQuote(){
 			quoteSpan.innerHTML = quote["quo_quote"];
 		}
 	};
-	
+
 	req.open("GET", "http://localhost:3000/random-quote");
 	req.send();
 }
 
 window.onload = displayQuote();
+
+/*-----------------------------*/
+/*            STYLE            */
+/*-----------------------------*/
+var styleLink = document.getElementById('style');
+var logo = document.getElementById('logo');
+
+function generateStyle() {
+
+	if (styleLink.getAttribute('theme')) {
+		var currentTheme = styleLink.getAttribute('theme');
+	}
+
+	var randomNumber = Math.floor(Math.random() * 5) + 1;
+
+	if (randomNumber != currentTheme) {
+		styleLink.setAttribute('theme', randomNumber);
+		styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css');
+		logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
+	} else {
+		generateStyle();
+	}
+}
+
+document.onload = generateStyle();
+
+/*----------------------------------------------------------*/
+/*                    CLOSE SIDEBAR MENU                    */
+/*----------------------------------------------------------*/
+function closeSidebarMenu(){
+	document.getElementsByClassName('sidebar')[0].classList.remove('opened');
+
+	topbar.classList.remove('top');
+	middlebar.classList.remove('middle');
+	bottombar.classList.remove('bottom');
+}
