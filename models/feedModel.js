@@ -1,4 +1,4 @@
-var pgp = require("pg-promise")();
+var db = require("../database/dbFactory").db;
 
 /*
 CREATE TABLE public.source (
