@@ -8,22 +8,20 @@ node_js:
 
 addons:
   postgresql: "11.1"
-  apt:
-    packages:
-    - postgresql-11
-    - postgresql-client-11
+
 env:
   global:
   - PGPORT=5433
 
 before_install:
 - sudo /etc/init.d/postgresql stop
-
+- sudo apt-get install postgres-11 postgres-client-11
+- sudo /etc/init.d/postgresql restart 11.1
 
 before_script:
 - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
 - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
-- sudo service postgresql restart
+- sudo service postgresql restart 11.1
 - psql -c 'CREATE DATABASE randomizer;' -U postgres
 - psql -U postgres randomizer < ./database/exportSql.sql
 
