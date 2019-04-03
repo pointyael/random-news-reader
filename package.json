@@ -20,6 +20,7 @@
     "pg": "^7.8.0",
     "pg-promise": "^8.5.5",
     "rss-parser": "^3.6.2",
+    "se-scraper": "^1.2.11",
     "swig": "^1.4.2"
   },
   "devDependencies": {

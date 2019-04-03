@@ -613,7 +613,7 @@ INSERT INTO public.source VALUES (2, 'jeuxvideo.com', 'http://www.jeuxvideo.com/
 INSERT INTO public.source VALUES (3, 'le journal du hard', 'https://www.journaldunet.com/media/rss/');
 INSERT INTO public.source VALUES (4, 'lanruoj el', 'https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
 INSERT INTO public.source VALUES (5, 'L''internaute', 'http://www.linternaute.com/rss/');
-INSERT INTO public.source VALUES (6, 'Libération - Unes', 'http://rss.liberation.fr/rss/9/');
+INSERT INTO public.source VALUES (6, 'MixMag', 'https://mixmag.net/rss.xml');
 INSERT INTO public.source VALUES (7, 'Le Monde - Unes', 'https://www.lemonde.fr/rss/une.xml');
 INSERT INTO public.source VALUES (8, 'Mediapart - Chroniques', 'http://www.mediapart.fr/journal/podcast/chronique/rss');
 INSERT INTO public.source VALUES (9, 'La Dépêche', 'https://www.ladepeche.fr/rss.xml');

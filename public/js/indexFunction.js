@@ -9,7 +9,11 @@ function refreshItems() {
 	displayItems();
 }
 
-buttonRefresh.addEventListener('click', function () { generateStyle(); refreshItems(); });
+buttonRefresh.addEventListener('click', function () { 
+	generateStyle(); 
+	refreshItems();
+	closeSidebarMenu();
+});
 
 /*----------------------------------------------------------*/
 /* 			DISPLAY/HIDE SIDEBAR AVEC LES FILTRES 			*/
@@ -85,17 +89,34 @@ function displayItems() {
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('mouseup', checkButton);
-				actualItems[i].addEventListener('click', refreshItems);
-				actualItems[i].addEventListener('click', displayRefreshPhrase);
-				actualItems[i].addEventListener('click', displayQuote);
+				actualItems[i].addEventListener('click', function(){
+					refreshItems();
+					displayRefreshPhrase();
+					displayQuote();
+					generateStyle();
+					closeSidebarMenu();
+				});
 			}
 		}
 	};
 
-	var cadeau = document.getElementById('checkbox4');
-	if (cadeau.checked){
-		req.open("GET", "http://localhost:3000/random-items/"+cadeau.value);
-	}else{
+	var exclusion="";
+	var checkboxs = document.getElementsByClassName('checkbox');
+	for (var i = 0; i < checkboxs.length; i++){
+		if (checkboxs[i].checked){
+			if (exclusion == ""){
+				exclusion += checkboxs[i].value;
+			}
+			else{
+				exclusion += "+" + checkboxs[i].value;
+			}
+		}
+	}
+
+	if (exclusion != ""){
+		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+	}
+	else{
 		req.open("GET", "http://localhost:3000/random-items");
 	}
 
@@ -200,34 +221,13 @@ function generateStyle() {
 
 document.onload = generateStyle();
 
-/*-----------------------------*/
-/*           FILTER            */
-/*-----------------------------*/
-var keywordsDiv = document.getElementById('keywordsFilter');
-var inputs = keywordsDiv.getElementsByTagName('input');
+/*----------------------------------------------------------*/
+/*                    CLOSE SIDEBAR MENU                    */
+/*----------------------------------------------------------*/
+function closeSidebarMenu(){
+	document.getElementsByClassName('sidebar')[0].classList.remove('opened');
 
-for (var i = 0; i < inputs.length; i++) {
-	var label = inputs[i].labels[0];
-	if (inputs[i].checked) {
-		console.log('ok');
-		label.style.backgroundColor = "inherit";
-		label.style.color = "red";
-		// label.classList.add("selected");
-	}
-	else {
-		// label.classList.remove("selected");
-	}
-	// inputs[i].addEventListener('click', changeColorFilter(i));
-}
-
-function changeColorFilter(index) {
-	var label = inputs[index].labels[0];
-	if (inputs[index].checked) {
-		// label.style.backgroundColor = "inherit";
-		// label.style.color = "red";
-		label.classList.add("selected");
-	}
-	else {
-		label.classList.remove("selected");
-	}
+	topbar.classList.remove('top');
+	middlebar.classList.remove('middle');
+	bottombar.classList.remove('bottom');
 }
