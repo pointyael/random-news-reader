@@ -11,7 +11,16 @@ matrix:
     node_js:
       - "lts/*"
 
+      services:
+        - postgresql
+
+        addons:
+          postgresql: "11.1"
+
+
           before_script:
+            - apt-cache search python | less
+            - sudo apt-get install python2.7
             - sudo /etc/init.d/postgresql stop
             - sudo apt-get -y remove --purge postgresql*
             - sudo apt-get -y autoremove
