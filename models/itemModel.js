@@ -10,16 +10,13 @@ let language;
 let theme;
 
 /* Query all items from db => only for test */
-const getAllItems = (request, response) =>
+const getAllItems = (response) =>
 {
   db
   .any("SELECT * from item")
   .then
   (
-    function(data)
-    {
-      response.status(200).json(data);
-    }
+    function(data) { response = data; }
   )
   .catch(function (error) { console.log(error);});
 }
@@ -63,7 +60,7 @@ const getRandomItemsNotLike = (request, response) => {
 }
 
 /* Insert items in data base */
-const insertItems = (request, response) => {
+const insertItems = () => {
 
     deleteOldItems();
 
@@ -73,9 +70,10 @@ const insertItems = (request, response) => {
       function (data)
       {
         data.forEach(
-          source =>
+          async function(source)
           {
-            ItemsRetrieved
+
+            await ItemsRetrieved
             .getItems(source.sou_link)
             .then
             (
@@ -86,12 +84,14 @@ const insertItems = (request, response) => {
                   title: source.sou_name,
                   link: source.sou_link
                 }
+
                 feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
 
                 itemsJsonString = (JSON.stringify(res));
 
                 db
                 .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                .then(function(status) {})
                 .catch(function(err) {console.log(err)});
               }
             )
@@ -106,12 +106,13 @@ const insertItems = (request, response) => {
 }
 
 const deleteOldItems =
-() =>
-{
-  db
-  .any('CALL "deleteOldItemsProc"()')
-  .catch(function(err) {console.log(err);});
-}
+  function()
+  {
+    db
+    .any('CALL "deleteOldItemsProc"()')
+    .then( function() {})
+    .catch(function(err) {console.log(err);} );
+  }
 
 module.exports = {
     getAllItems,

@@ -1,7 +1,7 @@
 let Parser = require('rss-parser');
 let parser = new Parser();
 
-var retrieveItemsFromLink = function(link) {
+var retrieveItemsFromLink = async function(link) {
     let webFeed = await parser.parseURL(link);
 }
 
