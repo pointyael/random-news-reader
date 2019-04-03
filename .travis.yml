@@ -17,15 +17,15 @@ env:
   - PGPORT=5433
 
 before_install:
-  - sudo /etc/init.d/postgresql stop
-  - sudo /etc/init.d/postgresql restart 
+- sudo /etc/init.d/postgresql stop
+
 
 before_script:
-  - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
-  - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
-  - sudo service postgresql restart
-  - psql -c 'CREATE DATABASE randomizer;' -U postgres
-  - psql -U postgres randomizer < ./database/exportSql.sql
+- sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
+- sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
+- sudo service postgresql restart
+- psql -c 'CREATE DATABASE randomizer;' -U postgres
+- psql -U postgres randomizer < ./database/exportSql.sql
 
 script :
   - npm install
