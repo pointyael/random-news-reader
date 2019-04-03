@@ -16,6 +16,10 @@ env:
   global:
   - PGPORT=5433
 
+before_install:
+  - sudo /etc/init.d/postgresql stop
+  - sudo /etc/init.d/postgresql restart 
+
 before_script:
   - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
   - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
