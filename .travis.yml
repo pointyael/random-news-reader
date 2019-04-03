@@ -1,12 +1,10 @@
 branches:
   only:
   - /.*/
-  
+
 language: node_js
 node_js:
   - "lts/*"
-  python:
-    - "2.7"
 
 addons:
   postgresql: "11.1"
@@ -28,6 +26,3 @@ before_script:
 script :
   - npm install
   - npm test
-
-notifications:
-    email: false
