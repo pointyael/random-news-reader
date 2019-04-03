@@ -6,7 +6,7 @@ language: node_js
 node_js:
   - "lts/*"
 
-before_install:
+before_script:
 - sudo /etc/init.d/postgresql stop
 - sudo apt-get -y remove --purge postgresql*
 - sudo apt-get -y autoremove
@@ -16,8 +16,6 @@ before_install:
 - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
 - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
 - sudo service postgresql restart 11.1
-
-before_script:
 - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
 - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
 - psql -c 'CREATE DATABASE randomizer;' -U postgres
