@@ -1,3 +1,7 @@
 .env
 build/
+<<<<<<< HEAD
 node_modules/**
+=======
+node_modules/**
+>>>>>>> scrap-RSS

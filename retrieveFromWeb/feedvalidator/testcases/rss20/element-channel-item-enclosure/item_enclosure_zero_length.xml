@@ -1,0 +1,23 @@
+<!--
+  Author:       Sam Ruby (http://intertwingly.net/) and Mark Pilgrim (http://diveintomark.org/)
+  Copyright:    Copyright (c) 2002 Sam Ruby and Mark Pilgrim
+-->
+
+<!--
+  Description:  Enclosure of unknown length
+  Expect:       !Error
+-->
+
+<rss version="2.0">
+<channel>
+<title>Enclosure of unknown length</title>
+<link>http://purl.org/rss/2.0/</link>
+<description>When an enclosure's size cannot be determined, a publisher should use a length of 0.</description>
+<item>
+<title>Invalid item enclosure</title>
+<link>http://purl/org/rss/2.0/?item</link>
+<description>Foo</description>
+<enclosure url="http://live.curry.com/mp3/celebritySCms.mp3" length="0" type="audio/mpeg"/>
+</item>
+</channel>
+</rss>
