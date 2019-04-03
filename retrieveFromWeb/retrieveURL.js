@@ -5,6 +5,8 @@ var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:
 
 var searchEngines = ['google', 'bing', 'baidu', 'webcrawler'];
 
+getRandomURL();
+
 function getRandomURL() {
     db.one("SELECT mot_lib FROM mot ORDER BY RANDOM() LIMIT 1").then(function (word) {
         console.log(word.mot_lib);
@@ -26,7 +28,7 @@ function getRandomURL() {
             fs.readFile('data.json', function(err, data) {
                 let searchResult = JSON.parse(data);
                 console.log(searchResult);
-                if (searchResult.label['1'].results.length != 0) {
+                if (config.search_engine == 'google' || config.search_engine == 'bing') {
                     let randomNumber = Math.floor(Math.random() * Object.keys(searchResult.label).length + 1);
                     let randomString = String(randomNumber);
                     let randomSearchResult = searchResult.label[randomString];
@@ -34,8 +36,6 @@ function getRandomURL() {
                     randomString = String(randomNumber);
                     let randomURL = randomSearchResult.results[randomString].link;
                     return randomURL;
-                } else {
-                    getRandomURL();
                 }
             });
         });
