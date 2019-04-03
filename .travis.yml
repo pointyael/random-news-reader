@@ -9,6 +9,7 @@ node_js:
 before_install:
 - sudo apt-get update
 - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 11" >> /etc/apt/sources.list.d/postgresql.list'
+- sudo /etc/init.d/postgresql stop
 - sudo apt-get -y install postgresql-11 postgresql-client-11
 - sudo /etc/init.d/postgresql stop
 - sudo /etc/init.d/postgresql restart 11.1
