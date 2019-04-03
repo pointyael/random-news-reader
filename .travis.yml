@@ -11,15 +11,7 @@ matrix:
     node_js:
       - "lts/*"
 
-      services:
-        - postgresql
-
-        addons:
-          postgresql: "11.1"
-
-
           before_script:
-            
             - sudo /etc/init.d/postgresql stop
             - sudo apt-get -y remove --purge postgresql*
             - sudo apt-get -y autoremove
