@@ -11,7 +11,7 @@ function getFeedLinks(url, callback){
     };
 
     PythonShell.run('feedfinder.py', options, function (err, results) {
-        if (err) throw err;
+        if (err) { console.log(err); throw err; }
         callback(results);
     });
     console.log(PythonShell.getVersionSync());
