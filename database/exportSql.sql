@@ -265,6 +265,31 @@ CREATE TABLE public.category (
 ALTER TABLE public.category OWNER TO postgres;
 
 --
+-- Name: filtre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.filtre (
+    fil_id integer NOT NULL,
+    fil_mot text
+);
+
+
+ALTER TABLE public.filtre OWNER TO postgres;
+
+--
+-- Name: filtrelocalise; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.filtrelocalise (
+    fll_filtre integer NOT NULL,
+    fll_language integer NOT NULL,
+    fll_localise text
+);
+
+
+ALTER TABLE public.filtrelocalise OWNER TO postgres;
+
+--
 -- Name: item; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -406,6 +431,229 @@ INSERT INTO public.buttonQuote VALUES (44, '');
 INSERT INTO public.category VALUES (1, 'sport');
 INSERT INTO public.category VALUES (2, 'technologie');
 
+--
+-- Data for Name: filtre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.filtre VALUES (1, 'pornographie');
+INSERT INTO public.filtre VALUES (2, 'sport');
+INSERT INTO public.filtre VALUES (3, 'politique');
+INSERT INTO public.filtre VALUES (4, 'people');
+INSERT INTO public.filtre VALUES (5, 'chat');
+INSERT INTO public.filtre VALUES (6, 'musique');
+
+
+--
+-- Data for Name: filtrelocalise; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.filtrelocalise VALUES (1, 1, 'pornografie');
+INSERT INTO public.filtrelocalise VALUES (1, 2, 'pornografi');
+INSERT INTO public.filtrelocalise VALUES (1, 3, 'pornoa');
+INSERT INTO public.filtrelocalise VALUES (1, 4, 'порна');
+INSERT INTO public.filtrelocalise VALUES (1, 5, 'порнография');
+INSERT INTO public.filtrelocalise VALUES (1, 6, 'pornografia');
+INSERT INTO public.filtrelocalise VALUES (1, 7, '色情');
+INSERT INTO public.filtrelocalise VALUES (1, 8, '色情');
+INSERT INTO public.filtrelocalise VALUES (1, 9, 'pornografija');
+INSERT INTO public.filtrelocalise VALUES (1, 10, 'pornografie');
+INSERT INTO public.filtrelocalise VALUES (1, 11, 'pornografi');
+INSERT INTO public.filtrelocalise VALUES (1, 12, 'pornografie');
+INSERT INTO public.filtrelocalise VALUES (1, 13, 'pornography');
+INSERT INTO public.filtrelocalise VALUES (1, 14, 'pornograafia');
+INSERT INTO public.filtrelocalise VALUES (1, 15, 'pornografia');
+INSERT INTO public.filtrelocalise VALUES (1, 16, 'pornographie');
+INSERT INTO public.filtrelocalise VALUES (1, 17, 'pornografía');
+INSERT INTO public.filtrelocalise VALUES (1, 18, 'drabastachd');
+INSERT INTO public.filtrelocalise VALUES (1, 19, 'Pornographie');
+INSERT INTO public.filtrelocalise VALUES (1, 20, 'πορνογραφία');
+INSERT INTO public.filtrelocalise VALUES (1, 21, 'pornography');
+INSERT INTO public.filtrelocalise VALUES (1, 22, 'pornográfia');
+INSERT INTO public.filtrelocalise VALUES (1, 23, 'klámi');
+INSERT INTO public.filtrelocalise VALUES (1, 24, 'pornografi');
+INSERT INTO public.filtrelocalise VALUES (1, 25, 'pornagrafaíocht');
+INSERT INTO public.filtrelocalise VALUES (1, 26, 'pornografia');
+INSERT INTO public.filtrelocalise VALUES (1, 27, 'ポルノ');
+INSERT INTO public.filtrelocalise VALUES (1, 28, '포르노');
+INSERT INTO public.filtrelocalise VALUES (1, 29, 'порно');
+INSERT INTO public.filtrelocalise VALUES (1, 30, 'Porn');
+INSERT INTO public.filtrelocalise VALUES (1, 31, 'porno');
+INSERT INTO public.filtrelocalise VALUES (1, 32, 'pornô');
+INSERT INTO public.filtrelocalise VALUES (1, 33, 'porno');
+INSERT INTO public.filtrelocalise VALUES (1, 34, 'порно');
+INSERT INTO public.filtrelocalise VALUES (1, 35, 'порнографија');
+INSERT INTO public.filtrelocalise VALUES (1, 36, 'pornografie');
+INSERT INTO public.filtrelocalise VALUES (1, 37, 'pornografijo');
+INSERT INTO public.filtrelocalise VALUES (1, 38, 'pornografía');
+INSERT INTO public.filtrelocalise VALUES (1, 39, 'pornografi');
+INSERT INTO public.filtrelocalise VALUES (1, 40, 'pornografi');
+INSERT INTO public.filtrelocalise VALUES (1, 41, 'порнографія');
+INSERT INTO public.filtrelocalise VALUES (2, 1, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 2, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 3, 'kirol');
+INSERT INTO public.filtrelocalise VALUES (2, 4, 'спартыўны');
+INSERT INTO public.filtrelocalise VALUES (2, 5, 'спортен');
+INSERT INTO public.filtrelocalise VALUES (2, 6, 'esports');
+INSERT INTO public.filtrelocalise VALUES (2, 7, '体育');
+INSERT INTO public.filtrelocalise VALUES (2, 8, '體育');
+INSERT INTO public.filtrelocalise VALUES (2, 9, 'sportski');
+INSERT INTO public.filtrelocalise VALUES (2, 10, 'sportovní');
+INSERT INTO public.filtrelocalise VALUES (2, 11, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 12, 'Sport');
+INSERT INTO public.filtrelocalise VALUES (2, 13, 'Sport');
+INSERT INTO public.filtrelocalise VALUES (2, 14, 'Sport');
+INSERT INTO public.filtrelocalise VALUES (2, 15, 'urheilu');
+INSERT INTO public.filtrelocalise VALUES (2, 16, 'sportif');
+INSERT INTO public.filtrelocalise VALUES (2, 17, 'Deportes');
+INSERT INTO public.filtrelocalise VALUES (2, 18, 'spòrs');
+INSERT INTO public.filtrelocalise VALUES (2, 19, 'Sport');
+INSERT INTO public.filtrelocalise VALUES (2, 20, 'αθλητισμός');
+INSERT INTO public.filtrelocalise VALUES (2, 21, 'haʻuki');
+INSERT INTO public.filtrelocalise VALUES (2, 22, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 23, 'íþróttir');
+INSERT INTO public.filtrelocalise VALUES (2, 24, 'Olahraga');
+INSERT INTO public.filtrelocalise VALUES (2, 25, 'spórt');
+INSERT INTO public.filtrelocalise VALUES (2, 26, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 27, 'スポーツ');
+INSERT INTO public.filtrelocalise VALUES (2, 28, '스포츠');
+INSERT INTO public.filtrelocalise VALUES (2, 29, 'Спорт');
+INSERT INTO public.filtrelocalise VALUES (2, 30, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 31, 'sport');
+INSERT INTO public.filtrelocalise VALUES (2, 32, 'esporte');
+INSERT INTO public.filtrelocalise VALUES (2, 33, 'sportiv');
+INSERT INTO public.filtrelocalise VALUES (2, 34, 'спортивный');
+INSERT INTO public.filtrelocalise VALUES (2, 35, 'спортски');
+INSERT INTO public.filtrelocalise VALUES (2, 36, 'športové');
+INSERT INTO public.filtrelocalise VALUES (2, 37, 'šport');
+INSERT INTO public.filtrelocalise VALUES (2, 38, 'deportes');
+INSERT INTO public.filtrelocalise VALUES (2, 39, 'sports');
+INSERT INTO public.filtrelocalise VALUES (2, 40, 'spor');
+INSERT INTO public.filtrelocalise VALUES (2, 41, 'спортивний');
+INSERT INTO public.filtrelocalise VALUES (3, 1, 'beleid');
+INSERT INTO public.filtrelocalise VALUES (3, 2, 'politikë');
+INSERT INTO public.filtrelocalise VALUES (3, 3, 'politika');
+INSERT INTO public.filtrelocalise VALUES (3, 4, 'палітыка');
+INSERT INTO public.filtrelocalise VALUES (3, 5, 'политика');
+INSERT INTO public.filtrelocalise VALUES (3, 6, 'política');
+INSERT INTO public.filtrelocalise VALUES (3, 7, '政策');
+INSERT INTO public.filtrelocalise VALUES (3, 8, '政策');
+INSERT INTO public.filtrelocalise VALUES (3, 9, 'politika');
+INSERT INTO public.filtrelocalise VALUES (3, 10, 'politika');
+INSERT INTO public.filtrelocalise VALUES (3, 11, 'politik');
+INSERT INTO public.filtrelocalise VALUES (3, 12, 'politiek');
+INSERT INTO public.filtrelocalise VALUES (3, 13, 'politics');
+INSERT INTO public.filtrelocalise VALUES (3, 14, 'poliitika');
+INSERT INTO public.filtrelocalise VALUES (3, 15, 'politiikka');
+INSERT INTO public.filtrelocalise VALUES (3, 16, 'politique');
+INSERT INTO public.filtrelocalise VALUES (3, 17, 'política');
+INSERT INTO public.filtrelocalise VALUES (3, 18, 'poileasaidh');
+INSERT INTO public.filtrelocalise VALUES (3, 19, 'Politik');
+INSERT INTO public.filtrelocalise VALUES (3, 20, 'πολιτική');
+INSERT INTO public.filtrelocalise VALUES (3, 21, 'ʻikepili');
+INSERT INTO public.filtrelocalise VALUES (3, 22, 'információ');
+INSERT INTO public.filtrelocalise VALUES (3, 23, 'upplýsingar');
+INSERT INTO public.filtrelocalise VALUES (3, 24, 'informasi');
+INSERT INTO public.filtrelocalise VALUES (3, 25, 'faisnéis');
+INSERT INTO public.filtrelocalise VALUES (3, 26, 'informazioni');
+INSERT INTO public.filtrelocalise VALUES (3, 27, '情報');
+INSERT INTO public.filtrelocalise VALUES (3, 28, '정보');
+INSERT INTO public.filtrelocalise VALUES (3, 29, 'информации');
+INSERT INTO public.filtrelocalise VALUES (3, 30, 'informasjon');
+INSERT INTO public.filtrelocalise VALUES (3, 31, 'informacja');
+INSERT INTO public.filtrelocalise VALUES (3, 32, 'informação');
+INSERT INTO public.filtrelocalise VALUES (3, 33, 'informații');
+INSERT INTO public.filtrelocalise VALUES (3, 34, 'информация');
+INSERT INTO public.filtrelocalise VALUES (3, 35, 'информације');
+INSERT INTO public.filtrelocalise VALUES (3, 36, 'informácie');
+INSERT INTO public.filtrelocalise VALUES (3, 37, 'informacije');
+INSERT INTO public.filtrelocalise VALUES (3, 38, 'información');
+INSERT INTO public.filtrelocalise VALUES (3, 39, 'Information');
+INSERT INTO public.filtrelocalise VALUES (3, 40, 'bilgi');
+INSERT INTO public.filtrelocalise VALUES (3, 41, 'інформація');
+INSERT INTO public.filtrelocalise VALUES (4, 1, 'mense');
+INSERT INTO public.filtrelocalise VALUES (4, 2, 'njerëz');
+INSERT INTO public.filtrelocalise VALUES (4, 3, 'jende');
+INSERT INTO public.filtrelocalise VALUES (4, 4, 'людзі');
+INSERT INTO public.filtrelocalise VALUES (4, 5, 'хора');
+INSERT INTO public.filtrelocalise VALUES (4, 6, 'persones');
+INSERT INTO public.filtrelocalise VALUES (4, 7, '人');
+INSERT INTO public.filtrelocalise VALUES (4, 8, '人');
+INSERT INTO public.filtrelocalise VALUES (4, 9, 'ljudi');
+INSERT INTO public.filtrelocalise VALUES (4, 10, 'lidé');
+INSERT INTO public.filtrelocalise VALUES (4, 11, 'mennesker');
+INSERT INTO public.filtrelocalise VALUES (4, 12, 'mensen');
+INSERT INTO public.filtrelocalise VALUES (4, 13, 'people');
+INSERT INTO public.filtrelocalise VALUES (4, 14, 'inimesed');
+INSERT INTO public.filtrelocalise VALUES (4, 15, 'ihmiset');
+INSERT INTO public.filtrelocalise VALUES (4, 16, 'personnes');
+INSERT INTO public.filtrelocalise VALUES (4, 17, 'persoas');
+INSERT INTO public.filtrelocalise VALUES (4, 18, 'daoine');
+INSERT INTO public.filtrelocalise VALUES (4, 19, 'Leute');
+INSERT INTO public.filtrelocalise VALUES (4, 20, 'άνθρωποι');
+INSERT INTO public.filtrelocalise VALUES (4, 21, 'kanaka');
+INSERT INTO public.filtrelocalise VALUES (4, 22, 'emberek');
+INSERT INTO public.filtrelocalise VALUES (4, 23, 'fólk');
+INSERT INTO public.filtrelocalise VALUES (4, 24, 'orang-orang');
+INSERT INTO public.filtrelocalise VALUES (4, 25, 'daoine');
+INSERT INTO public.filtrelocalise VALUES (4, 26, 'persone');
+INSERT INTO public.filtrelocalise VALUES (4, 27, '人々');
+INSERT INTO public.filtrelocalise VALUES (4, 28, '사람들');
+INSERT INTO public.filtrelocalise VALUES (4, 29, 'луѓе');
+INSERT INTO public.filtrelocalise VALUES (4, 30, 'mennesker');
+INSERT INTO public.filtrelocalise VALUES (4, 31, 'ludzie');
+INSERT INTO public.filtrelocalise VALUES (4, 32, 'pessoas');
+INSERT INTO public.filtrelocalise VALUES (4, 33, 'oameni');
+INSERT INTO public.filtrelocalise VALUES (4, 34, 'люди');
+INSERT INTO public.filtrelocalise VALUES (4, 35, 'људи');
+INSERT INTO public.filtrelocalise VALUES (4, 36, 'ľudia');
+INSERT INTO public.filtrelocalise VALUES (4, 37, 'ljudje');
+INSERT INTO public.filtrelocalise VALUES (4, 38, 'personas');
+INSERT INTO public.filtrelocalise VALUES (4, 39, 'människor');
+INSERT INTO public.filtrelocalise VALUES (4, 40, 'insanlar');
+INSERT INTO public.filtrelocalise VALUES (4, 41, 'люди');
+INSERT INTO public.filtrelocalise VALUES (5, 1, 'kat');
+INSERT INTO public.filtrelocalise VALUES (5, 2, 'mace');
+INSERT INTO public.filtrelocalise VALUES (5, 3, 'katu');
+INSERT INTO public.filtrelocalise VALUES (5, 4, 'кот');
+INSERT INTO public.filtrelocalise VALUES (5, 5, 'котка');
+INSERT INTO public.filtrelocalise VALUES (5, 6, 'gat');
+INSERT INTO public.filtrelocalise VALUES (5, 7, '猫');
+INSERT INTO public.filtrelocalise VALUES (5, 8, '貓');
+INSERT INTO public.filtrelocalise VALUES (5, 9, 'mačka');
+INSERT INTO public.filtrelocalise VALUES (5, 10, 'kočka');
+INSERT INTO public.filtrelocalise VALUES (5, 11, 'kat');
+INSERT INTO public.filtrelocalise VALUES (5, 12, 'kat');
+INSERT INTO public.filtrelocalise VALUES (5, 13, 'cat');
+INSERT INTO public.filtrelocalise VALUES (5, 14, 'kass');
+INSERT INTO public.filtrelocalise VALUES (5, 15, 'kissa');
+INSERT INTO public.filtrelocalise VALUES (5, 16, 'chat');
+INSERT INTO public.filtrelocalise VALUES (5, 17, 'gato');
+INSERT INTO public.filtrelocalise VALUES (5, 18, 'cat');
+INSERT INTO public.filtrelocalise VALUES (5, 19, 'Katze');
+INSERT INTO public.filtrelocalise VALUES (5, 20, 'γάτα');
+INSERT INTO public.filtrelocalise VALUES (5, 21, 'popoki');
+INSERT INTO public.filtrelocalise VALUES (5, 22, 'macska');
+INSERT INTO public.filtrelocalise VALUES (5, 23, 'köttur');
+INSERT INTO public.filtrelocalise VALUES (5, 24, 'kucing');
+INSERT INTO public.filtrelocalise VALUES (5, 25, 'cat');
+INSERT INTO public.filtrelocalise VALUES (5, 26, 'gatto');
+INSERT INTO public.filtrelocalise VALUES (5, 27, '猫');
+INSERT INTO public.filtrelocalise VALUES (5, 28, '고양이');
+INSERT INTO public.filtrelocalise VALUES (5, 29, 'мачка');
+INSERT INTO public.filtrelocalise VALUES (5, 30, 'katt');
+INSERT INTO public.filtrelocalise VALUES (5, 31, 'kot');
+INSERT INTO public.filtrelocalise VALUES (5, 32, 'gato');
+INSERT INTO public.filtrelocalise VALUES (5, 33, 'pisică');
+INSERT INTO public.filtrelocalise VALUES (5, 34, 'кот');
+INSERT INTO public.filtrelocalise VALUES (5, 35, 'мачка');
+INSERT INTO public.filtrelocalise VALUES (5, 36, 'mačka');
+INSERT INTO public.filtrelocalise VALUES (5, 37, 'mačka');
+INSERT INTO public.filtrelocalise VALUES (5, 38, 'gato');
+INSERT INTO public.filtrelocalise VALUES (5, 39, 'cat');
+INSERT INTO public.filtrelocalise VALUES (5, 40, 'kedi');
+INSERT INTO public.filtrelocalise VALUES (5, 41, 'кіт');
+
+
 
 --
 -- Data for Name: item; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -458,90 +706,35 @@ INSERT INTO public.language VALUES (9, 'hr', 'Croatian');
 INSERT INTO public.language VALUES (10, 'cs', 'Czech');
 INSERT INTO public.language VALUES (11, 'da', 'Danish');
 INSERT INTO public.language VALUES (12, 'nl', 'Dutch');
-INSERT INTO public.language VALUES (13, 'nl-be', 'Dutch (Belgium)');
-INSERT INTO public.language VALUES (14, 'nl-nl', 'Dutch (Netherlands)');
-INSERT INTO public.language VALUES (15, 'en', 'English');
-INSERT INTO public.language VALUES (16, 'en-au', 'English (Australia)');
-INSERT INTO public.language VALUES (17, 'en-bz', 'English (Belize)');
-INSERT INTO public.language VALUES (18, 'en-ca', 'English (Canada)');
-INSERT INTO public.language VALUES (19, 'en-ie', 'English (Ireland)');
-INSERT INTO public.language VALUES (20, 'en-jm', 'English (Jamaica)');
-INSERT INTO public.language VALUES (21, 'en-nz', 'English (New Zealand)');
-INSERT INTO public.language VALUES (22, 'en-ph', 'English (Phillipines)');
-INSERT INTO public.language VALUES (23, 'en-za', 'English (South Africa)');
-INSERT INTO public.language VALUES (24, 'en-tt', 'English (Trinidad)');
-INSERT INTO public.language VALUES (25, 'en-gb', 'English (United Kingdom)');
-INSERT INTO public.language VALUES (26, 'en-us', 'English (United States)');
-INSERT INTO public.language VALUES (27, 'en-zw', 'English (Zimbabwe)');
-INSERT INTO public.language VALUES (28, 'et', 'Estonian');
-INSERT INTO public.language VALUES (29, 'fo', 'Faeroese');
-INSERT INTO public.language VALUES (30, 'fi', 'Finnish');
-INSERT INTO public.language VALUES (31, 'fr', 'French');
-INSERT INTO public.language VALUES (32, 'fr-be', 'French (Belgium)');
-INSERT INTO public.language VALUES (33, 'fr-ca', 'French (Canada)');
-INSERT INTO public.language VALUES (34, 'fr-fr', 'French (France)');
-INSERT INTO public.language VALUES (35, 'fr-lu', 'French (Luxembourg)');
-INSERT INTO public.language VALUES (36, 'fr-mc', 'French (Monaco)');
-INSERT INTO public.language VALUES (37, 'fr-ch', 'French (Switzerland)');
-INSERT INTO public.language VALUES (38, 'gl', 'Galician');
-INSERT INTO public.language VALUES (39, 'gd', 'Gaelic');
-INSERT INTO public.language VALUES (40, 'de', 'German');
-INSERT INTO public.language VALUES (41, 'de-at', 'German (Austria)');
-INSERT INTO public.language VALUES (42, 'de-de', 'German (Germany)');
-INSERT INTO public.language VALUES (43, 'de-li', 'German (Liechtenstein)');
-INSERT INTO public.language VALUES (44, 'de-lu', 'German (Luxembourg)');
-INSERT INTO public.language VALUES (45, 'de-ch', 'German (Switzerland)');
-INSERT INTO public.language VALUES (46, 'el', 'Greek');
-INSERT INTO public.language VALUES (47, 'haw', 'Hawaiian');
-INSERT INTO public.language VALUES (48, 'hu', 'Hungarian');
-INSERT INTO public.language VALUES (49, 'is', 'Icelandic');
-INSERT INTO public.language VALUES (50, 'in', 'Indonesian');
-INSERT INTO public.language VALUES (51, 'ga', 'Irish');
-INSERT INTO public.language VALUES (52, 'it', 'Italian');
-INSERT INTO public.language VALUES (53, 'it-it', 'Italian (Italy)');
-INSERT INTO public.language VALUES (54, 'it-ch', 'Italian (Switzerland)');
-INSERT INTO public.language VALUES (55, 'ja', 'Japanese');
-INSERT INTO public.language VALUES (56, 'ko', 'Korean');
-INSERT INTO public.language VALUES (57, 'mk', 'Macedonian');
-INSERT INTO public.language VALUES (58, 'no', 'Norwegian');
-INSERT INTO public.language VALUES (59, 'pl', 'Polish');
-INSERT INTO public.language VALUES (60, 'pt', 'Portuguese');
-INSERT INTO public.language VALUES (61, 'pt-br', 'Portuguese (Brazil)');
-INSERT INTO public.language VALUES (62, 'pt-pt', 'Portuguese (Portugal)');
-INSERT INTO public.language VALUES (63, 'ro', 'Romanian');
-INSERT INTO public.language VALUES (64, 'ro-mo', 'Romanian (Moldova)');
-INSERT INTO public.language VALUES (65, 'ro-ro', 'Romanian (Romania)');
-INSERT INTO public.language VALUES (66, 'ru', 'Russian');
-INSERT INTO public.language VALUES (67, 'ru-mo', 'Russian (Moldova)');
-INSERT INTO public.language VALUES (68, 'ru-ru', 'Russian (Russia)');
-INSERT INTO public.language VALUES (69, 'sr', 'Serbian');
-INSERT INTO public.language VALUES (70, 'sk', 'Slovak');
-INSERT INTO public.language VALUES (71, 'sl', 'Slovenian');
-INSERT INTO public.language VALUES (72, 'es', 'Spanish');
-INSERT INTO public.language VALUES (73, 'es-ar', 'Spanish (Argentina)');
-INSERT INTO public.language VALUES (74, 'es-bo', 'Spanish (Bolivia)');
-INSERT INTO public.language VALUES (75, 'es-cl', 'Spanish (Chile)');
-INSERT INTO public.language VALUES (76, 'es-co', 'Spanish (Colombia)');
-INSERT INTO public.language VALUES (77, 'es-cr', 'Spanish (Costa Rica)');
-INSERT INTO public.language VALUES (78, 'es-do', 'Spanish (Dominican Republic)');
-INSERT INTO public.language VALUES (79, 'es-ec', 'Spanish (Ecuador)');
-INSERT INTO public.language VALUES (80, 'es-sv', 'Spanish (El Salvador)');
-INSERT INTO public.language VALUES (81, 'es-gt', 'Spanish (Guatemala)');
-INSERT INTO public.language VALUES (82, 'es-hn', 'Spanish (Honduras)');
-INSERT INTO public.language VALUES (83, 'es-mx', 'Spanish (Mexico)');
-INSERT INTO public.language VALUES (84, 'es-ni', 'Spanish (Nicaragua)');
-INSERT INTO public.language VALUES (85, 'es-pa', 'Spanish (Panama)');
-INSERT INTO public.language VALUES (86, 'es-py', 'Spanish (Paraguay)');
-INSERT INTO public.language VALUES (87, 'es-pe', 'Spanish (Peru)');
-INSERT INTO public.language VALUES (88, 'es-pr', 'Spanish (Puerto Rico)');
-INSERT INTO public.language VALUES (89, 'es-es', 'Spanish (Spain)');
-INSERT INTO public.language VALUES (90, 'es-uy', 'Spanish (Uruguay)');
-INSERT INTO public.language VALUES (91, 'es-ve', 'Spanish (Venezuela)');
-INSERT INTO public.language VALUES (92, 'sv', 'Swedish');
-INSERT INTO public.language VALUES (93, 'sv-fi', 'Swedish (Finland)');
-INSERT INTO public.language VALUES (94, 'sv-se', 'Swedish (Sweden)');
-INSERT INTO public.language VALUES (95, 'tr', 'Turkish');
-INSERT INTO public.language VALUES (96, 'uk', 'Ukranian');
+INSERT INTO public.language VALUES (13, 'en', 'English');
+INSERT INTO public.language VALUES (14, 'et', 'Estonian');
+INSERT INTO public.language VALUES (15, 'fi', 'Finnish');
+INSERT INTO public.language VALUES (16, 'fr', 'French');
+INSERT INTO public.language VALUES (17, 'gl', 'Galician');
+INSERT INTO public.language VALUES (18, 'gd', 'Gaelic');
+INSERT INTO public.language VALUES (19, 'de', 'German');
+INSERT INTO public.language VALUES (20, 'el', 'Greek');
+INSERT INTO public.language VALUES (21, 'haw', 'Hawaiian');
+INSERT INTO public.language VALUES (22, 'hu', 'Hungarian');
+INSERT INTO public.language VALUES (23, 'is', 'Icelandic');
+INSERT INTO public.language VALUES (24, 'in', 'Indonesian');
+INSERT INTO public.language VALUES (25, 'ga', 'Irish');
+INSERT INTO public.language VALUES (26, 'it', 'Italian');
+INSERT INTO public.language VALUES (27, 'ja', 'Japanese');
+INSERT INTO public.language VALUES (28, 'ko', 'Korean');
+INSERT INTO public.language VALUES (29, 'mk', 'Macedonian');
+INSERT INTO public.language VALUES (30, 'no', 'Norwegian');
+INSERT INTO public.language VALUES (31, 'pl', 'Polish');
+INSERT INTO public.language VALUES (32, 'pt', 'Portuguese');
+INSERT INTO public.language VALUES (33, 'ro', 'Romanian');
+INSERT INTO public.language VALUES (34, 'ru', 'Russian');
+INSERT INTO public.language VALUES (35, 'sr', 'Serbian');
+INSERT INTO public.language VALUES (36, 'sk', 'Slovak');
+INSERT INTO public.language VALUES (37, 'sl', 'Slovenian');
+INSERT INTO public.language VALUES (38, 'es', 'Spanish');
+INSERT INTO public.language VALUES (39, 'sv', 'Swedish');
+INSERT INTO public.language VALUES (40, 'tr', 'Turkish');
+INSERT INTO public.language VALUES (41, 'uk', 'Ukranian');
 
 
 --
