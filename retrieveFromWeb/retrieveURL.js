@@ -32,44 +32,40 @@ function getSearchResult(word, callback){
             }
             let searchResult = response.results
             console.log(searchResult);
-            callback(label, searchResult, config.search_engine);
+            callback(searchResult, config.search_engine);
         });
 }
 
-function processSearchResults(label, searchResult, search_engine, callback) {
+function processSearchResults(searchResult, callback) {
 
     console.log("---- process -----");
+    searchResult = searchResult[Object.keys(searchResult)[0]] // Get first property
+
     console.log(searchResult);
 
     let randomURL;
-    let code;
+    let randomPageNumber = Math.floor(Math.random() * Object.keys(searchResult).length);
+    var randomResultNumber;
+    let randomSearchPage = searchResult[Object.keys(searchResult)[randomPageNumber]];
+    let randomSearchResult;
 
-    let randomNumber = Math.floor(Math.random() * Object.keys(searchResult[label]).length + 1);
-    let randomString = String(randomNumber);
-    let randomSearchResult = searchResult[label][randomString];
-    randomNumber = Math.floor(Math.random() * Object.keys(searchResult[label]).length + 1);
+    console.log(randomPageNumber);
+    console.log(randomSearchPage);
+    if(typeof randomSearchPage.results != 'undefined' && randomSearchPage.results.length > 0) {
+        randomResultNumber = Math.floor(Math.random() * Object.keys(randomSearchPage.results).length);
+        randomSearchResult = randomSearchPage.results[Object.keys(randomSearchPage.results)[randomResultNumber]];
+        console.log(randomSearchResult);
 
-    console.log("--------------")
-    console.log(randomSearchResult.results[1]);
+        randomURL = randomSearchResult.link;
+        console.log("------ lien final --------");
 
-    if(!(typeof randomSearchResult.results[randomString] == 'undefined')) {
-        randomURL = randomSearchResult.results[randomString].link;
-        console.log(1);
-    } else if(!(typeof randomSearchResult.results[randomNumber] == 'undefined')) {
-        randomURL = randomSearchResult.results[randomNumber].link;
-        console.log(2);
+        redirectedURL = request.get(randomURL, function (err, res, body) {
+            console.log(this.uri.href);
+            callback(this.uri.href);
+        });
     } else {
         console.log('Pas de résultat');
         callback(false);
-    }
-
-    if (search_engine == 'baidu') {
-        redirectedURL = request.get(randomURL, function (err, res, body) {
-            console.log(this.uri.href);
-            callback(redirectedURL);
-        });
-    } else {
-        callback(randomURL);
     }
 }
 
