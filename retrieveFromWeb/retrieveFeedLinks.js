@@ -2,9 +2,9 @@
 let {PythonShell} = require('python-shell');
 
 function getFeedLinks(url, callback){
-
+  console.log(process.platform);
     var options = {
-        pythonPath: '/bin/python2',
+        pythonPath: process.platform != "win32" ? "python3" : "py", //'/bin/python2',
         mode: 'text',
         scriptPath: 'retrieveFromWeb/feedvalidator',
         args: [url]

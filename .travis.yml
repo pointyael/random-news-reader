@@ -18,8 +18,6 @@ before_script:
   - sudo apt-get -y autoremove
   - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 11" >> /etc/apt/sources.list.d/postgresql.list'
   - sudo apt-get update
-  
-  - echo $PYTHONPATH
   - sudo apt-get -y install postgresql-11 postgresql-client-11
   - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
   - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
