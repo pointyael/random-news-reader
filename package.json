@@ -21,7 +21,7 @@
     "python-shell": "^1.0.7",
     "request": "^2.88.0",
     "rss-parser": "^3.6.2",
-    "se-scraper": "^1.2.11",
+    "se-scraper": "^1.2.16",
     "swig": "^1.4.2"
   },
   "devDependencies": {
