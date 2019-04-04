@@ -14,7 +14,7 @@ function getFeedLinks(url, callback){
         if (err) throw err;
         callback(results);
     });
-    console.log(PythonShell.getVersion());
+    console.log(PythonShell.getVersionSync());
 }
 
 module.exports = {
