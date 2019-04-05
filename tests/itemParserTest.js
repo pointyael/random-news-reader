@@ -6,9 +6,9 @@ require('it-each')({ testPerIteration: true });
 describe("Item parser test", () => {
   describe('"parseItem" from one item :: Test on multiples items', () =>
   {
-    var item1, itemB;
+    var itemA, itemB, itemC, itemD,
     // TO MOVE INTO JSON FILE
-    var itemToParseA =
+    itemToParseA =
     {
         creator: 'La Rédaction',
         title:
@@ -67,11 +67,22 @@ describe("Item parser test", () => {
     itemToParseC =
     {
       title: 'The Cause launches fundraising tour in honour of Keith Flint',
-      description:'<p><img src="https://mixmag.net/assets/uploads/images/_twoThirds/flint.jpg"></p><p>All proceeds will be donated to mental health charities Mind and CALM</p><p><a href="https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news">Continue reading...</a></p>',
+      content:'<p><img src="https://mixmag.net/assets/uploads/images/_twoThirds/flint.jpg"></p><p>All proceeds will be donated to mental health charities Mind and CALM</p><p><a href="https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news">Continue reading...</a></p>',
       pubDate: '2019-03-24 13:30:00',
       link:'https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news',
       guid : "https://mixmag.net/read/gather-outdoors-festival-phase-two-line-up-news",
-      enclosure: 'https://mixmag.net/assets/uploads/images/_twoThirds/flint.jpg'
+   },
+
+   itemToParseD =
+   {
+     title: 'NY TIMES : UNITE SPECIALE',
+     description:'Une nouvelle',
+     link:'https://mixmag.net/read/the-cause-fundraiser-tour-keith-flint-news',
+     image:
+      {
+        title: 'ICE-T',
+        url: 'http://unitespeciale.org/icet.png'
+      }
    };
 
     before(function()
@@ -79,6 +90,7 @@ describe("Item parser test", () => {
       itemA = parser.aItem(itemToParseA);
       itemB = parser.aItem(itemToParseB);
       itemC = parser.aItem(itemToParseC);
+      itemD = parser.aItem(itemToParseD);
     });
     it('items must be parsed and not null', function() {
       expect(itemA).to.be.a('object').not.empty;
@@ -96,11 +108,17 @@ describe("Item parser test", () => {
       expect(itemB.enclosure).to.be.a('string').not.empty;
       expect(itemB.type == 2).to.be.true;
     });
-    it('itemC must have an enclosure with type "article"', function() {
+    it('itemC must get an enclosure from the description with type "article"', function() {
       expect(itemC.title).to.be.a('string').not.empty;
       expect(itemC.link).to.be.a('string').not.empty;
       expect(itemC.enclosure).to.be.a('string').not.empty;
       expect(itemC.type == 1).to.be.true;
+    });
+    it('itemD must have an enclosure get from image', function() {
+      expect(itemD.title).to.be.a('string').not.empty;
+      expect(itemD.link).to.be.a('string').not.empty;
+      expect(itemD.enclosure).to.be.a('string').not.empty;
+      expect(itemD.type == 1).to.be.true;
     });
   });
 });
