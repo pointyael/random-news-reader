@@ -19,9 +19,13 @@ before_script:
 - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 11" >> /etc/apt/sources.list.d/postgresql.list'
 - sudo apt-get update
 - sudo apt-get -y install postgresql-11 postgresql-client-11
+- sudo rm /etc/postgresql/11/main/pg_hba.conf
 - sudo sh -c 'echo "local all all trust" > /etc/postgresql/11/main/pg_hba.conf'
 - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/11/main/pg_hba.conf'
+- sudo sh -c 'echo -n "host all all 0.0.0.0/0 trust" >> /etc/postgresql/11/main/pg_hba.conf'
 - sudo service postgresql restart 11.1
+- psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
+- psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
 - psql -c 'CREATE DATABASE randomizer;' -U postgres
 - psql -U postgres randomizer < ./database/exportSql.sql
 - echo "PYPATHTRA=python" >> .env
