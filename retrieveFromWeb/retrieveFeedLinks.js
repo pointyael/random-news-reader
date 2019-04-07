@@ -1,5 +1,6 @@
 // Use python shell
 let {PythonShell} = require('python-shell');
+var url=require('url');
 
 function getFeedLinks(url, callback){
     var pyPath = getPythonSystemPath();
