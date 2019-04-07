@@ -27,6 +27,7 @@ before_script:
   - psql -c 'CREATE DATABASE randomizer;' -U postgres
   - sudo service postgresql restart
   - psql -U postgres randomizer < ./backup_DB/exportSql.sql
+  - alias python2 = python
 
 script :
   - npm install
