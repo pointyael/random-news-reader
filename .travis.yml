@@ -4,7 +4,13 @@ branches:
 
 language: node_js
 node_js:
-  - "lts/*"
+ - "lts/*"
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "11.1"
 
 before_script:
 - sudo /etc/init.d/postgresql stop
@@ -25,3 +31,6 @@ before_script:
 script :
   - npm install
   - npm test
+
+notifications:
+  email: false

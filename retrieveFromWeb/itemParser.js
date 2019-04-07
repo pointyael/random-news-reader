@@ -46,25 +46,21 @@ const analyseContent = (item) => {
     item.description
     && (
       enclosureHead =
-        item.description
-        .split(/img src="/)[1]
+        item.description.split(/img src="/)[1]
     )
   ) {
     parsedItem.enclosure =
-      enclosureHead
-      .split(/"/)[0];
+      enclosureHead.split(/"/)[0];
   }
   else if(
     item.content
     && (
       enclosureHead =
-        item.content
-        .split(/img src="/)[1]
+        item.content.split(/img src="/)[1]
     )
   ) {
     parsedItem.enclosure =
-      enclosureHead
-      .split(/"/)[0];
+      enclosureHead.split(/"/)[0];
   }
 
 }

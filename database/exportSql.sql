@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.1
--- Dumped by pg_dump version 11.1
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,85 +16,35 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: getRandomItemsNotLike(pKeyWord character varying DEFAULT NULL); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION
-  public."getRandomItemsNotLike"(pKeyWord text[])
-    RETURNS json[]
+CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
     LANGUAGE plpgsql
-    AS $$DECLARE
-
-  vJson json[];
+    AS $$
+DECLARE
   vAItem json;
-  vItemChosen item%ROWTYPE;
-  vSourceId integer;
-  vSelectClause text;
-  vWhereClause text;
-
 BEGIN
-    FOR vSourceId IN
-    (
-      SELECT sou_id FROM source
-      WHERE
-        sou_id IN (
-        	SELECT DISTINCT ite_source FROM item
-        )
-      ORDER BY RANDOM()
-      LIMIT 12
-    ) LOOP
-
-      vSelectClause :=
-        'SELECT *
-        FROM item
-        WHERE ite_source=' || vSourceId;
-      -- To reinsert into the Query
-      -- when we will have reliable relationship
-      -- between tables
-      -- JOIN language ON ite_language=lan_id
-      -- JOIN type ON ite_type=typ_id
-      -- JOIN category ON ite_category=cat_id
-
-      FOREACH vWhereClause IN ARRAY pKeyWord
-      LOOP
-        vSelectClause :=
-          vSelectClause
-          || ' AND lower(ite_title) NOT LIKE ''%'
-          || lower(vWhereClause)
-          || '%'''
-          || ' AND lower(ite_description) NOT LIKE ''%'
-          || lower(vWhereClause)
-          || '%'''
-          || ' AND lower(ite_link) NOT LIKE ''%'
-          || lower(vWhereClause)
-          || '%''';
-      END LOOP;
-
-      vSelectClause :=
-        vSelectClause
-        || 'ORDER BY RANDOM() LIMIT 1';
-
-      EXECUTE vSelectClause INTO vItemChosen;
-
-      SELECT row_to_json(vItemChosen)
-      INTO vAItem;
-
-      vJson := array_append(vJson, vAItem);
-
+  FOR vAItem in
+    SELECT row_to_json(i) FROM item i
+  LOOP
+    IF
+      (vAItem->>'ite_pubdate'||'+01') :: timestamp
+      < (NOW() - interval '2 days') :: timestamp
+    THEN
+      DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
+    END IF;
   END LOOP;
-
-  RETURN vJson;
-
 END;$$;
 
-ALTER FUNCTION public."getRandomItemsNotLike"(pKeyWord text[]) OWNER TO postgres;
+
+ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
 
 --
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItems"()
-    RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -145,30 +95,34 @@ END;$$;
 
 ALTER FUNCTION public."getRandomItems"() OWNER TO postgres;
 
-
 --
--- Name : deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
+-- Name: getRandomItemsNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
-  LANGUAGE plpgsql
-  AS $$
-DECLARE
+CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$DECLARE
+
   vAItem json;
+  vJson json[];
+  vSourceId int;
+  vSources int[];
 BEGIN
-  FOR vAItem in
-    SELECT row_to_json(i) FROM item i
-  LOOP
-    IF
-      (vAItem->>'ite_pubdate'||'+01') :: timestamp
-      < (NOW() - interval '2 days') :: timestamp
-    THEN
-      DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
-    END IF;
+
+  SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
+  FOREACH vSourceId IN ARRAY vSources LOOP
+
+      SELECT "itemNotLike"(vSourceId, pKeyWord)INTO vAItem;
+      vJson := array_append(vJson, vAItem);
+
   END LOOP;
+
+  RETURN vJson;
+
 END;$$;
 
-ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
+
+ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) OWNER TO postgres;
 
 --
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
@@ -233,6 +187,88 @@ END;$$;
 
 
 ALTER PROCEDURE public."insertNewItems"("pSource" json, "pItems" json) OWNER TO postgres;
+
+--
+-- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE OR REPLACE FUNCTION public."itemNotLike"(psource integer, pclause text[]) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vAItem json;
+  vWhereClause text;
+  vSelectClause text;
+  vItemChosen item%ROWTYPE;
+BEGIN
+
+  vSelectClause := 'SELECT * FROM item WHERE ite_source=' || pSource;
+
+  FOREACH vWhereClause IN ARRAY pClause
+  LOOP
+      vSelectClause :=
+      vSelectClause
+      || ' AND lower(ite_title) NOT LIKE ''%' || vWhereClause || '%'''
+      || ' AND lower(ite_description) NOT LIKE ''%' || vWhereClause || '%'''
+      || ' AND lower(ite_link) NOT LIKE ''%' || vWhereClause || '%''';
+  END LOOP;
+
+  vSelectClause :=
+    vSelectClause
+    || ' ORDER BY RANDOM() LIMIT 1';
+
+    EXECUTE vSelectClause INTO vItemChosen;
+
+    SELECT row_to_json(vItemChosen)
+    INTO vAItem;
+
+
+    RETURN vAItem;
+END;
+$$;
+
+
+ALTER FUNCTION public."itemNotLike"(psource integer, pclause text[]) OWNER TO postgres;
+
+--
+-- Name: sourcesNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE OR REPLACE FUNCTION public."sourcesNotLike"(pclause text[]) RETURNS integer[]
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vSourceIds int[];
+  vWhereClause text;
+  vSelectClause text;
+BEGIN
+
+  vSelectClause :=
+    'SELECT array_agg(sou_id::integer) FROM source'
+    || ' WHERE sou_id IN ( SELECT ite_source FROM item GROUP BY ite_source ) ';
+
+  FOREACH vWhereClause IN ARRAY pClause
+  LOOP
+      vSelectClause :=
+      vSelectClause
+      || ' AND lower(sou_title) NOT LIKE ''%' || vWhereClause || '%'''
+      || ' AND lower(sou_link) NOT LIKE ''%' || vWhereClause || '%''';
+      RAISE NOTICE '%', vSelectClause;
+  END LOOP;
+
+  vSelectClause :=
+    vSelectClause
+    || ' ORDER BY RANDOM() LIMIT 12';
+
+
+    EXECUTE vSelectClause INTO vSourceIds;
+    RAISE NOTICE '%', vSourceIds;
+    RETURN vSourceIds;
+END;
+$$;
+
+
+ALTER FUNCTION public."sourcesNotLike"(pclause text[]) OWNER TO postgres;
 
 SET default_tablespace = '';
 
