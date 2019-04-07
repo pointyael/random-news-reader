@@ -11,20 +11,38 @@ const aItem = (item) => {
   parsedItem =
   {
       title: item.title.replace(/'/g, "''"),
-      description: item.content ? item.content.replace(/'/g, "''") : "",
       pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
       type : ETypeMedia.article,
       link: item.link,
-      language: lngDetector.detect(item.title, 1)[0][0],
       category: item.category
   };
 
   getEnclosure(item);
+  getDescription(item);
+  getLanguage(item);
 
   if(parsedItem.enclosure && parsedItem.enclosure.endsWith(".mp3")){
       parsedItem.type = ETypeMedia.mp3;
   }
   return parsedItem;
+}
+
+const getLanguage = (item) => {
+  var resultTitle = lngDetector.detect(parsedItem.title);
+
+  if (resultTitle && resultTitle[0][1] >= 0.275) {
+    parsedItem.language = resultTitle[0][0];
+  } else if (parsedItem.description) {
+    var resultDescription =  lngDetector.detect(parsedItem.description);
+
+      if(resultDescription && resultDescription[0][1] >= 0.25) {
+        parsedItem.language = resultDescription[0][0];
+      } else if (resultTitle[0][0] == resultDescription[0][0]) {
+        parsedItem.languge = resultTitle[0][0];
+      } else {
+        parsedItem.language = parsedItem.link.split(/www\W\w*\W/)[1].split(/\//)[0];
+      }
+  }
 }
 
 const getEnclosure = (item) => {
@@ -43,29 +61,29 @@ const getEnclosure = (item) => {
 }
 
 const analyseContent = (item) => {
-  var enclosureHead = null ;
 
-  if(
-    item.description
-    && (
-      enclosureHead =
-        item.description.split(/img src="/)[1]
-    )
-  ) {
-    parsedItem.enclosure =
-      enclosureHead.split(/"/)[0];
-  }
-  else if(
-    item.content
-    && (
-      enclosureHead =
-        item.content.split(/img src="/)[1]
-    )
-  ) {
-    parsedItem.enclosure =
-      enclosureHead.split(/"/)[0];
-  }
+  var enclosureHead =
+    item.description && item.description.split(/img src="/)[1]
+    || item.content &&  item.content.split(/img src="/)[1];
 
+  if( enclosureHead ) {
+    parsedItem.enclosure = enclosureHead.split(/"/)[0];
+  }
+}
+
+const getDescription = (item) => {
+  var descriptionSplitted =
+  item.description && item.description.split(/<(a href|\/a>|img .* \/>)/)
+  || item.content &&  item.content.split(/<(a href|\/a>|img .* \/>)/);
+
+
+  if(descriptionSplitted) {
+    descriptionSplitted.forEach(ds => {
+      if(!(ds.match(/<(a href|\/a>|img .* \/>)/g) ) ) {
+        parsedItem.description = ds.replace(/'/g, "''");
+      }
+    });
+  }
 }
 
 module.exports =

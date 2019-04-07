@@ -38,8 +38,7 @@ async function _processItems(parsedFeed){
 
         itemSchema = parseItem(item);
 
-        if
-        (
+        if (
           moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
           > dateMinusTwoDays
         )

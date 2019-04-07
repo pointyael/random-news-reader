@@ -78,10 +78,9 @@ describe('/GET random-items/:notLike', () =>{
       .then((res) => {
         items = res.body
         items.forEach(item => {
+          console.log(item);
           expect(!(item.ite_title.match(/echos/i))).to.be.true;
           expect(!(item.ite_link.match(/echos/i))).to.be.true;
-          if(item.ite_description)
-            expect(!(item.ite_description.match(/echos/i))).to.be.true;
         });
         done();
       })
@@ -90,7 +89,8 @@ describe('/GET random-items/:notLike', () =>{
   );
   it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case ',
     (done) => {
-      chai.request(server).get('/random-items/liberation+echos')
+      chai.request(server)
+      .get('/random-items/liberation+echos')
       .then((res) => {
           items = res.body;
           items.forEach(item => {

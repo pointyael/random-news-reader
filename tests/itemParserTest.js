@@ -98,31 +98,35 @@ describe("Item parser test", () => {
     });
     it('itemA must have an enclosure with type "article" and language "french"', function() {
       expect(itemA.title).to.be.a('string').not.empty;
+      expect(itemA.description).to.be.a('string').not.empty;
       expect(itemA.link).to.be.a('string').not.empty;
       expect(itemA.enclosure).to.be.a('string').not.empty;
       expect(itemA.type === 1).to.be.true;
-      expect(itemA.language === 'french').to.be.true;
+      expect(itemA.language === 'french' || itemA.language === 'fr').to.be.true;
     });
     it('itemB must have an enclosure with type "mp3" and languge "french"', function() {
       expect(itemB.title).to.be.a('string').not.empty;
+      expect(itemB.description).to.be.a('string').not.empty;
       expect(itemB.link).to.be.a('string').not.empty;
       expect(itemB.enclosure).to.be.a('string').not.empty;
       expect(itemB.type == 2).to.be.true;
-      expect(itemA.language === 'french').to.be.true;
+      expect(itemB.language === 'french' || itemB.language === 'fr').to.be.true;
     });
     it('itemC must get an enclosure from the description with type "article" and language "english"', function() {
       expect(itemC.title).to.be.a('string').not.empty;
+      expect(itemC.description).to.be.a('string').not.empty;
       expect(itemC.link).to.be.a('string').not.empty;
       expect(itemC.enclosure).to.be.a('string').not.empty;
       expect(itemC.type == 1).to.be.true;
-      expect(itemC.language === 'english').to.be.true;
+      expect(itemC.language === 'english' || itemC.language === 'en').to.be.true;
     });
     it('itemD must have an enclosure get from image with type "article" and language "spanish"', function() {
       expect(itemD.title).to.be.a('string').not.empty;
+      expect(itemD.description).to.be.a('string').not.empty;
       expect(itemD.link).to.be.a('string').not.empty;
       expect(itemD.enclosure).to.be.a('string').not.empty;
       expect(itemD.type == 1).to.be.true;
-      expect(itemD.language === 'spanish').to.be.true;
+      expect(itemD.language === 'spanish' || itemD.language === 'es').to.be.true;
     });
   });
 });
