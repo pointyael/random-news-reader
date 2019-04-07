@@ -1,13 +1,22 @@
-let Parser = require('rss-parser');
-let parser = new Parser();
+const Parser = require('rss-parser');
+const RSSParser = new Parser({
+  customFields: {
+    item: [
+      ['image', 'image'],
+      ['media:content', 'media:content']
+    ]
+  }
+});
+
+const moment = require('moment');
+const itemParser = require('./itemParser.js');
 
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
-    let parsedFeed = await parser.parseURL(link);
+    let parsedFeed = await RSSParser.parseURL(link);
     return parsedFeed;
 }
 
-/* return object containing only attributes needed */
 async function _processFeedInfo(parsedFeed){
     let feedSchema = Object();
     parsedFeed.title = parsedFeed.title.replace(/'/g, "''");
@@ -19,29 +28,29 @@ async function _processFeedInfo(parsedFeed){
     return feedSchema;
 }
 
-/* return object containing only attributes needed */
+
 async function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
-    parsedFeed.items.forEach(item => {
-        item.title = item.title.replace(/'/g, "''");
-        // Be careful --> content =/= description
-        // In RSS the description field  is required instead of content
-        item.description = item.content.replace(/'/g, "''");
+    let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
 
-        itemSchema = {
-            title: item.title,
-            description: item.description,
-            //content: item.content,
-            enclosure: item.enclosure ? item.enclosure.url : "",
-            pubDate: item.pubDate,
-            link: item.link,
-            language: item.language,
-            category: item.category
-          }
+    parsedFeed.items.forEach(item => {
+
+        itemSchema = parseItem(item);
+
+        if
+        (
+          moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
+          > dateMinusTwoDays
+        )
           itemArray.push(itemSchema);
     });
+
     return itemArray;
+}
+
+function parseItem(item) {
+  return itemParser.aItem(item);
 }
 
 async function getItems(link) {
@@ -57,5 +66,6 @@ async function getFeedData(link) {
 
 module.exports = {
     getItems,
-    getFeedData
+    getFeedData,
+    parseItem
 }

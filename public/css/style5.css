@@ -1,0 +1,57 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #000000;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar{
+    background-color: #246a73;
+    color: #fff;
+}
+
+figure img{
+    border-radius: 20px;
+}
+
+figure figcaption {
+    background: #246a73;
+    font-size: 12px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: #fff;
+}
+
+figcaption, p, a {
+    text-transform: uppercase;
+    font-family: Oswald;
+}
+
+.sidebar div {
+    color:#fff;
+    font-family: Oswald;
+}
+
+
+.sidebar label {
+    color:#000;
+}
+
+.sidebar div:hover {
+    color: #246a73;
+}
+
+ main {
+    background-color: #f2f2f2;
+}
+
+blockquote {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+blockquote p, blockquote::after {
+    color: #ffffff;
+}
+
+.checkbox:checked + .label-check{
+    background-color: #246a73;
+    color: #fff;
+}

@@ -1,0 +1,43 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #FCF8CC;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar{
+    background-color: #090909;
+}
+
+figure figcaption {
+    background: rgb(234, 234, 234);
+    font-size: 16px;
+}
+
+figcaption, p, a{
+    font-family: Spectral Extrabold;
+}
+
+.sidebar div{
+    color:#090909;
+    font-family: Spectral Extrabold;
+}
+
+.sidebar div:hover{
+    color: #f8333c;
+}
+
+ main {
+    background-color: #fff;
+}
+
+blockquote{
+    border-top: 1px solid #090909;
+    border-bottom: 1px solid #090909;
+}
+
+blockquote p, blockquote::after{
+    color: #090909;
+}
+
+.checkbox:checked + .label-check{
+    background-color: #4c5760;
+    color: #fff;
+}

@@ -1,8 +1,6 @@
 html, body {
-	padding: 0;
-	margin: 0;
 	height: 100%;
-	width: 100%;
+	margin: 0;
 	font-family: Helvetica;
 }
 
@@ -18,40 +16,36 @@ body {
 }
 
 header, footer {
-	display: flex;
-	background-color: #000;
 	position: fixed;
+	display: flex;
 	width: 100%;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+	background-color: #000;
 }
 
 a {
 	text-decoration: none;
 }
 
-footer q {
-	color: #ddd;
-	font-style: italic;
+footer { 
+	height: 50px; 
+	bottom: 0;
 }
-
-header { top: 0; height: 100px;}
-footer { bottom: 0; height: 50px;}
 
 header img {
 	height: 100px;
-	width: auto;
 }
 
 main {
-	font-family: monospace;
-	flex: 1;
 	display: flex;
+	flex: 1;
 	flex-direction: column;
-	padding: 10px;
 	margin: 100px 0 50px;
-	overflow-y: auto;
+	padding: 10px;
 	background: #16161d;
+	font-family: monospace;
+	overflow-y: auto;
 }
 
 main h1#headline {
@@ -79,13 +73,16 @@ h1#headline {
 /* BOUTON REFRESH */
 /*----------------*/
 
-div.float {
+div#btnRefresh {
 	padding: 10px 20px;
-	cursor: pointer;
-	background-color: #db5030;
 	color: #FFF;
+	background-color: #db5030;
 	border-radius: 50px;
-	text-align: center;
+	cursor: pointer;
+}
+
+div .fa.fa-refresh.fa-spin{
+	margin-left: 10px;
 }
 
 /*---------*/
@@ -93,24 +90,23 @@ div.float {
 /*---------*/
 
 .sidebar {
-	height: 100%;
-	width: 0;
 	position: fixed;
-	z-index: 1;
+	width: 0;
+	height: 100%;
+	padding-top: 20px;
 	top: 100px;
 	right: 0;
 	background-color: #000;
-	overflow-x: hidden;
-	padding-top: 60px;
+	z-index: 1;
 	transition: 0.5s;
 }
 
 .sidebar a {
-	padding: 10px 20px;
-	font-size: 25px;
-	color: #818181;
-	white-space: nowrap;
 	display: block;
+	padding: 10px 20px;
+	color: #818181;
+	font-size: 25px;
+	white-space: nowrap;
 	transition: 0.3s;
 }
 
@@ -124,17 +120,46 @@ div.float {
 	font-size: 12px;
 }
 
+/*----------------*/
+/* SIDEBAR  QUOTE */
+/*-----------------*/
+blockquote {
+	position: relative;
+	margin: 0px 18px 25px;
+	width: 220px;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+	text-align: center;
+	font-size: 15px;	
+}
+
+blockquote:after {
+	position: absolute;
+	width: 55px;
+	height: 55px;
+	top: -30px;
+	color:#eaeaea;
+	background:#000;
+	content: '\201D';
+	font-size: 80px;
+	transform: translateX(-50%);
+}
+
+blockquote p {
+	padding: 15px;
+	color: #eaeaea;
+}	
+
 /*------------------*/
 /* ANIMATION BURGER */
 /*------------------*/
 
 .bar {
-	display: block;
-	height: 2px;
 	width: 25px;
-	border-radius: 50px;
-	background: #db5030;
+	height: 2px;
 	margin: 5px auto;
+	background: #db5030;
+	border-radius: 50px;
 	transition: all .5s ease;
 }
 
@@ -142,7 +167,6 @@ div.float {
 	position: absolute;
 	right: 20px;
 	cursor: pointer;
-	display: block;
 }
 
 .opened {
@@ -154,9 +178,9 @@ div.float {
 }
 
 .middle {
+	width: 0;
 	background-color: red;
 	transform: rotateZ(360deg);
-	width: 0;
 }
 
 .bottom {

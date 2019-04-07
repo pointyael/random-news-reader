@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --timeout 30000 --require co-mocha ./tests/retrieveURLTest.js"
+    "test": "mocha --timeout 30000 --require co-mocha ./tests/**.js"
   },
   "dependencies": {
     "chai-http": "^4.2.1",
@@ -21,9 +21,10 @@
     "python-shell": "^1.0.7",
     "request": "^2.88.0",
     "rss-parser": "^3.6.2",
-    "se-scraper": "^1.2.16",
+    "se-scraper": "^1.2.11",
+    "swig": "^1.4.2",
     "it-each": "^0.4.0",
-    "swig": "^1.4.2"
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
