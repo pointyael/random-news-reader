@@ -1,10 +1,13 @@
 const moment = require('moment');
+const LanguageDetect = require('languagedetect');
+const lngDetector = new LanguageDetect();
 let ETypeMedia = {"article":1, "mp3": 2};
 var parsedItem = {};
 
 const aItem = (item) => {
   // Be careful --> content =/= description
   // In RSS the description field  is required instead of content
+
   parsedItem =
   {
       title: item.title.replace(/'/g, "''"),
@@ -12,7 +15,7 @@ const aItem = (item) => {
       pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
       type : ETypeMedia.article,
       link: item.link,
-      language: item.language,
+      language: lngDetector.detect(item.title, 1)[0][0],
       category: item.category
   };
 
