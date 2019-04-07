@@ -25,7 +25,7 @@ function getPythonSystemPath() {
   // else if another platform
   // pf = [Add your path in .env]
   else
-    pf = proces.env.PYPATHTRA;
+    pf = process.env.PYPATHTRA;
 
   return pf;
 }
