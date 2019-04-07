@@ -19,26 +19,44 @@ SET row_security = off;
 -- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  vAItem json;
-BEGIN
-  FOR vAItem in
-    SELECT row_to_json(i) FROM item i
-  LOOP
-    IF
-      (vAItem->>'ite_pubdate'||'+01') :: timestamp
-      < (NOW() - interval '2 days') :: timestamp
-    THEN
-      DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
-    END IF;
-  END LOOP;
-END;$$;
+-- CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
+--     LANGUAGE plpgsql
+--     AS $$
+-- DECLARE
+--   vAItem json;
+-- BEGIN
+--   FOR vAItem in
+--     SELECT row_to_json(i) FROM item i
+--   LOOP
+--     IF
+--       (vAItem->>'ite_pubdate'||'+01') :: timestamp
+--       < (NOW() - interval '2 days') :: timestamp
+--     THEN
+--       DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
+--     END IF;
+--   END LOOP;
+-- END;$$;
+--
+--
+-- ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
 
 
-ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
+-- CREATE OR REPLACE FUNCTION public."getRandomFilterWords"(pItems json[]) RETURNS json[]
+--     LANGUAGE plpgsql
+--     AS $$
+-- DECLARE
+--   vJson json[];
+--   vAItem json;
+--   vAWord json;
+-- BEGIN
+--   -- TRY WITH ONLY FR
+--   FOREACH vAItem in pItems LOOP
+-- 
+--   END LOOP;
+--
+-- END;$$;
+--
+-- ALTER FUNCTION public."getRandomFilterWords"() OWNER TO postgres;
 
 --
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -116,7 +134,7 @@ BEGIN
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
-
+  RAISE NOTICE '%', vJson;
   RETURN vJson;
 
 END;$$;
@@ -128,7 +146,7 @@ ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) OWNER TO postgres
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" json)
+CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
     LANGUAGE plpgsql
     AS $$
     DECLARE
@@ -141,7 +159,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
     BEGIN
 
         FOR vAItem in
-          SELECT * FROM json_array_elements("pItems")
+          SELECT * FROM json_array_elements(pItems)
         LOOP
 
             SELECT COUNT(*) INTO vCountItem FROM item
@@ -151,7 +169,13 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
 
               SELECT lan_id INTO vLangId
               FROM language
-              WHERE lan_code=vAItem->>'language';
+              WHERE lower(lan_code)::text LIKE (vAItem->>'language'::text) || '%'
+              OR lower(lan_lib)::text LIKE (vAItem->>'language'::text) || '%'
+              LIMIT 1;
+
+              IF vLangId IS NULL THEN
+                vLangId := 13; --English language default
+              END IF;
 
               SELECT cat_id INTO vCategoryId
               FROM category
@@ -179,14 +203,14 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
                   to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
                   vCategoryId,
-                  to_number("pSource"->>'id', '99G999D9S')
+                  to_number(pSource->>'id', '99G999D9S')
                 );
             END IF;
         END LOOP;
 END;$$;
 
 
-ALTER PROCEDURE public."insertNewItems"("pSource" json, "pItems" json) OWNER TO postgres;
+ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO postgres;
 
 --
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
@@ -251,9 +275,8 @@ BEGIN
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND lower(sou_title) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(sou_link) NOT LIKE ''%' || vWhereClause || '%''';
-      RAISE NOTICE '%', vSelectClause;
+      || ' AND (lower(sou_title) NOT LIKE ''%' || vWhereClause || '%'''
+      || ' OR lower(sou_link) NOT LIKE ''%' || vWhereClause || '%'')';
   END LOOP;
 
   vSelectClause :=
@@ -262,6 +285,7 @@ BEGIN
 
 
     EXECUTE vSelectClause INTO vSourceIds;
+
     RAISE NOTICE '%', vSourceIds;
     RETURN vSourceIds;
 END;
@@ -305,7 +329,7 @@ ALTER TABLE public.category OWNER TO postgres;
 --
 
 CREATE TABLE public.filtre (
-    fil_id integer NOT NULL,
+    fil_id integer PRIMARY KEY,
     fil_mot text
 );
 
