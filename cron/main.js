@@ -21,19 +21,4 @@ rURL.getRandomWord()
     .catch(err => {
         console.log(err);
     });
-        
-
-/*
-rURL.getRandomWord(function(word){
-    rURL.getSearchResult(word, function(searchResult){
-        rURL.processSearchResults(searchResult, function(URL){
-            if(URL) {
-                rFL.getFeedLinks(URL, function(feed) {
-                    console.log(feed);
-                });
-            }
-        });
-    });
-})
-*/
 
