@@ -19,26 +19,26 @@ SET row_security = off;
 -- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
--- CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
---     LANGUAGE plpgsql
---     AS $$
--- DECLARE
---   vAItem json;
--- BEGIN
---   FOR vAItem in
---     SELECT row_to_json(i) FROM item i
---   LOOP
---     IF
---       (vAItem->>'ite_pubdate'||'+01') :: timestamp
---       < (NOW() - interval '2 days') :: timestamp
---     THEN
---       DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
---     END IF;
---   END LOOP;
--- END;$$;
---
---
--- ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
+CREATE OR REPLACE PROCEDURE public."deleteOldItemsProc"()
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vAItem json;
+BEGIN
+  FOR vAItem in
+    SELECT row_to_json(i) FROM item i
+  LOOP
+    IF
+      (vAItem->>'ite_pubdate'||'+01') :: timestamp
+      < (NOW() - interval '2 days') :: timestamp
+    THEN
+      DELETE FROM item WHERE ite_id = to_number(vAItem->>'ite_id', '99G999D9S');
+    END IF;
+  END LOOP;
+END;$$;
+
+
+ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
 
 
 -- CREATE OR REPLACE FUNCTION public."getRandomFilterWords"(pItems json[]) RETURNS json[]
@@ -97,7 +97,7 @@ BEGIN
         ORDER BY RANDOM()
         LIMIT 1
       ) t ;
-      
+
     vJson := array_append(vJson, vAItem);
   END LOOP;
 
