@@ -51,7 +51,7 @@ SET row_security = off;
 -- BEGIN
 --   -- TRY WITH ONLY FR
 --   FOREACH vAItem in pItems LOOP
--- 
+--
 --   END LOOP;
 --
 -- END;$$;
@@ -71,15 +71,10 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
   vSourceId integer;
 
 BEGIN
-
 	FOR vSourceId IN
 		(
-			SELECT sou_id FROM source
-      WHERE
-        sou_id IN (
-        	SELECT ite_source FROM item
-        	GROUP BY ite_source
-        )
+      SELECT ite_source FROM item
+      GROUP BY ite_source
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
@@ -97,12 +92,12 @@ BEGIN
         --JOIN type ON ite_type=typ_id
         --JOIN category ON ite_category=cat_id
         WHERE ite_source=vSourceId
-        AND
-          (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+        -- AND
+        --   (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
         ORDER BY RANDOM()
         LIMIT 1
       ) t ;
-
+      
     vJson := array_append(vJson, vAItem);
   END LOOP;
 
@@ -130,11 +125,10 @@ BEGIN
   SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord)INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
-  RAISE NOTICE '%', vJson;
   RETURN vJson;
 
 END;$$;
@@ -232,9 +226,9 @@ BEGIN
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND lower(ite_title) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(ite_description) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(ite_link) NOT LIKE ''%' || vWhereClause || '%''';
+      || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+      || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
   END LOOP;
 
   vSelectClause :=
@@ -275,18 +269,16 @@ BEGIN
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND (lower(sou_title) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' OR lower(sou_link) NOT LIKE ''%' || vWhereClause || '%'')';
+      || ' AND (lower(sou_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+      || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
   END LOOP;
 
   vSelectClause :=
     vSelectClause
     || ' ORDER BY RANDOM() LIMIT 12';
 
-
     EXECUTE vSelectClause INTO vSourceIds;
 
-    RAISE NOTICE '%', vSourceIds;
     RETURN vSourceIds;
 END;
 $$;
