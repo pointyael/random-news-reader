@@ -2,10 +2,9 @@
 let {PythonShell} = require('python-shell');
 
 function getFeedLinks(url, callback){
-  //console.log(process.env);
+    var pyPath = getPythonSystemPath();
     var options = {
-        pythonPath: process.platform != "win32" ? "python" : 'C:\\Python27\\python.exe',
-                                               // "python3" : "py", if python 3 compatibility ok
+        pythonPath: pyPath,
         mode: 'text',
         scriptPath: 'retrieveFromWeb/feedvalidator',
         args: [url]
@@ -17,6 +16,18 @@ function getFeedLinks(url, callback){
         callback(results);
     });
 
+}
+
+function getPythonSystemPath() {
+  var pf;
+  if(process.platform == "win32")
+    pf =  process.env.PYPATHWIN;
+  // else if another platform
+  // pf = [Add your path in .env]
+  else // for TRAVISCI
+    pf = process.env.PYPATHTRA;
+
+  return pf;
 }
 
 module.exports = {
