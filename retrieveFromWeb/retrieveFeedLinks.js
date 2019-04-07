@@ -24,7 +24,7 @@ function getPythonSystemPath() {
     pf =  process.env.PYPATHWIN;
   // else if another platform
   // pf = [Add your path in .env]
-  else
+  else // for TRAVISCI
     pf = process.env.PYPATHTRA;
 
   return pf;
