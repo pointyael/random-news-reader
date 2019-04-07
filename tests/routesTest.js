@@ -13,18 +13,13 @@ chai.use(chaiHttp);
   */
 
 describe('/GET random-items', () => {
-    var status;
+
     var items;
     before(
       async function(){
         await chai.request(server)
         .get('/random-items')
-        .then(
-          (res) => {
-            items = res.body;
-            status = res.status;
-          }
-        )
+        .then( (res) =>  items = res.body )
         .catch();
       }
     );
@@ -53,4 +48,64 @@ describe('/GET random-items', () => {
 
       done();
     });
+});
+
+describe('/GET random-items/:notLike', () =>{
+  var items;
+
+  it('itemsNoLibe must not contain \'Liberation\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server)
+      .get('/random-items/liberation')
+      .then((res) => {
+        items = res.body
+        items.forEach(item => {
+          expect(!(item.ite_title.match(/liberation/i))).to.be.true;
+          expect(!(item.ite_link.match(/liberation/i))).to.be.true;
+          if(item.ite_description)
+          expect(!(item.ite_description.match(/liberation/i))).to.be.true;
+        });
+        done();
+      })
+      .catch((err) => {});
+    }
+  );
+
+  it('itemsNoEcho must not contain \'echos\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server)
+      .get('/random-items/echos')
+      .then((res) => {
+        items = res.body
+        items.forEach(item => {
+          expect(!(item.ite_title.match(/echos/i))).to.be.true;
+          expect(!(item.ite_link.match(/echos/i))).to.be.true;
+          if(item.ite_description)
+            expect(!(item.ite_description.match(/echos/i))).to.be.true;
+        });
+        done();
+      })
+      .catch((err) => {});
+    }
+  );
+  it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server).get('/random-items/liberation+echos')
+      .then((res) => {
+          items = res.body;
+          items.forEach(item => {
+            expect(!(item.ite_title.match(/liberation/i))).to.be.true;
+            expect(!(item.ite_link.match(/liberation/i))).to.be.true;
+            expect(!(item.ite_title.match(/echos/i))).to.be.true;
+            expect(!(item.ite_link.match(/echos/i))).to.be.true;
+            if(item.ite_description){
+              expect(!(item.ite_description.match(/liberation/i))).to.be.true;
+              expect(!(item.ite_description.match(/echos/i))).to.be.true;
+            }
+          });
+          done();
+      })
+      .catch((err) => {});
+    }
+  );
 });

@@ -16,6 +16,9 @@ router.get('/about', function(req, res, next) {
 /* GET API random items. */
 router.get('/random-items', itemDB.getRandomItems);
 
+/* GET API random Items not like parameter. */
+router.get('/random-items/:notLike', itemDB.getRandomItemsNotLike);
+
 /* GET API insertItems method. */
 router.get('/insertItems', itemDB.insertItems);
 
