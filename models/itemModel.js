@@ -10,15 +10,14 @@ let language;
 let theme;
 
 /* Query all items from db => only for test */
-const getAllItems = (response) =>
+const getAllItems = (request, reponse) =>
 {
-  db
+  return db
   .any("SELECT * from item")
-  .then
-  (
-    function(data) { response = data; }
-  )
-  .catch(function (error) { console.log(error);});
+  // .then( function(data) {
+  //     reponse.status(200).json(data);
+  // })
+  // .catch(function (error) { console.log(error);});
 }
 
 /* Query 12 random items from data base */

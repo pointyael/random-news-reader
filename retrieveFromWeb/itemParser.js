@@ -40,7 +40,9 @@ const getLanguage = (item) => {
       } else if (resultTitle[0][0] == resultDescription[0][0]) {
         parsedItem.languge = resultTitle[0][0];
       } else {
-        parsedItem.language = parsedItem.link.split(/www\W\w*\W/)[1].split(/\//)[0];
+        parsedItem.language = parsedItem.link.split(/www\W\w*\W/)[1];
+        if (parsedItem.language)
+          parsedItem.language = parsedItem.language.split(/\//)[0]
       }
   }
 }
