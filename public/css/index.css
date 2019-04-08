@@ -19,7 +19,6 @@ header, footer {
 	width: 100%;
 	align-items: center;
 	justify-content: center;
-	/* background-color: #000; */
 }
 
 a {
@@ -87,7 +86,6 @@ figure figcaption {
 div#btnRefresh {
 	padding: 10px 20px;
 	color: #FFF;
-	/* background-color: #db5030; */
 	border-radius: 50px;
 	cursor: pointer;
 }
@@ -107,7 +105,6 @@ div .fa.fa-refresh.fa-spin{
 	padding-top: 20px;
 	top: 100px;
 	right: 0;
-	/* background-color: #000; */
 	z-index: 1;
 	transition: 0.5s;
 }
@@ -119,7 +116,6 @@ div .fa.fa-refresh.fa-spin{
 	font-size: 25px;
 	white-space: nowrap;
 	transition: 0.3s;
-	cursor: pointer;
 } 
 
 .sidebar div:nth-child(n+2):hover {
@@ -135,6 +131,7 @@ div .fa.fa-refresh.fa-spin{
 /*----------------*/
 /* SIDEBAR  QUOTE */
 /*-----------------*/
+
 blockquote {
 	position: relative;
 	margin: 0px 18px 25px;
@@ -165,9 +162,6 @@ blockquote p {
 /*----------------*/
 /* SIDEBAR FILTER */
 /*----------------*/
-.sidebar div:first-of-type:hover{
-	pointer-events: none;
-}
 
 #keywordsFilter {
 	max-width: 250px;
@@ -190,7 +184,6 @@ blockquote p {
 	border-radius: 25px;
 	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
 }
-
 
 /*------------------*/
 /* ANIMATION BURGER */
