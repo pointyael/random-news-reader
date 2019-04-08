@@ -28,12 +28,12 @@ function getFeedLinks(rawUrl){
 function getPythonSystemPath() {
     var pf;
     if(process.platform == "win32")
-      pf =  process.env.PYPATHWIN;
+      pf =  'C:\\Python27\\python.exe';//process.env.PYPATHWIN;
     // else if another platform
     // pf = [Add your path in .env]
     else // for TRAVISCI
-      pf = process.env.PYPATHTRA;
-  
+      pf = "python";//process.env.PYPATHTRA;
+
     return pf;
   }
 
