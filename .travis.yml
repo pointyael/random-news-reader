@@ -26,7 +26,9 @@ before_script:
 - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
 - psql -c 'CREATE DATABASE randomizer;' -U postgres
 - psql -U postgres randomizer < ./database/exportSql.sql
-- sed -i 's/PYPATH=*/PYPATH=python' .env
+- PYTHONPATH=$(which python)
+- sed -i 's/PYPATH=*/PYPATH=$PYTHONPATH/g' .env
+- cat .env
 
 script :
   - npm install
