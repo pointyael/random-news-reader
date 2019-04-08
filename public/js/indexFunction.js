@@ -9,8 +9,8 @@ function refreshItems() {
 	displayItems();
 }
 
-buttonRefresh.addEventListener('click', function () { 
-	generateStyle(); 
+buttonRefresh.addEventListener('click', function () {
+	generateStyle();
 	refreshItems();
 	closeSidebarMenu();
 });
@@ -132,12 +132,15 @@ function checkButton(event) {
 }
 
 function displayItem(item) {
-	var html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
+	var html;
+	if(item)	{
+		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>' +
 		'<img src="' + item["ite_enclosure"] + '" alt=""/> ' +
 		'<figcaption>' + item["ite_title"] + '</figcaption>' +
 		'</figure>' +
 		'</a>';
+	}
 	return html;
 }
 

@@ -1,33 +1,3 @@
-<<<<<<< HEAD
-//Require the dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../app');
-let should = chai.should();
-
-
-chai.use(chaiHttp);
-/*
-  * Test the /GET route
-  */
-
-describe('/GET random-items', () => {
-    it('it should GET an array of items', (done) => {
-    chai.request(server)
-        .get('/random-items')
-        .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.a('array');
-                items = res.body;
-                items.forEach(item => {
-                    console.log(item);
-                    item.ite_title.should.be.a('string').not.empty;
-                });
-            done();
-        });
-    });
-});
-=======
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
@@ -43,18 +13,13 @@ chai.use(chaiHttp);
   */
 
 describe('/GET random-items', () => {
-    var status;
+
     var items;
     before(
       async function(){
         await chai.request(server)
         .get('/random-items')
-        .then(
-          (res) => {
-            items = res.body;
-            status = res.status;
-          }
-        )
+        .then( (res) =>  items = res.body )
         .catch();
       }
     );
@@ -84,4 +49,63 @@ describe('/GET random-items', () => {
       done();
     });
 });
->>>>>>> master
+
+describe('/GET random-items/:notLike', () =>{
+  var items;
+
+  it('itemsNoLibe must not contain \'Liberation\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server)
+      .get('/random-items/liberation')
+      .then((res) => {
+        items = res.body
+        items.forEach(item => {
+          expect(!(item.ite_title.match(/liberation/i))).to.be.true;
+          expect(!(item.ite_link.match(/liberation/i))).to.be.true;
+          if(item.ite_description)
+          expect(!(item.ite_description.match(/liberation/i))).to.be.true;
+        });
+        done();
+      })
+      .catch((err) => {});
+    }
+  );
+
+  it('itemsNoEcho must not contain \'echos\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server)
+      .get('/random-items/echos')
+      .then((res) => {
+        items = res.body
+        items.forEach(item => {
+          expect(!(item.ite_title.match(/echos/i))).to.be.true;
+          expect(!(item.ite_link.match(/echos/i))).to.be.true;
+          if(item.ite_description)
+            expect(!(item.ite_description.match(/echos/i))).to.be.true;
+        });
+        done();
+      })
+      .catch((err) => {});
+    }
+  );
+  it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case ',
+    (done) => {
+      chai.request(server).get('/random-items/liberation+echos')
+      .then((res) => {
+          items = res.body;
+          items.forEach(item => {
+            expect(!(item.ite_title.match(/liberation/i))).to.be.true;
+            expect(!(item.ite_link.match(/liberation/i))).to.be.true;
+            expect(!(item.ite_title.match(/echos/i))).to.be.true;
+            expect(!(item.ite_link.match(/echos/i))).to.be.true;
+            if(item.ite_description){
+              expect(!(item.ite_description.match(/liberation/i))).to.be.true;
+              expect(!(item.ite_description.match(/echos/i))).to.be.true;
+            }
+          });
+          done();
+      })
+      .catch((err) => {});
+    }
+  );
+});
