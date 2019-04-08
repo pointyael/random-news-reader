@@ -68,43 +68,147 @@
     </div>
 
     <main>
-        <div class="wrapper">
-            <div class="inner-wrapper">
-                <div class="button">
-                    <div class="button__inner"><i class="fa fa-play"></i></div>
+        <div class="mediaplayer" id="mediaPlayer">
+            <audio id="audioPlayer" src="https://d34x6xks9kc6p2.cloudfront.net/540997b0-a35f-4b69-86d6-b1c925c4a264/540997b0-a35f-4b69-86d6-b1c925c4a264.mp3"></audio>
+            <div class="discarea">
+                <div class="disc">
                 </div>
-                <audio src="\public\audio\ACDC - If You Want Blood (You Got It)(Official Video).mp3" controls="controls"></audio>
-                <audio src="\public\audio\batugorgon.mp3" controls="controls"></audio>
-                <div class="progress">
-                    <div class="progress__inner"></div>
+                <div class="stylus">
+                    <div class="pivot"></div>
+                    <div class="arm"></div>
+                    <div class="head"></div>
+                </div>
+            </div>
+            <div class="controls">
+                <span class="title" id="songTitleLabel">
+                    LA Chill Tour
+                </span>
+                <div class="buttons">
+                    <button id="backItem" class="back">
+                        <i class="fa fa-backward"></i>
+                    </button>
+                    <button id="playState" class="playstate">
+                        <i class="fa fa-play"></i>
+                        <i class="fa fa-pause"></i>
+                    </button>
+                    <button id="stopItem" class="stop">
+                        <i class="fa fa-stop"></i>
+                    </button>
+                    <button id="nextItem" class="next">
+                        <i class="fa fa-forward"></i>
+                    </button>
+                </div>
+                <div class="subControls">
+                    <span class="duration" id="currentDuration">00:00</span>
+                    <input class="volumeSlider" type="range" id="volumeSlider" min="0" max="1" step="0.01" />
                 </div>
             </div>
         </div>
         <script>
-            var button = document.querySelector('.button'),
-                icon = document.querySelector('.button__inner'),
-                audio = document.querySelector('audio'),
-                play = false;
+            // Songs from https://www.conversesamplelibrary.com/
+            var songs = [{
+                title: "LA Chill Tour",
+                songURL: "https://d34x6xks9kc6p2.cloudfront.net/540997b0-a35f-4b69-86d6-b1c925c4a264/540997b0-a35f-4b69-86d6-b1c925c4a264.mp3"
+            }, {
+                title: "This is it band",
+                songURL: "https://d34x6xks9kc6p2.cloudfront.net/8bd0ca4f-1b57-47e9-8878-516d14196d86/8bd0ca4f-1b57-47e9-8878-516d14196d86.mp3"
+            }, {
+                title: "LA Fusion Jam",
+                songURL: "https://d34x6xks9kc6p2.cloudfront.net/0024ada8-e1c3-4d75-a2df-d19ea5eb6c79/0024ada8-e1c3-4d75-a2df-d19ea5eb6c79.mp3"
+            }, ]
+            const playerArea = document.getElementById("mediaPlayer")
+            const playButton = document.getElementById("playState")
+            const stopButton = document.getElementById("stopItem")
+            const nextButton = document.getElementById("nextItem")
+            const prevButton = document.getElementById("backItem")
+            const durationLabel = document.getElementById("currentDuration")
+            const songTitleLabel = document.getElementById("songTitleLabel")
+            const audioPlayer = document.getElementById("audioPlayer")
+            const volumeSlider = document.getElementById("volumeSlider")
+            let currentIndex = 0
+            let dataAvailable = false
+            let currentLength;
+            let timer;
 
-            button.addEventListener('click', function() {
-                if (!play) {
-                    audio.play();
-                    icon.innerHTML = '<i class="fa fa-pause"></i>';
+            timer = setInterval(updateDurationLabel, 100)
+
+            volumeSlider.addEventListener("input", () => {
+                audioPlayer.volume = parseFloat(volumeSlider.value)
+            }, false)
+
+            playButton.addEventListener("click", () => {
+                playerArea.classList.toggle("play")
+                if (audioPlayer.paused) {
+                    setTimeout(() => {
+                        audioPlayer.play()
+                    }, 300)
+                    timer = setInterval(updateDurationLabel, 100)
                 } else {
-                    audio.pause();
-                    icon.innerHTML = '<i class="fa fa-play"></i>';
+                    audioPlayer.pause()
+                    clearInterval(timer)
                 }
+            }, false)
 
-                audio.addEventListener("timeupdate", function() {
-                    var currentTime = audio.currentTime;
-                    var duration = audio.duration;
-                    var progress = document.querySelector('.progress__inner');
+            stopButton.addEventListener("click", () => {
+                playerArea.classList.remove("play")
+                audioPlayer.pause()
+                audioPlayer.currentTime = 0
+                updateDurationLabel()
+            }, false)
 
-                    progress.style.width = (currentTime + .25) / duration * 100 + '%';
-                });
+            nextButton.addEventListener("click", () => {
+                dataAvailable = false
+                loadNext(true)
+            }, false)
 
-                play = !play;
-            }, false);
+            prevButton.addEventListener("click", () => {
+                dataAvailable = false
+                loadNext(false)
+
+            }, false)
+
+            audioPlayer.addEventListener("loadeddata", () => {
+                dataAvailable = true
+                currentLength = audioPlayer.duration
+            });
+
+            // FUNCTIONS
+
+            // Converts time in ms to zero-padded string in seconds
+            function parseTime(time) {
+                const minutes = Math.floor(time / 60)
+                const seconds = Math.floor(time - minutes * 60)
+                const secondsZero = seconds < 10 ? "0" : ""
+                const minutesZero = minutes < 10 ? "0" : ""
+                return minutesZero + minutes.toString() + ":" + secondsZero + seconds.toString()
+            }
+
+            // Loads next song
+            function loadNext(next) {
+                audioPlayer.pause()
+                if (next) {
+                    currentIndex = (currentIndex + 1) % songs.length
+                } else {
+                    currentIndex = (currentIndex - 1) < 0 ? songs.length - 1 : currentIndex - 1
+                }
+                audioPlayer.src = songs[currentIndex].songURL
+                songTitleLabel.innerHTML = songs[currentIndex].title
+                audioPlayer.play()
+            }
+
+            // Updates the duration label
+            function updateDurationLabel() {
+                if (dataAvailable) {
+                    durationLabel.innerText = parseTime(audioPlayer.currentTime) + " / " + parseTime(currentLength)
+                } else {
+                    durationLabel.innerText = parseTime(audioPlayer.currentTime)
+                }
+            }
+
+            //rewind on completion
+            audioPlayer.addEventListener("ended", () => {
+                myAudio.currentTime = 0
+            });
         </script>
     </main>
 
