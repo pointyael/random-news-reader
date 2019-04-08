@@ -20,11 +20,7 @@ figcaption, p, a{
     font-family: Spectral Extrabold;
 }
 
-.sidebar div:hover{
-    color: #f8333c;
-}
-
- main {
+main {
     background-color: #fff;
 }
 
@@ -39,5 +35,10 @@ blockquote p, blockquote::after{
 
 .checkbox:checked + .label-check{
     background-color: #4c5760;
+    color: #fff;
+}
+
+.label-check:hover{
+    background-color: #6290c3;
     color: #fff;
 }

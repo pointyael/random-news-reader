@@ -118,10 +118,6 @@ div .fa.fa-refresh.fa-spin{
 	transition: 0.3s;
 } 
 
-.sidebar div:nth-child(n+2):hover {
-	color: #fff;
-}
-
 .sidebar div.bottomLink {
 	position: fixed;
 	bottom: 20px;
