@@ -62,11 +62,50 @@
                 <label class="label-check" for="checkbox5">#Voitures</label>
             </div>
         </div>
-        <a href="./about"><div class="bottomLink">A propos</div></a>
+        <a href="./about">
+            <div class="bottomLink">A propos</div>
+        </a>
     </div>
 
     <main>
+        <div class="wrapper">
+            <div class="inner-wrapper">
+                <div class="button">
+                    <div class="button__inner"><i class="fa fa-play"></i></div>
+                </div>
+                <audio src="\public\audio\ACDC - If You Want Blood (You Got It)(Official Video).mp3" controls="controls"></audio>
+                <audio src="\public\audio\batugorgon.mp3" controls="controls"></audio>
+                <div class="progress">
+                    <div class="progress__inner"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var button = document.querySelector('.button'),
+                icon = document.querySelector('.button__inner'),
+                audio = document.querySelector('audio'),
+                play = false;
 
+            button.addEventListener('click', function() {
+                if (!play) {
+                    audio.play();
+                    icon.innerHTML = '<i class="fa fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    icon.innerHTML = '<i class="fa fa-play"></i>';
+                }
+
+                audio.addEventListener("timeupdate", function() {
+                    var currentTime = audio.currentTime;
+                    var duration = audio.duration;
+                    var progress = document.querySelector('.progress__inner');
+
+                    progress.style.width = (currentTime + .25) / duration * 100 + '%';
+                });
+
+                play = !play;
+            }, false);
+        </script>
     </main>
 
     <footer>
