@@ -6,7 +6,7 @@ const db = pgp({
   password: "md5244af1e2823d5eaeeffc42c5096d8260",
   database: "randomizer",
   port: 5432,
-  host:"localhost",
+  host: "localhost",
   connectionString: "postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer"
 });
 

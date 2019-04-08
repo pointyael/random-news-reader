@@ -61,12 +61,13 @@ const getRandomItemsNotLike = (request, response) => {
 
 /* Insert items in data base */
 const insertItems = (feed) => {
-
+  return new Promise(function(resolve, reject) {
     deleteOldItems();
 
     db
-    .any("SELECT * FROM source WHERE sou_link = " + feed)
+    .any("SELECT * FROM source WHERE sou_link = '" + feed + "' LIMIT 1")
     .then(async function(source) {
+      source = source[0];
         await ItemsRetrieved.getItems(source.sou_link).then(
             function(res) {
                 feedInfo = {
@@ -79,18 +80,20 @@ const insertItems = (feed) => {
                 itemsJsonString = (JSON.stringify(res));
 
                 db.any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
-                .then(function(status) {})
+                .then(function(status) {
+                  resolve(status);
+                })
                 .catch(function(err) {
-                    console.log(err)
+                    reject(err)
                 });
             }
        ).catch(function(err) {
-            console.log(err);
+          reject(err);
         });
     }).catch(function(err2) {
-        console.log(err2);
+        reject(err2);
     });
-
+  })
 }
 
 const deleteOldItems =

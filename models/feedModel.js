@@ -12,11 +12,9 @@ let link;
 let name;
 
 /* Insert feed in data base */
-const insertFeed = (feedsToSave) => {
+const insertFeed = (feedToSave) => {
     return new Promise(function(resolve, reject) {
-        db.none('INSERT INTO source (sou_link) VALUES(${link})', {
-            link: feedsToSave[i]
-        })
+        db.none('INSERT INTO source (sou_link) VALUES(\'' + feedToSave + '\')')
         .then(function() {
             resolve();
         })
