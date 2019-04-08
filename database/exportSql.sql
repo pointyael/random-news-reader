@@ -202,7 +202,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
                   vAItem->>'enclosure',
                   to_number(vAItem->>'type', '99G999D9S'),
                   vAItem->>'link',
-                  to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
+                  to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH:MI:SS'),
                   vLangId,
                   vCategoryId,
                   to_number(pSource->>'id', '99G999D9S')
@@ -277,8 +277,7 @@ BEGIN
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND (lower(sou_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
+      || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%''';
   END LOOP;
 
   vSelectClause :=
