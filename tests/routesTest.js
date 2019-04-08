@@ -26,8 +26,8 @@ describe('/GET random-items', () => {
 
         items.should.be.a('array');
 
-        // Cann't test the length < 12 because too few sources
-        //expect(items.length == 12).to.be.true;
+        // Can't test the length < 12 because too few sources
+        expect(items.length == 12).to.be.true;
 
         items.forEach(item => {
           expect(item.ite_title).be.a('string').not.empty;
@@ -107,4 +107,41 @@ describe('/GET random-items/:notLike', () =>{
       .catch((err) => { done(err); });
     }
   );
+});
+
+describe('/GET random-filter', () => {
+  var filters;
+
+  it('random filters expect to have 5 filters with a localized filter and default filter', (done) => {
+    chai.request(server)
+    .get('/random-filter')
+    .then( (reponse) => {
+      filters = reponse.body;
+      expect(filters.length == 5).to.be.true;
+      filters.forEach((filter) => {
+        expect(filter.fll_localise).be.a('string').not.empty;
+      });
+      done();
+    })
+    .catch((err) => {done(err);});
+  });
+});
+
+describe('/GET random-defaultfilter', () => {
+  var filters;
+
+  it('filters expect to have 5 filters with default filters', (done) => {
+    chai.request(server)
+    .get('/random-defaultfilter')
+    .then( (reponse) => {
+      filters = reponse.body;
+      expect(filters.length == 5).to.be.true;
+      filters.forEach((filter) => {
+        expect(filter.fll_localise).be.a('string').not.empty;
+        expect(filter.fll_language == 16).to.be.true;
+      });
+      done();
+    })
+    .catch((err) => {done(err);});
+  });
 });

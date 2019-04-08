@@ -41,21 +41,29 @@ END;$$;
 ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
 
 
--- CREATE OR REPLACE FUNCTION public."getRandomFilterWords"(pItems json[]) RETURNS json[]
---     LANGUAGE plpgsql
---     AS $$
--- DECLARE
---   vJson json[];
---   vAItem json;
---   vAWord json;
--- BEGIN
---   -- TRY WITH ONLY FR
---   FOREACH vAItem in pItems LOOP
---
---   END LOOP;
---
--- END;$$;
---
+CREATE OR REPLACE FUNCTION public."getRandomFilterWords"() RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vfilter integer;
+  vJson json[];
+  vAWord json;
+  --cur CURSOR FOR SELECT * from filtrelocalise;
+BEGIN
+-- TRY WITH ONLY FR
+  FOR vfilter in
+    (SELECT fil_id from filtre where fil_id < 6)
+  LOOP
+    SELECT row_to_json(fl) into vAWord from filtrelocalise fl
+    join filtre on fil_id=fll_filtre
+    WHERE fll_filtre = vfilter
+    ORDER BY RANDOM() LIMIT 1;
+
+    vJson := array_append(vJson, vAWord);
+  END LOOP;
+  RETURN vJson;
+END;$$;
+
 -- ALTER FUNCTION public."getRandomFilterWords"() OWNER TO postgres;
 
 --
@@ -407,7 +415,7 @@ ALTER TABLE public.sidebarQuote OWNER TO postgres;
 --
 
 CREATE TABLE public.source (
-    sou_id integer NOT NULL,
+    sou_id SERIAL,
     sou_title character varying(30),
     sou_link character varying(250)
 );
@@ -853,22 +861,22 @@ INSERT INTO public.sidebarQuote VALUES (53, '');
 -- Data for Name: source; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.source VALUES (1, 'journal du net', 'https://www.journaldunet.com/rss/');
-INSERT INTO public.source VALUES (2, 'jeuxvideo.com', 'http://www.jeuxvideo.com/rss/rss.xml');
-INSERT INTO public.source VALUES (3, 'le journal du hard', 'https://www.journaldunet.com/media/rss/');
-INSERT INTO public.source VALUES (4, 'lanruoj el', 'https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
-INSERT INTO public.source VALUES (5, 'L''internaute', 'http://www.linternaute.com/rss/');
-INSERT INTO public.source VALUES (6, 'MixMag', 'https://mixmag.net/rss.xml');
-INSERT INTO public.source VALUES (7, 'Le Monde - Unes', 'https://www.lemonde.fr/rss/une.xml');
-INSERT INTO public.source VALUES (8, 'Mediapart - Chroniques', 'http://www.mediapart.fr/journal/podcast/chronique/rss');
-INSERT INTO public.source VALUES (9, 'La Dépêche', 'https://www.ladepeche.fr/rss.xml');
-INSERT INTO public.source VALUES (10, 'Les Echos - société et monde', 'https://syndication.lesechos.fr/rss/rss_politique_societe.xml');
-INSERT INTO public.source VALUES (11, 'Les Echos - idées', 'https://syndication.lesechos.fr/rss/rss_idee.xml');
-INSERT INTO public.source VALUES (12, 'Courrier Internationale', 'https://www.courrierinternational.com/feed/all/rss.xml');
-INSERT INTO public.source VALUES (13, 'Huffing Post', 'https://www.huffingtonpost.fr/feeds/index.xml');
-INSERT INTO public.source VALUES (14, 'New York Times - US HomePage', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
-INSERT INTO public.source VALUES (15, 'Washington Post - Fast Checker', 'http://feeds.washingtonpost.com/rss/rss_fact-checker');
-INSERT INTO public.source VALUES (16, 'Washington Post - WorldViews', 'http://feeds.washingtonpost.com/rss/rss_blogpost');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('journal du net', 'https://www.journaldunet.com/rss/');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('jeuxvideo.com', 'http://www.jeuxvideo.com/rss/rss.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('le journal du hard', 'https://www.journaldunet.com/media/rss/');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('lanruoj el', 'https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('L''internaute', 'http://www.linternaute.com/rss/');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('MixMag', 'https://mixmag.net/rss.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('Le Monde - Unes', 'https://www.lemonde.fr/rss/une.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('Mediapart - Chroniques', 'http://www.mediapart.fr/journal/podcast/chronique/rss');
+INSERT INTO public.source (sou_title, sou_link) VALUES ('La Dépêche', 'https://www.ladepeche.fr/rss.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Les Echos - société et monde', 'https://syndication.lesechos.fr/rss/rss_politique_societe.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Les Echos - idées', 'https://syndication.lesechos.fr/rss/rss_idee.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Courrier Internationale', 'https://www.courrierinternational.com/feed/all/rss.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Huffing Post', 'https://www.huffingtonpost.fr/feeds/index.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'New York Times - US HomePage', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Washington Post - Fast Checker', 'http://feeds.washingtonpost.com/rss/rss_fact-checker');
+INSERT INTO public.source (sou_title, sou_link) VALUES ( 'Washington Post - WorldViews', 'http://feeds.washingtonpost.com/rss/rss_blogpost');
 
 
 --
