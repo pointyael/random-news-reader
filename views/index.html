@@ -68,53 +68,22 @@
     </div>
 
     <main>
-        <div class="mediaplayer" id="mediaPlayer">
-            <audio id="audioPlayer" src="https://d34x6xks9kc6p2.cloudfront.net/540997b0-a35f-4b69-86d6-b1c925c4a264/540997b0-a35f-4b69-86d6-b1c925c4a264.mp3"></audio>
-            <div class="discarea">
-                <div class="disc">
-                </div>
-                <div class="stylus">
-                    <div class="pivot"></div>
-                    <div class="arm"></div>
-                    <div class="head"></div>
-                </div>
-            </div>
-            <div class="controls">
-                <span class="title" id="songTitleLabel">
-                    LA Chill Tour
-                </span>
-                <div class="buttons">
-                    <button id="backItem" class="back">
-                        <i class="fa fa-backward"></i>
-                    </button>
-                    <button id="playState" class="playstate">
-                        <i class="fa fa-play"></i>
-                        <i class="fa fa-pause"></i>
-                    </button>
-                    <button id="stopItem" class="stop">
-                        <i class="fa fa-stop"></i>
-                    </button>
-                    <button id="nextItem" class="next">
-                        <i class="fa fa-forward"></i>
-                    </button>
-                </div>
-                <div class="subControls">
-                    <span class="duration" id="currentDuration">00:00</span>
-                    <input class="volumeSlider" type="range" id="volumeSlider" min="0" max="1" step="0.01" />
-                </div>
-            </div>
-        </div>
         <script></script>
-    </main>
+        <--!TODO faire une page "radio" sur laquelle vont tourner les videos et qui se sera pas rafraichie. ? lier les clics home/pageAudio?-->
+            <iframe background color="black" width="80" height="30" src="https://www.youtube.com/embed/?listType=playlist&list=PLd9auH4JIHvupoMgW5YfOjqtj6Lih0MKw" frameborder="0" allowfullscreen></iframe>
+            <iframe width="80" height="30" src="https://www.youtube.com/embed/coYw-eVU0Ks" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="80" height="30" src="https://www.youtube.com/embed/cuYn2cLksvU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="80" height="30" src="https://www.youtube.com/embed/mXRfApkMYZU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="80" height="30" src="https://www.youtube.com/embed/a-M_5rGhPdg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="80" height="30" src="https://www.youtube.com/embed/9CIzv88RY3Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <footer>
+                <div id='btnRefresh'>
+                    <span id="randomizePhrase "></span>
+                    <i class="fa fa-refresh fa-spin "></i>
+                </div>
+            </footer>
 
-    <footer>
-        <div id='btnRefresh'>
-            <span id="randomizePhrase"></span>
-            <i class="fa fa-refresh fa-spin"></i>
-        </div>
-    </footer>
-
-    <script src="../public/js/indexFunction.js"></script>
+            <script src="../public/js/indexFunction.js "></script>
 
 </body>
 
