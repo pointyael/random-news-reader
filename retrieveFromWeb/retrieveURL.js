@@ -4,7 +4,7 @@ var pgp = require("pg-promise")();
 var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
 var request = require('request');
 
-var searchEngines = ['bing_news', 'google', 'bing', 'baidu', 'webcrawler'];
+var searchEngines = ['google', 'bing', 'baidu'];
 
 function getRandomWord() {
     return new Promise(function(resolve, reject){

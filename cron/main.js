@@ -2,6 +2,7 @@
 
 rURL = require('../retrieveFromWeb/retrieveURL');
 rFL = require('../retrieveFromWeb/retrieveFeedLinks');
+feedModel = require('../models/feedModel');
 
 rURL.getRandomWord()
     .then(word => {
@@ -16,7 +17,12 @@ rURL.getRandomWord()
         }
     })
     .then(feedURL => {
-        console.log(feedURL)
+        if (feedURL != '' && typeof feedURL != undefined) {
+            console.log('FLUX TROUVE : ', feedURL);
+            feedModel.insertFeed(feedURL);
+        } else {
+            console.log('PAS DE FLUX');
+        }
     })
     .catch(err => {
         console.log(err);

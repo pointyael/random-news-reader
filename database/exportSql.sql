@@ -391,8 +391,7 @@ ALTER TABLE public.sidebarQuote OWNER TO postgres;
 --
 
 CREATE TABLE public.source (
-    sou_id integer NOT NULL,
-    sou_title character varying(30),
+    sou_id integer SERIAL,
     sou_link character varying(250)
 );
 
