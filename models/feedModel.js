@@ -13,14 +13,19 @@ let name;
 
 /* Insert feed in data base */
 const insertFeed = (feedsToSave) => {
-    for (let i = 0; i < feedsToSave.length; i++) {
+    return new Promise(function(resolve, reject) {
         db.none('INSERT INTO source (sou_link) VALUES(${link})', {
             link: feedsToSave[i]
         })
+        .then(function() {
+            resolve();
+        })
         .catch(function (error) {
             console.log("ERROR:", error);
+            reject(error);
         });
-    }
+
+    });  
 }
 
 module.exports = {

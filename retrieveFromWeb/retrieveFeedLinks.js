@@ -11,7 +11,7 @@ function getFeedLinks(rawUrl){
     console.log("Hôte : " + host);
 
     var options = {
-        pythonPath: getPythonSystemPath(),
+        pythonPath: process.env.PYPATH,
         mode: 'text',
         scriptPath: 'retrieveFromWeb/feedvalidator',
         args: [host]
@@ -24,18 +24,6 @@ function getFeedLinks(rawUrl){
   });
 
 }
-
-function getPythonSystemPath() {
-    var pf;
-    if(process.platform == "win32")
-      pf =  process.env.PYPATHWIN;
-    // else if another platform
-    // pf = [Add your path in .env]
-    else // for TRAVISCI
-      pf = process.env.PYPATHTRA;
-  
-    return pf;
-  }
 
 module.exports = {
     getFeedLinks
