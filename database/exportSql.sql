@@ -205,7 +205,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
                   vAItem->>'enclosure',
                   to_number(vAItem->>'type', '99G999D9S'),
                   vAItem->>'link',
-                  to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH:MI:SS'),
+                  to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
                   vCategoryId,
                   to_number(pSource->>'id', '99G999D9S')
