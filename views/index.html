@@ -26,14 +26,21 @@
         <div class="modal-content">
             <p>Bienvenue. Vous allez naviguer sur un site qui ne vous connaît pas et ne se souviendra pas de vous.</p>
 
-            <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information
-                pertinente pour vous.</p>
+            <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information pertinente pour vous.</p>
 
-            <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48
-                heures.</p>
+            <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48 heures.</p>
 
             <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
-            <button class="close">Y[es]<span class="blink">|</span></button>
+            <div class="yesNoBox">
+                <button class="close">Y[es]<span class="blink">|</span></button>
+                <button class="redirect">N[o]</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal displayNone">
+        <div class="modal-content2">
+            <p>See you SpaceCowboy...</p>
         </div>
     </div>
 
@@ -41,7 +48,7 @@
         <blockquote>
             <p id="quote"></p>
         </blockquote>
-        <div>Mots clés
+        <div>Ne pas voir:
             <div id='keywordsFilter'>
                 <input type="checkbox" id="checkbox1" class="checkbox" value="NSFW">
                 <label class="label-check" for="checkbox1">#NSFW</label>
@@ -54,9 +61,7 @@
                 <input type="checkbox" id="checkbox5" class="checkbox" value="Voitures">
                 <label class="label-check" for="checkbox5">#Voitures</label>
             </div>
-        </div> 
-        <div>Filtrer par ceci</div>
-        <div>Filtrer par cela</div>
+        </div>
         <a href="./about"><div class="bottomLink">A propos</div></a>
     </div>
 

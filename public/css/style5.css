@@ -20,7 +20,6 @@ figure figcaption {
 }
 
 figcaption, p, a {
-    text-transform: uppercase;
     font-family: Oswald;
 }
 
@@ -28,7 +27,6 @@ figcaption, p, a {
     color:#fff;
     font-family: Oswald;
 }
-
 
 .sidebar label {
     color:#000;
