@@ -53,6 +53,7 @@ describe('/GET random-items/:notLike', () =>{
       .get('/random-items/liberation')
       .then((res) => {
         items = res.body
+        expect(items.length == 12).to.be.true;
         items.forEach(item => {
           if (item.ite_title){
             expect(item.ite_title.includes("liberation")).to.be.false;
@@ -73,6 +74,7 @@ describe('/GET random-items/:notLike', () =>{
       .get('/random-items/echos')
       .then((res) => {
         items = res.body
+        expect(items.length == 12).to.be.true;
         items.forEach(item => {
           if (item.ite_title) { // IDK why a item is null ???  no pb during run on pgadmin posgtres
             expect(!(item.ite_title.includes("echos"))).to.be.true;
@@ -90,6 +92,7 @@ describe('/GET random-items/:notLike', () =>{
       .get('/random-items/liberation+echos')
       .then((res) => {
           items = res.body;
+          expect(items.length == 12).to.be.true;
           items.forEach(item => {
             if(item.ite_title) {
               expect(!(item.ite_title.includes("liberation"))).to.be.true;

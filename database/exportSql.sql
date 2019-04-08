@@ -126,8 +126,9 @@ CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) RETUR
 
   vAItem json;
   vJson json[];
-  vSourceId int;
-  vSources int[];
+
+  vSourceId integer;
+  vSources integer[];
 BEGIN
 
   SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
@@ -137,6 +138,8 @@ BEGIN
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
+
+  RAISE NOTICE '%', vSources;
   RETURN vJson;
 
 END;$$;
@@ -218,7 +221,7 @@ ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO post
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."itemNotLike"(psource integer, pclause text[]) RETURNS json
+CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[]) RETURNS json
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -264,13 +267,13 @@ CREATE OR REPLACE FUNCTION public."sourcesNotLike"(pclause text[]) RETURNS integ
     LANGUAGE plpgsql
     AS $$
 DECLARE
-  vSourceIds int[];
+  vSourceIds integer[];
   vWhereClause text;
   vSelectClause text;
 BEGIN
 
   vSelectClause :=
-    'SELECT array_agg(sou_id::integer) FROM source'
+    'SELECT ARRAY(SELECT sou_id FROM source'
     || ' WHERE sou_id IN ( SELECT ite_source FROM item GROUP BY ite_source ) ';
 
   FOREACH vWhereClause IN ARRAY pClause
@@ -282,7 +285,7 @@ BEGIN
 
   vSelectClause :=
     vSelectClause
-    || ' ORDER BY RANDOM() LIMIT 12';
+    || ' ORDER BY RANDOM() LIMIT 12)';
 
     EXECUTE vSelectClause INTO vSourceIds;
 
