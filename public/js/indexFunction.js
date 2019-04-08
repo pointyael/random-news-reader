@@ -36,7 +36,39 @@ function switchDisplay() {
 	}
 }
 
+function displayFiltres(){
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var filtres = JSON.parse(this.responseText);
+			var divFiltre = document.getElementById('keywordsFilter');
+
+			/* Affichage */
+			for (var i = 0; i < filtres.length; i++) {
+				divFiltre.innerHTML += displayFiltre(filtres[i]);
+			}
+		}
+	};
+	
+	req.open("GET", "http://localhost:3000/random-defaultfilter");
+	req.send();
+}
+
+function displayFiltre(filtre) {
+	var html;
+	if(filtre)	{
+		html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="'+ filtre["fll_localise"] +'">' + 
+		'<label class="label-check" for="checkbox' + filtre["fll_filtre"]+ '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
+	}
+	return html;
+}
+
 switchButton.addEventListener('click', switchDisplay);
+
+window.onload = displayFiltres();
 
 /*----------------------------------------------------------*/
 /* 				DISPLAY/HIDE MODAL A PROPOS		 			*/
@@ -154,10 +186,14 @@ function checkButton(event) {
 
 function displayItem(item) {
 	var html;
-	if(item)	{
+	if(item){
+		if (item["ite_enclosure"] != null)
+			image = item["ite_enclosure"];
+		else
+			image = '/public/img/GoldfishNews.png';
 		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>' +
-		'<img src="' + item["ite_enclosure"] + '" alt=""/> ' +
+		'<img src="' + image + '" alt="" /> ' +
 		'<figcaption>' + item["ite_title"] + '</figcaption>' +
 		'</figure>' +
 		'</a>';
