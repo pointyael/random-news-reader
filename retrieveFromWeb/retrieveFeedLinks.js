@@ -2,33 +2,29 @@
 let {PythonShell} = require('python-shell');
 var url=require('url');
 
-function getFeedLinks(url, callback){
-    var pyPath = getPythonSystemPath();
+function getFeedLinks(rawUrl){
+  return new Promise (function(resolve, reject){
+    console.log('-------- RECHERCHE FLUX ---------');
+
+    host = url.parse(rawUrl).hostname;
+
+    console.log("Hôte : " + host);
+
+    console.log(process.env.PYPATH)
+
     var options = {
-        pythonPath: pyPath,
+        pythonPath: process.env.PYPATH,
         mode: 'text',
         scriptPath: 'retrieveFromWeb/feedvalidator',
-        args: [url]
+        args: [host]
     };
 
     PythonShell.run('feedfinder.py', options, function (err, results) {
-        if (err) throw err;
-        if (results[0].length == 0 ) results = new Array();
-        callback(results);
+        if (err) reject(err);
+        resolve(results);
     });
+  });
 
-}
-
-function getPythonSystemPath() {
-  var pf;
-  if(process.platform == "win32")
-    pf =  process.env.PYPATHWIN;
-  // else if another platform
-  // pf = [Add your path in .env]
-  else // for TRAVISCI
-    pf = process.env.PYPATHTRA;
-
-  return pf;
 }
 
 module.exports = {
