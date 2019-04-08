@@ -11,5 +11,16 @@ CREATE TABLE public.source (
 let link;
 let name;
 
+/* Insert feed in data base */
+const insertFeed = (feedsToSave) => {
+    for (let i = 0; i < feedsToSave.length; i++) {
+        db.one("'" + "INSERT INTO source (sou_link) VALUES" + feedsToSave[i] + "'")
+        .catch(function (error) {
+            console.log("ERROR:", error);
+        });
+    }
+}
+
 module.exports = {
+    insertFeed
 }
