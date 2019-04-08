@@ -10,8 +10,6 @@ function getFeedLinks(rawUrl){
 
     console.log("Hôte : " + host);
 
-    console.log(process.env.PYPATHWIN)
-
     var options = {
         pythonPath: getPythonSystemPath(),
         mode: 'text',
