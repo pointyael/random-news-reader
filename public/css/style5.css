@@ -13,7 +13,8 @@ figure img{
 
 figure figcaption {
     background: #246a73;
-    font-size: 12px;
+    font-size: 15px; 
+    font-weight: bold;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     color: #fff;
