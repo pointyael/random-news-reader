@@ -135,10 +135,10 @@ function displayItems() {
 	}
 
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+		req.open("GET", "http://51.83.71.15:3000/random-items/"+exclusion);
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items");
+		req.open("GET", "http://51.83.71.15:3000/random-items");
 	}
 
 	req.send();
@@ -190,7 +190,7 @@ function displayRefreshPhrase() {
 		}
 	};
 
-	req.open("GET", "http://localhost:3000/random-btnQuote");
+	req.open("GET", "http://51.83.71.15:3000/random-btnQuote");
 	req.send();
 }
 
@@ -214,7 +214,7 @@ function displayQuote() {
 		}
 	};
 
-	req.open("GET", "http://localhost:3000/random-quote");
+	req.open("GET", "http://51.83.71.15:3000/random-quote");
 	req.send();
 }
 
