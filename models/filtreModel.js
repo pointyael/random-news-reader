@@ -2,7 +2,7 @@ var db = require("../database/dbFactory").db;
 
 const getFilters = (request, reponse) => {
     db
-    .any("SELECT * FROM filtrelocalise WHERE fll_language=16 and fll_filtre < 6 ORDER BY RANDOM() LIMIT 5")
+    .any("SELECT * FROM (select DISTINCT * from filtrelocalise WHERE fll_language=16 and fll_filtre < 6) filtre ORDER BY RANDOM() LIMIT 5")
     .then((data) => {
       reponse.status(200).json(data)
     })

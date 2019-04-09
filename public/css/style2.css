@@ -24,3 +24,8 @@ figcaption, p, a{
     background-color: #ff9699;
     color: #f5f0f6;
 }
+
+.label-check:hover{
+    background-color: #00cecb;
+    color: #f5f0f6;
+}
