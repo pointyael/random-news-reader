@@ -48,11 +48,9 @@ DECLARE
   vfilter integer;
   vJson json[];
   vAWord json;
-  --cur CURSOR FOR SELECT * from filtrelocalise;
 BEGIN
--- TRY WITH ONLY FR
   FOR vfilter in
-    (SELECT fil_id from filtre where fil_id < 6)
+    (SELECT fil_id from filtre)
   LOOP
     SELECT row_to_json(fl) into vAWord from filtrelocalise fl
     join filtre on fil_id=fll_filtre
@@ -77,7 +75,8 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
   vJson json[];
   vAItem json;
   vSourceId integer;
-
+  vItemsId integer[];
+  vIndexArray integer;
 BEGIN
 	FOR vSourceId IN
 		(
@@ -87,24 +86,18 @@ BEGIN
 			LIMIT 12
 		) LOOP
 
-      SELECT row_to_json(t)
-      INTO vAItem
-      FROM
-      (
-        SELECT *
-        FROM item
-        -- To reinsert into the Query
-        -- when we will have reliable relationship
-        -- between tables
-        --JOIN language ON ite_language=lan_id
-        --JOIN type ON ite_type=typ_id
-        --JOIN category ON ite_category=cat_id
-        WHERE ite_source=vSourceId
-        -- AND
-        --   (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-        ORDER BY RANDOM()
-        LIMIT 1
-      ) t ;
+    SELECT ARRAY(
+  		SELECT ite_id FROM item
+  		where ite_source=vSourceId
+  		AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+    ) INTO vItemsId;
+
+    vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
+
+    SELECT row_to_json(t)
+    INTO vAItem
+    FROM item t
+    WHERE ite_id = vItemsId[vIndexArray];
 
     vJson := array_append(vJson, vAItem);
   END LOOP;
@@ -501,7 +494,6 @@ INSERT INTO public.filtre VALUES (2, 'sport');
 INSERT INTO public.filtre VALUES (3, 'politique');
 INSERT INTO public.filtre VALUES (4, 'people');
 INSERT INTO public.filtre VALUES (5, 'chat');
-INSERT INTO public.filtre VALUES (6, 'musique');
 
 
 --
@@ -841,6 +833,31 @@ INSERT INTO public.source (sou_link) VALUES ('https://www.huffingtonpost.fr/feed
 INSERT INTO public.source (sou_link) VALUES ('http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
 INSERT INTO public.source (sou_link) VALUES ('http://feeds.washingtonpost.com/rss/rss_fact-checker');
 INSERT INTO public.source (sou_link) VALUES ('http://feeds.washingtonpost.com/rss/rss_blogpost');
+INSERT INTO public.source (sou_link) VALUES ('https://www.theguardian.com/uk/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.theguardian.com/world/rss');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.foxnews.com/foxnews/latest');
+INSERT INTO public.source (sou_link) VALUES ('http://www.ecns.cn/rss/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.chinaview.cn/photos/more.htm');
+INSERT INTO public.source (sou_link) VALUES ('http://www.chinaview.cn/sci/more.htm');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICAOddlyenoughNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICATopNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICAWorldNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.bbci.co.uk/news/world/africa/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.newsarama.com/home/feed/site.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.movies.com/rss-feeds/movie-news-rss');
+INSERT INTO public.source (sou_link) VALUES ('http://www.movies.com/rss-feeds/new-on-dvd-rss');
+INSERT INTO public.source (sou_link) VALUES ('https://japan.cnet.com/info/feed/');
+INSERT INTO public.source (sou_link) VALUES ('https://headlines.yahoo.co.jp/rss/binsider-dom.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://headlines.yahoo.co.jp/rss/bfj-dom.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.rususa.com/tools/rss/feed.asp-rss-newsrus-lang-rus');
+INSERT INTO public.source (sou_link) VALUES ('http://www.rususa.com/tools/rss/feed.asp-rss-newsrussia-lang-rus');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.feedburner.com/TheRussophile?format=xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.scifinews.net/rss.php');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/about/rss_feeds/');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/feed/category/culture/latest/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/feed/category/science/latest/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.aljazeera.com/xml/rss/all.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.aljazeera.com/xml/rss/all.xml');
 
 
 --
