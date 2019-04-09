@@ -51,39 +51,29 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
   vJson json[];
   vAItem json;
   vSourceId integer;
-
+  vItemsId integer[];
+  vIndexArray integer;
 BEGIN
-
 	FOR vSourceId IN
 		(
-			SELECT sou_id FROM source
-      WHERE
-        sou_id IN (
-        	SELECT ite_source FROM item
-        	GROUP BY ite_source
-        )
+      SELECT ite_source FROM item
+      GROUP BY ite_source
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
 
-      SELECT row_to_json(t)
-      INTO vAItem
-      FROM
-      (
-        SELECT *
-        FROM item
-        -- To reinsert into the Query
-        -- when we will have reliable relationship
-        -- between tables
-        --JOIN language ON ite_language=lan_id
-        --JOIN type ON ite_type=typ_id
-        --JOIN category ON ite_category=cat_id
-        WHERE ite_source=vSourceId
-        AND
-          (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-        ORDER BY RANDOM()
-        LIMIT 1
-      ) t ;
+    SELECT ARRAY(
+  		SELECT ite_id FROM item
+  		where ite_source=vSourceId
+  		AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+    ) INTO vItemsId;
+
+    vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
+
+    SELECT row_to_json(t)
+    INTO vAItem
+    FROM item t
+    WHERE ite_id = vItemsId[vIndexArray];
 
     vJson := array_append(vJson, vAItem);
   END LOOP;
