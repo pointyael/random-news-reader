@@ -14,7 +14,7 @@ function getRandomWord() {
             reject(error);
         });
     });
-    
+
 }
 
 function getSearchResult(word){
@@ -28,10 +28,10 @@ function getSearchResult(word){
                 num_pages: 20,
             };
 
-            console.log('--------- RECHERCHE -----------');
-            console.log('Mot : ', label);
+            //console.log('--------- RECHERCHE -----------');
+            //console.log('Mot : ', label);
 
-            console.log(config.search_engine)
+            //console.log(config.search_engine)
             se_scraper.scrape(config, function(err, response) {
                 if (err) {
                     reject(err);
@@ -46,10 +46,10 @@ function processSearchResults(searchResult) {
 
     return new Promise(function(resolve, reject){
 
-        console.log("---- process -----");
+        //console.log("---- process -----");
         searchResult = searchResult[Object.keys(searchResult)[0]] // Get first property
 
-        console.log(searchResult);
+        //console.log(searchResult);
 
         let randomURL;
         let randomPageNumber = Math.floor(Math.random() * Object.keys(searchResult).length);
@@ -57,25 +57,25 @@ function processSearchResults(searchResult) {
         let randomSearchPage = searchResult[Object.keys(searchResult)[randomPageNumber]];
         let randomSearchResult;
 
-        console.log('Numéro de page : ' + randomPageNumber);
-        console.log('Page selectionnée : ');
-        console.log(randomSearchPage);
+        //console.log('Numéro de page : ' + randomPageNumber);
+        //console.log('Page selectionnée : ');
+        //console.log(randomSearchPage);
         if(typeof randomSearchPage.results != 'undefined' && randomSearchPage.results.length > 0) {
             randomResultNumber = Math.floor(Math.random() * Object.keys(randomSearchPage.results).length);
             randomSearchResult = randomSearchPage.results[Object.keys(randomSearchPage.results)[randomResultNumber]];
-            console.log('Résultat selectionné : ');
-            console.log(randomSearchResult);
+            //console.log('Résultat selectionné : ');
+            //console.log(randomSearchResult);
 
             randomURL = randomSearchResult.link;
-            console.log('Lien selectionné : ' + randomURL);
-            console.log("------ REDIRECTION --------");
+            //console.log('Lien selectionné : ' + randomURL);
+            //console.log("------ REDIRECTION --------");
 
             redirectedURL = request.get(randomURL, function (err, res, body) {
-                console.log('Lien final: ' +this.uri.href);
+                //console.log('Lien final: ' +this.uri.href);
                 resolve(this.uri.href);
             });
         } else {
-            console.log('Pas de résultat');
+            //console.log('Pas de résultat');
             resolve(false);
         }
     });
