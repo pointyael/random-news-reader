@@ -59,48 +59,36 @@ const getRandomItemsNotLike = (request, response) => {
 }
 
 /* Insert items in data base */
-const insertItems = () => {
+const insertItems = (feed) => {
 
     deleteOldItems();
 
     db
-    .any("SELECT * FROM source")
-    .then(
-      function (data)
-      {
-        data.forEach(
-          async function(source)
-          {
-
-            await ItemsRetrieved
-            .getItems(source.sou_link)
-            .then
-            (
-              function(res){
-                feedInfo =
-                {
-                  id: source.sou_id,
-                  title: source.sou_name,
-                  link: source.sou_link
+    .any("SELECT * FROM source WHERE sou_link = " + feed)
+    .then(async function(source) {
+        await ItemsRetrieved.getItems(source.sou_link).then(
+            function(res) {
+                feedInfo = {
+                    id: source.sou_id,
+                    link: source.sou_link
                 }
 
                 feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
 
                 itemsJsonString = (JSON.stringify(res));
 
-                db
-                .any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+                db.any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
                 .then(function(status) {})
-                .catch(function(err) {console.log(err)});
-              }
-            )
-            .catch( function (err) {console.log(err);});
-          }
-        );
-
-      }
-    )
-    .catch();
+                .catch(function(err) {
+                    console.log(err)
+                });
+            }
+       ).catch(function(err) {
+            console.log(err);
+        });
+    }).catch(function(err2) {
+        console.log(err2);
+    });
 
 }
 
