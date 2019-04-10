@@ -9,6 +9,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 
+DROP PROCEDURE IF EXISTS public."deleteOldItemsProc"();
+DROP FUNCTION  IF EXISTS public."getRandomFilterWords"();
+DROP FUNCTION  IF EXISTS public."getRandomItems"();
+DROP PROCEDURE IF EXISTS public."getRandomItemsNotLike"(text[]);
+DROP FUNCTION  IF EXISTS public."insertNewItems"(json,json);
+DROP FUNCTION  IF EXISTS public."itemNotLike"(integer, text[]);
+DROP FUNCTION  IF EXISTS public."sourcesNotLike"(text[]);
 
 --
 -- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
