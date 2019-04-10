@@ -8,7 +8,33 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
+CREATE OR REPLACE PROCEDURE public."testGetRandomItems"()
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vCounter integer := 0;
+  vCountNull integer := 0;
+  vIsNull integer;
+  vArrayTest json[];
+BEGIN
+  LOOP
+    EXIT WHEN vCounter = 1000;
+    vCounter := vCounter + 1;
 
+    SELECT CASE
+      WHEN t::text like '%NULL%' THEN 1
+      ELSE 0
+      END
+    INTO vIsNull
+    FROM (SELECT "getRandomItems"()) t;
+
+    IF vIsNull > 0 THEN
+      RAISE NOTICE 'NULL Item is present';
+      vCountNull := vCountNull + 1;
+    END IF;
+  END LOOP;
+  RAISE NOTICE 'ON 1000 SELECT NULL IS FOUND % TIMES', vCountNull;
+END;$$;
 
 --
 -- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
@@ -69,22 +95,27 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
 
   vJson json[];
   vAItem json;
+  vSourcesId integer[];
   vSourceId integer;
   vItemsId integer[];
   vIndexArray integer;
 BEGIN
-	FOR vSourceId IN
-		(
-      SELECT ite_source FROM item
-      GROUP BY ite_source
-			ORDER BY RANDOM()
-			LIMIT 12
-		) LOOP
+  SELECT ARRAY(
+    SELECT ite_source FROM item
+    where (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
+    GROUP BY ite_source
+    ORDER BY RANDOM()
+    LIMIT 12
+  ) INTO vSourcesId;
+
+  RAISE NOTICE '%', vSourcesId;
+
+	FOREACH vSourceId IN ARRAY vSourcesId LOOP
 
     SELECT ARRAY(
   		SELECT ite_id FROM item
-  		where ite_source=vSourceId
-  		AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+  		WHERE  ite_source=vSourceId
+  		AND (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
     ) INTO vItemsId;
 
     vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
@@ -93,6 +124,12 @@ BEGIN
     INTO vAItem
     FROM item t
     WHERE ite_id = vItemsId[vIndexArray];
+
+    IF vAItem IS NULL THEN
+      RAISE NOTICE '%', vSourceId;
+      RAISE NOTICE '%', vItemsId;
+      RAISE NOTICE '%', vItemsId[vIndexArray];
+    END IF;
 
     vJson := array_append(vJson, vAItem);
   END LOOP;
