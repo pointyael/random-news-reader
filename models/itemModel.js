@@ -69,7 +69,7 @@ const insertItems = (feed) => {
     .any("SELECT * FROM source WHERE sou_link = '" + feed + "' LIMIT 1")
     .then(async function(source) {
       source = source[0];
-      await ItemsRetrieved.getItems(source.sou_link)
+      ItemsRetrieved.getItems(source.sou_link)
       .then( function(res) {
         feedInfo = {
             id: source.sou_id,

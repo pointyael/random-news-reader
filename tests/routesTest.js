@@ -27,17 +27,14 @@ describe('/GET random-items', () => {
     it('it expect GET an array of 12 items', (done) => {
 
       items.should.be.a('array');
-      items.forEach(item => {
-        expect(item.ite_title).be.a('string').not.empty;
-      });
       expect(items.length == 12).to.be.true;
-
       done();
     });
 
     it('it GET items published less than 2 days', (done) => {
       let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
       items.forEach(item => {
+        expect(item).to.have.property("ite_title");
         expect(item).to.have.property("ite_pubdate");
         expect
         (
