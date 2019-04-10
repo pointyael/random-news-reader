@@ -8,21 +8,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
-CREATE OR REPLACE PROCEDURE public."testGetRandomItems"()
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  vCounter integer := 0;
-  vArrayTest json[];
-BEGIN
-  LOOP
-    EXIT WHEN vCounter = 100;
-    vCounter := vCounter + 1;
 
-    SELECT "getRandomItems"() INTO vArrayTest;
-
-  END LOOP;
-END;$$;
 
 --
 -- Name: deleteOldItemsProc(); Type: PROCEDURE; Schema: public; Owner: postgres
