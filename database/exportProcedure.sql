@@ -8,11 +8,13 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
+DROP PROCEDURE IF EXISTS public."testGetRandomItems"();
+DROP PROCEDURE IF EXISTS public."testGetRandomItemsNotLike"();
 DROP PROCEDURE IF EXISTS public."deleteOldItemsProc"();
+DROP PROCEDURE  IF EXISTS public."insertNewItems"(json,json);
 DROP FUNCTION  IF EXISTS public."getRandomFilterWords"();
 DROP FUNCTION  IF EXISTS public."getRandomItems"();
-DROP PROCEDURE IF EXISTS public."getRandomItemsNotLike"(text[]);
-DROP FUNCTION  IF EXISTS public."insertNewItems"(json,json);
+DROP FUNCTION IF EXISTS public."getRandomItemsNotLike"(text[]);
 DROP FUNCTION  IF EXISTS public."itemNotLike"(integer, text[]);
 DROP FUNCTION  IF EXISTS public."sourcesNotLike"(text[]);
 
@@ -26,7 +28,7 @@ DECLARE
   vArrayTest json[];
 BEGIN
   LOOP
-    EXIT WHEN vCounter = 1000;
+    EXIT WHEN vCounter = 10;
     vCounter := vCounter + 1;
 
     SELECT CASE
@@ -41,7 +43,63 @@ BEGIN
       vCountNull := vCountNull + 1;
     END IF;
   END LOOP;
-  RAISE NOTICE 'ON 1000 SELECT NULL IS FOUND % TIMES', vCountNull;
+  RAISE NOTICE 'ON 10 SELECT NULL IS FOUND % TIMES', vCountNull;
+END;$$;
+
+CREATE OR REPLACE PROCEDURE public."testGetRandomItemsNotLike"()
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vCounter integer := 0;
+  vCountLiberation integer := 0;
+  vCountEchos integer := 0;
+  vCountLibeEchos integer := 0;
+  vIsLibe integer;
+  vIsEchos integer;
+  vIsLibeEcho integer;
+  vArrayTest json[];
+BEGIN
+  LOOP
+    EXIT WHEN vCounter = 10;
+    vCounter := vCounter + 1;
+
+    SELECT CASE
+      WHEN t::text like '%liberation%' THEN 1
+      ELSE 0
+      END
+    INTO vIsLibe
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation'])) t;
+    SELECT CASE
+      WHEN t::text like '%liberation%' THEN 1
+      ELSE 0
+      END
+    INTO vIsEchos
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['echos'])) t;
+
+    SELECT CASE
+      WHEN t::text like '%liberation%' THEN 1
+      ELSE 0
+      END
+    INTO vIsLibeEcho
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation', 'echos'])) t;
+
+    IF vIsLibe > 0 THEN
+      vCountLiberation := vCountLiberation + 1;
+      RAISE NOTICE '"Libération" is present';
+    END IF;
+    IF vIsEchos > 0 THEN
+      vCountEchos := vCountEchos + 1;
+      RAISE NOTICE '"Echos" is present';
+    END IF;
+    IF vIsLibeEcho > 0 THEN
+      vCountLibeEchos := vCountLibeEchos + 1;
+      RAISE NOTICE '"Libération" is present';
+    END IF;
+  END LOOP;
+
+  RAISE NOTICE 'ON 10 SELECT liberation IS FOUND % TIMES', vCountLiberation;
+  RAISE NOTICE 'ON 10 SELECT echos IS FOUND % TIMES', vCountEchos;
+  RAISE NOTICE 'ON 10 SELECT liberation and echos IS FOUND % TIMES', vCountLibeEchos;
 END;$$;
 
 --
@@ -116,8 +174,6 @@ BEGIN
     LIMIT 12
   ) INTO vSourcesId;
 
-  RAISE NOTICE '%', vSourcesId;
-
 	FOREACH vSourceId IN ARRAY vSourcesId LOOP
 
     SELECT ARRAY(
@@ -132,12 +188,6 @@ BEGIN
     INTO vAItem
     FROM item t
     WHERE ite_id = vItemsId[vIndexArray];
-
-    IF vAItem IS NULL THEN
-      RAISE NOTICE '%', vSourceId;
-      RAISE NOTICE '%', vItemsId;
-      RAISE NOTICE '%', vItemsId[vIndexArray];
-    END IF;
 
     vJson := array_append(vJson, vAItem);
   END LOOP;
