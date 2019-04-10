@@ -10,15 +10,16 @@ let language;
 let theme;
 
 /* Query all items from db => only for test */
-const getAllItems = (response) =>
+const getAllItems = () =>
 {
-  db
-  .any("SELECT * from item")
-  .then
-  (
-    function(data) { response = data; }
-  )
-  .catch(function (error) { console.log(error);});
+  return new Promise(function(resolve, reject){
+    db
+    .any("SELECT * from item")
+    .then(
+      function(data) { resolve(data); }
+    )
+    .catch(function (error) { reject(error) });
+  });
 }
 
 /* Query 12 random items from data base */
@@ -68,37 +69,35 @@ const insertItems = (feed) => {
     .any("SELECT * FROM source WHERE sou_link = '" + feed + "' LIMIT 1")
     .then(async function(source) {
       source = source[0];
-        await ItemsRetrieved.getItems(source.sou_link).then(
-            function(res) {
-                feedInfo = {
-                    id: source.sou_id,
-                    link: source.sou_link
-                }
+      await ItemsRetrieved.getItems(source.sou_link)
+      .then( function(res) {
+        feedInfo = {
+            id: source.sou_id,
+            link: source.sou_link
+        }
 
-                feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
+        feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
 
-                itemsJsonString = (JSON.stringify(res));
+        itemsJsonString = (JSON.stringify(res));
 
-                db.any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
-                .then(function(status) {
-                  resolve(status);
-                })
-                .catch(function(err) {
-                    reject(err)
-                });
-            }
-       ).catch(function(err) {
-          reject(err);
+        db.any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
+        .then(function(status) {
+          resolve(status);
+        })
+        .catch(function(err) {
+            reject(err)
         });
+     })
+     .catch(function(err) {
+        reject(err);
+     });
     }).catch(function(err2) {
         reject(err2);
     });
   })
 }
 
-const deleteOldItems =
-  function()
-  {
+const deleteOldItems = function() {
     db
     .any('CALL "deleteOldItemsProc"()')
     .then( function() {})
