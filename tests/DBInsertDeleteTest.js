@@ -8,77 +8,59 @@ const moment = require('moment');
 require('it-each')({ testPerIteration: true });
 chai.use(chaiHttp);
 
-describe(
-  "Delete items older than 48 hours",
-  () =>
-  {
-    describe(
-      '"deleteOldItems"',
-      () =>
-      {
-        var itemsData;
-        before(async function()
-        {
-          await Item.deleteOldItems();
-          await Item.getAllItems(itemsData);
-        });
 
-        it
-        (
-          'After delete, all items should have ite_pubdate > now() - 2 days',
-          function () {
-            let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
+describe('"deleteOldItems"', () => {
+    var itemsData;
+    before(async function() {
+      await Item.deleteOldItems();
+    });
 
-            for(var index in itemsData)
-            itemsData.forEach
+    it ('After delete, all items should have ite_pubdate > now() - 2 days',
+      (done) => {
+        Item.getAllItems(itemsData)
+        .then((reponse) => {
+          let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
+
+          for(var index in itemsData)
+          itemsData.forEach( (item) => {
+            console.log(item);
+            expect(item).to.have.property("ite_pubdate");
+            expect
             (
-              item =>
-              {
-                expect(item).to.have.property("ite_pubdate");
-                expect
-                (
-                  moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
-                    > dateMinusTwoDays
-                ).to.be.true;
-              }
-            );
-          }
-        );
-      }
-    );
+              moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
+              > dateMinusTwoDays
+            ).to.be.true;
+          });
+          done();
+        })
+        .catch((err) => { done(err); })
+    });
+});
 
-    describe(
-      '"insertNewItems"',
-      () =>
-      {
-        var itemsData;
-        before(async function()
-        {
-          await Item.insertItems();
-          await Item.getAllItems(itemsData);
+describe( '"insertNewItems"', () => {
+  var itemsData;
+  before(async function()
+  {
+    await Item.insertItems();
+  });
+
+  it(
+    'after insert, all items must be inserted into the database and must be younger than two days',
+    function(done) {
+      Item.getAllItems(itemsData)
+      .then((reponse) => {
+        itemsData = reponse;
+        let dateMinusTwoDays = moment().add(-2, 'days');
+        itemsData.forEach( item => {
+
+            expect(item).to.have.property("ite_pubdate");
+            expect
+            (
+              moment(item.ite_pubdate) > dateMinusTwoDays
+            ).to.be.true;
         });
-
-        it(
-          'after insert, all items must be inserted into the database and must be younger than two days',
-          function()
-          {
-            let dateMinusTwoDays = moment().add(-2, 'days');
-
-            for(var index in itemsData)
-              itemsData.forEach
-              (
-                item =>
-                {
-                  expect(item).to.have.property("ite_pubdate");
-                  expect
-                  (
-                    moment(item.ite_pubdate) > dateMinusTwoDays
-                  ).to.be.true;
-                }
-              );
-          }
-        );
-      }
-    )
-  }
-);
+        done();
+      })
+      .catch((err) => done(err))
+  });
+});

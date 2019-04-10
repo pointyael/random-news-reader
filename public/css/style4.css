@@ -13,7 +13,7 @@ figure img{
 
 figure figcaption {
     background: #66bd84;
-    font-size: 12px;
+    /* font-size: 12px; */
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     color: #000;
@@ -28,11 +28,7 @@ figcaption, p, a {
     font-family: Arial Rounded MT;
 }
 
-.sidebar div:hover {
-    color: #e8f6f8;
-}
-
- main {
+main {
     background-color: #fff;
 }
 
@@ -55,4 +51,9 @@ blockquote p, blockquote::after {
 
 .checkbox:checked + .label-check{
 	background-color: #ffe066;
+}
+
+.label-check:hover{
+    background-color: #095256;
+    color: #fff;
 }

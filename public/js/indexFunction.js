@@ -36,7 +36,39 @@ function switchDisplay() {
 	}
 }
 
+function displayFiltres() {
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+
+			/* Recuperation */
+			var filtres = JSON.parse(this.responseText);
+			var divFiltre = document.getElementById('keywordsFilter');
+
+			/* Affichage */
+			for (var i = 0; i < filtres.length; i++) {
+				divFiltre.innerHTML += displayFiltre(filtres[i]);
+			}
+		}
+	};
+
+	req.open("GET", "http://localhost:3000/random-defaultfilter");
+	req.send();
+}
+
+function displayFiltre(filtre) {
+	var html;
+	if (filtre) {
+		html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">' +
+			'<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
+	}
+	return html;
+}
+
 switchButton.addEventListener('click', switchDisplay);
+
+window.onload = displayFiltres();
 
 /*----------------------------------------------------------*/
 /* 				DISPLAY/HIDE MODAL A PROPOS		 			*/
@@ -50,9 +82,10 @@ var redirect = document.getElementsByClassName("redirect")[0];
 function redirectGoogleNews() {
 	modal2.classList.replace("displayNone", "displayFlex");
 	closeModal();
-	setTimeout( function() { window.location.href = "https://news.google.com/";
+	setTimeout(function () {
+		window.location.href = "https://news.google.com/";
 	},
-	2000);
+		2000);
 }
 
 function checkLocalStorage() {
@@ -91,6 +124,7 @@ window.addEventListener('keypress', function (e) {
 /*----------------------------------------------------------*/
 /* 						DISPLAY ITEMS 						*/
 /*----------------------------------------------------------*/
+var background;
 function displayItems() {
 	var req = new XMLHttpRequest();
 
@@ -110,7 +144,7 @@ function displayItems() {
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('mouseup', checkButton);
-				actualItems[i].addEventListener('click', function(){
+				actualItems[i].addEventListener('click', function () {
 					refreshItems();
 					displayRefreshPhrase();
 					displayQuote();
@@ -121,23 +155,23 @@ function displayItems() {
 		}
 	};
 
-	var exclusion="";
+	var exclusion = "";
 	var checkboxs = document.getElementsByClassName('checkbox');
-	for (var i = 0; i < checkboxs.length; i++){
-		if (checkboxs[i].checked){
-			if (exclusion == ""){
+	for (var i = 0; i < checkboxs.length; i++) {
+		if (checkboxs[i].checked) {
+			if (exclusion == "") {
 				exclusion += checkboxs[i].value;
 			}
-			else{
+			else {
 				exclusion += "+" + checkboxs[i].value;
 			}
 		}
 	}
 
-	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+	if (exclusion != "") {
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion);
 	}
-	else{
+	else {
 		req.open("GET", "http://localhost:3000/random-items");
 	}
 
@@ -154,13 +188,40 @@ function checkButton(event) {
 
 function displayItem(item) {
 	var html;
-	if(item)	{
-		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
-		'<figure>' +
-		'<img src="' + item["ite_enclosure"] + '" alt=""/> ' +
-		'<figcaption>' + item["ite_title"] + '</figcaption>' +
-		'</figure>' +
-		'</a>';
+	if (item) {
+		if (item["ite_enclosure"] != null)
+			image = item["ite_enclosure"];
+		else {
+			image = '/public/img/logo' + randomNumber + '.png';
+			switch (randomNumber) {
+				case 1:
+					background = "#000";
+					break;
+				case 2:
+					background = "#2b4162";
+					break;
+				case 3:
+					background = "#FCF8CC";
+					break;
+				case 4:
+					background = "#66bd84;";
+					break;
+				case 5:
+					background = "#000";
+					break;
+			}
+		}
+
+		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank"  >' +
+			'<figure>' +
+			/*-----------------------------------------------------------------------*/
+			/*                               A CORRIGER                              */
+			/*-----------------------------------------------------------------------*/
+			// '<img src="' + image + '" alt="" style="background-color:' + background + '"/> ' +
+			'<img src="' + image + '" alt=""/> ' +
+			'<figcaption>' + item["ite_title"] + '</figcaption>' +
+			'</figure>' +
+			'</a>';
 	}
 	return html;
 }
@@ -225,6 +286,7 @@ window.onload = displayQuote();
 /*-----------------------------*/
 var styleLink = document.getElementById('style');
 var logo = document.getElementById('logo');
+var randomNumber = Math.floor(Math.random() * 5) + 1;
 
 function generateStyle() {
 
@@ -232,7 +294,7 @@ function generateStyle() {
 		var currentTheme = styleLink.getAttribute('theme');
 	}
 
-	var randomNumber = Math.floor(Math.random() * 5) + 1;
+
 
 	if (randomNumber != currentTheme) {
 		styleLink.setAttribute('theme', randomNumber);
@@ -248,7 +310,7 @@ document.onload = generateStyle();
 /*----------------------------------------------------------*/
 /*                    CLOSE SIDEBAR MENU                    */
 /*----------------------------------------------------------*/
-function closeSidebarMenu(){
+function closeSidebarMenu() {
 	document.getElementsByClassName('sidebar')[0].classList.remove('opened');
 
 	topbar.classList.remove('top');

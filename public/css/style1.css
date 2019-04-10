@@ -11,3 +11,8 @@ div#btnRefresh, #topbar, #middlebar, #bottombar{
     background-color: #db5030;
     color: #fff;
 }
+
+.label-check:hover{
+    background-color: #db5030;
+    color: #fff;
+}

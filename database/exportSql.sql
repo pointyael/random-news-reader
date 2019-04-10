@@ -40,6 +40,30 @@ END;$$;
 
 ALTER PROCEDURE public."deleteOldItemsProc"() OWNER TO postgres;
 
+
+CREATE OR REPLACE FUNCTION public."getRandomFilterWords"() RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vfilter integer;
+  vJson json[];
+  vAWord json;
+BEGIN
+  FOR vfilter in
+    (SELECT fil_id from filtre)
+  LOOP
+    SELECT row_to_json(fl) into vAWord from filtrelocalise fl
+    join filtre on fil_id=fll_filtre
+    WHERE fll_filtre = vfilter
+    ORDER BY RANDOM() LIMIT 1;
+
+    vJson := array_append(vJson, vAWord);
+  END LOOP;
+  RETURN vJson;
+END;$$;
+
+-- ALTER FUNCTION public."getRandomFilterWords"() OWNER TO postgres;
+
 --
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
 --
@@ -51,39 +75,29 @@ CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
   vJson json[];
   vAItem json;
   vSourceId integer;
-
+  vItemsId integer[];
+  vIndexArray integer;
 BEGIN
-
 	FOR vSourceId IN
 		(
-			SELECT sou_id FROM source
-      WHERE
-        sou_id IN (
-        	SELECT ite_source FROM item
-        	GROUP BY ite_source
-        )
+      SELECT ite_source FROM item
+      GROUP BY ite_source
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
 
-      SELECT row_to_json(t)
-      INTO vAItem
-      FROM
-      (
-        SELECT *
-        FROM item
-        -- To reinsert into the Query
-        -- when we will have reliable relationship
-        -- between tables
-        --JOIN language ON ite_language=lan_id
-        --JOIN type ON ite_type=typ_id
-        --JOIN category ON ite_category=cat_id
-        WHERE ite_source=vSourceId
-        AND
-          (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-        ORDER BY RANDOM()
-        LIMIT 1
-      ) t ;
+    SELECT ARRAY(
+  		SELECT ite_id FROM item
+  		where ite_source=vSourceId
+  		AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+    ) INTO vItemsId;
+
+    vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
+
+    SELECT row_to_json(t)
+    INTO vAItem
+    FROM item t
+    WHERE ite_id = vItemsId[vIndexArray];
 
     vJson := array_append(vJson, vAItem);
   END LOOP;
@@ -105,18 +119,20 @@ CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) RETUR
 
   vAItem json;
   vJson json[];
-  vSourceId int;
-  vSources int[];
+
+  vSourceId integer;
+  vSources integer[];
 BEGIN
 
   SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord)INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
 
+  RAISE NOTICE '%', vSources;
   RETURN vJson;
 
 END;$$;
@@ -128,7 +144,7 @@ ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) OWNER TO postgres
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" json)
+CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
     LANGUAGE plpgsql
     AS $$
     DECLARE
@@ -141,7 +157,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
     BEGIN
 
         FOR vAItem in
-          SELECT * FROM json_array_elements("pItems")
+          SELECT * FROM json_array_elements(pItems)
         LOOP
 
             SELECT COUNT(*) INTO vCountItem FROM item
@@ -151,7 +167,13 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
 
               SELECT lan_id INTO vLangId
               FROM language
-              WHERE lan_code=vAItem->>'language';
+              WHERE lower(lan_code)::text LIKE (vAItem->>'language'::text) || '%'
+              OR lower(lan_lib)::text LIKE (vAItem->>'language'::text) || '%'
+              LIMIT 1;
+
+              IF vLangId IS NULL THEN
+                vLangId := 13; --English language default
+              END IF;
 
               SELECT cat_id INTO vCategoryId
               FROM category
@@ -179,20 +201,20 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"("pSource" json, "pItems" jso
                   to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
                   vCategoryId,
-                  to_number("pSource"->>'id', '99G999D9S')
+                  to_number(pSource->>'id', '99G999D9S')
                 );
             END IF;
         END LOOP;
 END;$$;
 
 
-ALTER PROCEDURE public."insertNewItems"("pSource" json, "pItems" json) OWNER TO postgres;
+ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO postgres;
 
 --
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."itemNotLike"(psource integer, pclause text[]) RETURNS json
+CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[]) RETURNS json
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -208,9 +230,9 @@ BEGIN
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND lower(ite_title) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(ite_description) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(ite_link) NOT LIKE ''%' || vWhereClause || '%''';
+      || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+      || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
   END LOOP;
 
   vSelectClause :=
@@ -238,31 +260,28 @@ CREATE OR REPLACE FUNCTION public."sourcesNotLike"(pclause text[]) RETURNS integ
     LANGUAGE plpgsql
     AS $$
 DECLARE
-  vSourceIds int[];
+  vSourceIds integer[];
   vWhereClause text;
   vSelectClause text;
 BEGIN
 
   vSelectClause :=
-    'SELECT array_agg(sou_id::integer) FROM source'
+    'SELECT ARRAY(SELECT sou_id FROM source'
     || ' WHERE sou_id IN ( SELECT ite_source FROM item GROUP BY ite_source ) ';
 
   FOREACH vWhereClause IN ARRAY pClause
   LOOP
       vSelectClause :=
       vSelectClause
-      || ' AND lower(sou_title) NOT LIKE ''%' || vWhereClause || '%'''
-      || ' AND lower(sou_link) NOT LIKE ''%' || vWhereClause || '%''';
-      RAISE NOTICE '%', vSelectClause;
+      || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%''';
   END LOOP;
 
   vSelectClause :=
     vSelectClause
-    || ' ORDER BY RANDOM() LIMIT 12';
-
+    || ' ORDER BY RANDOM() LIMIT 12)';
 
     EXECUTE vSelectClause INTO vSourceIds;
-    RAISE NOTICE '%', vSourceIds;
+
     RETURN vSourceIds;
 END;
 $$;
@@ -305,7 +324,7 @@ ALTER TABLE public.category OWNER TO postgres;
 --
 
 CREATE TABLE public.filtre (
-    fil_id integer NOT NULL,
+    fil_id integer PRIMARY KEY,
     fil_mot text
 );
 
@@ -475,7 +494,6 @@ INSERT INTO public.filtre VALUES (2, 'sport');
 INSERT INTO public.filtre VALUES (3, 'politique');
 INSERT INTO public.filtre VALUES (4, 'people');
 INSERT INTO public.filtre VALUES (5, 'chat');
-INSERT INTO public.filtre VALUES (6, 'musique');
 
 
 --
@@ -793,6 +811,53 @@ INSERT INTO public.sidebarQuote VALUES (51, 'La vie n’est que frustration.');
 INSERT INTO public.sidebarQuote VALUES (52, 'Arrêtez de vous battez !');
 INSERT INTO public.sidebarQuote VALUES (53, '');
 
+
+
+--
+-- Data for Name: source; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.source (sou_link) VALUES ('https://www.journaldunet.com/rss/');
+INSERT INTO public.source (sou_link) VALUES ('http://www.jeuxvideo.com/rss/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.journaldunet.com/media/rss/');
+INSERT INTO public.source (sou_link) VALUES ('https://www.journaldunet.com/ebusiness/le-net/fintech/rss/');
+INSERT INTO public.source (sou_link) VALUES ('http://www.linternaute.com/rss/');
+INSERT INTO public.source (sou_link) VALUES ('https://mixmag.net/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.lemonde.fr/rss/une.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.mediapart.fr/journal/podcast/chronique/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.ladepeche.fr/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://syndication.lesechos.fr/rss/rss_politique_societe.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://syndication.lesechos.fr/rss/rss_idee.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.courrierinternational.com/feed/all/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.huffingtonpost.fr/feeds/index.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.washingtonpost.com/rss/rss_fact-checker');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.washingtonpost.com/rss/rss_blogpost');
+INSERT INTO public.source (sou_link) VALUES ('https://www.theguardian.com/uk/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.theguardian.com/world/rss');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.foxnews.com/foxnews/latest');
+INSERT INTO public.source (sou_link) VALUES ('http://www.ecns.cn/rss/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.chinaview.cn/photos/more.htm');
+INSERT INTO public.source (sou_link) VALUES ('http://www.chinaview.cn/sci/more.htm');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICAOddlyenoughNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICATopNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.reuters.com/reuters/AFRICAWorldNews');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.bbci.co.uk/news/world/africa/rss.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.newsarama.com/home/feed/site.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.movies.com/rss-feeds/movie-news-rss');
+INSERT INTO public.source (sou_link) VALUES ('http://www.movies.com/rss-feeds/new-on-dvd-rss');
+INSERT INTO public.source (sou_link) VALUES ('https://japan.cnet.com/info/feed/');
+INSERT INTO public.source (sou_link) VALUES ('https://headlines.yahoo.co.jp/rss/binsider-dom.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://headlines.yahoo.co.jp/rss/bfj-dom.xml');
+INSERT INTO public.source (sou_link) VALUES ('http://www.rususa.com/tools/rss/feed.asp-rss-newsrus-lang-rus');
+INSERT INTO public.source (sou_link) VALUES ('http://www.rususa.com/tools/rss/feed.asp-rss-newsrussia-lang-rus');
+INSERT INTO public.source (sou_link) VALUES ('http://feeds.feedburner.com/TheRussophile?format=xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.scifinews.net/rss.php');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/about/rss_feeds/');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/feed/category/culture/latest/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.wired.com/feed/category/science/latest/rss');
+INSERT INTO public.source (sou_link) VALUES ('https://www.aljazeera.com/xml/rss/all.xml');
+INSERT INTO public.source (sou_link) VALUES ('https://www.aljazeera.com/xml/rss/all.xml');
 
 
 --
