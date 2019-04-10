@@ -29,6 +29,7 @@ before_script:
 - psql -U postgres randomizer < ./database/exportProcedure.sql
 - psql -U postgres randomizer < ./database/exportInserts.sql
 - PYTHONPATH=$(which python)
+- touch .env
 - sed -i '/PYPATH*/d' .env
 - echo "PYPATH=$PYTHONPATH" >> .env
 script :
