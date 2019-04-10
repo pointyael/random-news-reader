@@ -68,7 +68,7 @@ END;$$;
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItems"(lang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -85,12 +85,20 @@ BEGIN
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
-
-    SELECT ARRAY(
-  		SELECT ite_id FROM item
-  		where ite_source=vSourceId
-  		AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-    ) INTO vItemsId;
+      IF lang = 0 THEN
+        SELECT ARRAY(
+            SELECT ite_id FROM item
+            where ite_source=vSourceId
+            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+        ) INTO vItemsId;
+      ELSE
+        SELECT ARRAY(
+            SELECT ite_id FROM item
+            where ite_source=vSourceId
+            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+            AND ite_language = lang
+        ) INTO vItemsId;
+      END IF;
 
     vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
 
@@ -107,13 +115,13 @@ BEGIN
 END;$$;
 
 
-ALTER FUNCTION public."getRandomItems"() OWNER TO postgres;
+ALTER FUNCTION public."getRandomItems"(lang integer) OWNER TO postgres;
 
 --
 -- Name: getRandomItemsNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -127,7 +135,7 @@ BEGIN
   SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord, lang) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
@@ -138,7 +146,7 @@ BEGIN
 END;$$;
 
 
-ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) OWNER TO postgres;
+ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) OWNER TO postgres;
 
 --
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
@@ -214,7 +222,7 @@ ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO post
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[]) RETURNS json
+CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[], lang integer) RETURNS json
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -226,14 +234,26 @@ BEGIN
 
   vSelectClause := 'SELECT * FROM item WHERE ite_source=' || pSource;
 
-  FOREACH vWhereClause IN ARRAY pClause
-  LOOP
-      vSelectClause :=
-      vSelectClause
-      || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
-  END LOOP;
+  IF lang = 0 THEN
+    FOREACH vWhereClause IN ARRAY pClause
+    LOOP
+        vSelectClause :=
+        vSelectClause
+        || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
+    END LOOP;
+  ELSE
+    FOREACH vWhereClause IN ARRAY pClause
+    LOOP
+        vSelectClause :=
+        vSelectClause
+        || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')'
+        || ' AND ite_language = ' || lang;
+    END LOOP;
+  END IF;
 
   vSelectClause :=
     vSelectClause
@@ -250,7 +270,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public."itemNotLike"(psource integer, pclause text[]) OWNER TO postgres;
+ALTER FUNCTION public."itemNotLike"(psource integer, pclause text[], lang integer) OWNER TO postgres;
 
 --
 -- Name: sourcesNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres

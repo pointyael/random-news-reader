@@ -10,19 +10,21 @@ let language;
 let theme;
 
 /* Query all items from db => only for test */
-const getAllItems = (request, reponse) =>
+const getAllItems = (response) =>
 {
-  return db
+  db
   .any("SELECT * from item")
-  // .then( function(data) {
-  //     reponse.status(200).json(data);
-  // })
-  // .catch(function (error) { console.log(error);});
+  .then
+  (
+    function(data) { response = data; }
+  )
+  .catch(function (error) { console.log(error);});
 }
 
 /* Query 12 random items from data base */
 const getRandomItems = (request, response) => {
-    db.any('SELECT "getRandomItems"()')
+    var lang = request.params.lang;
+    db.any('SELECT "getRandomItems"(' + lang + ')')
     .then(function (data) {
       response.status(200).json(data[0].getRandomItems);
     })
@@ -45,10 +47,14 @@ const getRandomItemsNotLike = (request, response) => {
   );
   notLike = notLike.substring(0, notLike.length - 1);
 
+  var lang = request.params.lang;
+
   db.any(
       'SELECT "getRandomItemsNotLike"( ARRAY['
       + notLike
-      +'])'
+      + '], '
+      + lang
+      + ')'
   )
   .then(function (data) {
       response.status(200).json(data[0].getRandomItemsNotLike);
