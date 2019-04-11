@@ -66,6 +66,11 @@ main {
 	left: 15px;
 }
 
+#player {
+	width: 60px;
+	border-radius: 50px;
+}
+
 /*-------*/
 /* ITEMS */
 /*-------*/
@@ -312,20 +317,20 @@ blockquote p {
 }
 
 .blink {
-  	animation: blink-animation 1s steps(5, start) infinite;
-  	-webkit-animation: blink-animation 1s steps(5, start) infinite;
+	animation: blink-animation 1s steps(5, start) infinite;
+	-webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
 
 @keyframes blink-animation {
- 	to {
-    	visibility: hidden;
-  	}
+	to {
+		visibility: hidden;
+	}
 }
 
 @-webkit-keyframes blink-animation {
-  	to {
-    	visibility: hidden;
-  	}
+	to {
+		visibility: hidden;
+	}
 }
 
 /*---------------*/
@@ -336,10 +341,18 @@ blockquote p {
 	main {
 		grid-template-columns: repeat(3, 1fr);
 	}
+
+	#player {
+		width: 120px;
+	}
 }
 
 @media only screen and (min-width: 960px) {
 	main {
 		grid-template-columns: repeat(4, 1fr);
+	}
+
+	#player {
+		width: 120px;
 	}
 }
