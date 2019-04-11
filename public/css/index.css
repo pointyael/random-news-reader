@@ -45,6 +45,28 @@ main {
 }
 
 /*-------*/
+/* RADIO */
+/*-------*/
+#btnShuffle{
+	padding: 10px;
+	margin: 0 15px;
+	color: #FFF;
+	border: 0px;
+	border-radius: 100%;
+	cursor: pointer;
+}
+
+#btnShuffle #logoShuffle{
+	width: 35px;
+	height: 35px;
+}
+
+#playerAudio{
+	position: absolute;
+	left: 15px;
+}
+
+/*-------*/
 /* ITEMS */
 /*-------*/
 
@@ -84,10 +106,10 @@ figure figcaption {
 /*----------------*/
 /* BOUTON REFRESH */
 /*----------------*/
-
 div#btnRefresh {
 	padding: 10px 20px;
 	color: #FFF;
+	border: 0px;
 	border-radius: 50px;
 	cursor: pointer;
 }
