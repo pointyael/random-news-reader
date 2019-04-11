@@ -1,6 +1,5 @@
 const moment = require('moment');
-const LanguageDetect = require('languagedetect');
-const lngDetector = new LanguageDetect();
+var franc = require('franc');
 let ETypeMedia = {"article":1, "mp3": 2};
 var parsedItem = {};
 
@@ -28,22 +27,16 @@ const aItem = (item) => {
 }
 
 const getLanguage = (item) => {
-  var resultTitle = lngDetector.detect(parsedItem.title);
+  var resultTitle = franc(parsedItem.title);
 
-  if (resultTitle && resultTitle[0][1] >= 0.275) {
-    parsedItem.language = resultTitle[0][0];
-  } else if (parsedItem.description) {
-    var resultDescription =  lngDetector.detect(parsedItem.description);
-
-      if(resultDescription && resultDescription[0][1] >= 0.25) {
-        parsedItem.language = resultDescription[0][0];
-      } else if (resultTitle[0][0] == resultDescription[0][0]) {
-        parsedItem.languge = resultTitle[0][0];
-      } else {
-        parsedItem.language = parsedItem.link.split(/www\W\w*\W/)[1];
-        if (parsedItem.language)
-          parsedItem.language = parsedItem.language.split(/\//)[0]
-      }
+  if(resultTitle != 'und'){$
+    parsedItem.language = resultTitle.substring(0, 2);
+  }
+  else if (item.description) {
+    var resultDescription =  franc(parsedItem.description);
+    if(resultDescription != 'und'){
+      parsedItem.language = resultDescription.substring(0, 2);
+    }
   }
 }
 
