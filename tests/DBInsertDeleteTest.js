@@ -17,13 +17,14 @@ describe('"deleteOldItems"', () => {
 
     it ('After delete, all items should have ite_pubdate > now() - 2 days',
       (done) => {
-        Item.getAllItems(itemsData)
+        Item
+        .getAllItems()
         .then((reponse) => {
+          itemsData = reponse;
           let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
 
-          for(var index in itemsData)
           itemsData.forEach( (item) => {
-            console.log(item);
+
             expect(item).to.have.property("ite_pubdate");
             expect
             (
@@ -39,15 +40,16 @@ describe('"deleteOldItems"', () => {
 
 describe( '"insertNewItems"', () => {
   var itemsData;
-  before(async function()
-  {
-    await Item.insertItems();
+  before(async function() {
+    Item.insertItems('https://mixmag.net/rss.xml')
+    .then(function(status) {})
+    .catch(function(error) { console.log(error);});
   });
 
-  it(
-    'after insert, all items must be inserted into the database and must be younger than two days',
+  it( 'after insert, all items must be inserted into the database and must be younger than two days',
     function(done) {
-      Item.getAllItems(itemsData)
+      Item
+      .getAllItems()
       .then((reponse) => {
         itemsData = reponse;
         let dateMinusTwoDays = moment().add(-2, 'days');

@@ -2,10 +2,13 @@
 
 rURL = require('../retrieveFromWeb/retrieveURL');
 rFL = require('../retrieveFromWeb/retrieveFeedLinks');
+rData = require('../retrieveFromWeb/retrieveData');
 feedModel = require('../models/feedModel');
 itemModel = require('../models/itemModel');
+wordModel = require('../models/wordModel');
 
-/* rURL.getRandomWord()
+
+wordModel.getRandomWord()
     .then(word => {
         return rURL.getSearchResult(word);
     })
@@ -18,20 +21,20 @@ itemModel = require('../models/itemModel');
         }
     })
     .then(feedURL => {
-        if (feedURL != '' && typeof feedURL != undefined) {
-            console.log('FLUX TROUVE : ', feedURL); 
-            for (let i = 0; i < feedURL.length; i++) {
-                feedModel.insertFeed(feedURL[i]).then(function() {
-                    itemModel.insertItems(feedURL[i]);
+        if (feedURL && feedURL[0]) {
+            console.log('FLUX TROUVE : ', feedURL);
+            feedURL.forEach(element => {
+                feedModel.insertFeed(element).then(()=>{
+                    itemModel.insertItems(element)
+                }).catch(err => {
+                    console.log(err);
                 });
-            }
+            });
         } else {
             console.log('PAS DE FLUX');
         }
     })
     .catch(err => {
         console.log(err);
-    }); */
-
-itemModel.insertItems('https://syndication.lesechos.fr/rss/rss_idee.xml');
+    });
 

@@ -15,19 +15,51 @@ router.get('/about', function(req, res, next) {
 });
 
 /* GET API random items. */
-router.get('/random-items', itemDB.getRandomItems);
+router.get('/random-items', function(req, res, next) {
+  itemDB.getRandomItems()
+  .then(function(data){
+    res.status(200).json(data);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+});
 
-/* GET API random Items not like parameter. */
-router.get('/random-items/:notLike', itemDB.getRandomItemsNotLike);
+/* GET API random items. */
+router.get('/random-items/:notLike', function(req, res, next) {
+  itemDB.getRandomItemsNotLike(req)
+  .then(function(data){
+    res.status(200).json(data);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+});
 
 /* GET API insertItems method. */
 router.get('/insertItems', itemDB.insertItems);
 
 /* GET API button quote. */
-router.get('/random-btnQuote', quoteDB.getButtonQuote);
+router.get('/random-btnQuote', function(req, res, next){
+  quoteDB.getButtonQuote()
+  .then(function(data) {
+    res.status(200).json(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+});
 
 /* GET API quote. */
-router.get('/random-quote', quoteDB.getQuote);
+router.get('/random-quote', function(req, res, next) {
+  quoteDB.getQuote()
+  .then(function(data) {
+    res.status(200).json(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+});
 
 /* GET API quote. */
 router.get('/random-defaultfilter', filtreDB.getFilters);
