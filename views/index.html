@@ -11,8 +11,11 @@
 </head>
 
 <body>
-
     <header>
+        <button onclick="generateRadio()">changer de radio</button>
+        <audio id="player" controls="controls">
+                <source id="src_radio" src="" type="audio/mpeg">
+            </audio>
         <img id="logo" src="../public/img/GoldfishNews.png" alt="Goldfish News Logo">
 
         <div class="switchButton">
@@ -68,30 +71,7 @@
     </div>
 
     <main>
-        <script></script>
-        <!--TODO faire une page "radio" sur laquelle vont tourner les videos et qui se sera pas rafraichie. ? lier les clics home/pageAudio?
-        afficher les videos (en dur dans le code) de manière random pour l'utilisateur-->
-        <iframe background color="black" width="80" height="30" src="https://www.youtube.com/embed/?listType=playlist&list=PLd9auH4JIHvupoMgW5YfOjqtj6Lih0MKw" frameborder="0" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/coYw-eVU0Ks" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/cuYn2cLksvU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/mXRfApkMYZU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/a-M_5rGhPdg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/qIZbVkgTA7M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/9CIzv88RY3Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/poErFu6l-Qo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/DBd560d1DIM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/XdANfMn9USc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/SSzI8nOuZ_o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/GfCe7jzqiyk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/g0mbEe-YjMs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/yv-xvmjpGM4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/Ppnogeufi-4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/A9Sman1fwko" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/rQSwh3bgs5k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/JvZVnBn6zEI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/dp8PhLsUcFE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/IFAcqaNzNSc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe width="80" height="30" src="https://www.youtube.com/embed/i7LD-ROAugw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
         <footer>
             <div id='btnRefresh'>
                 <span id="randomizePhrase "></span>
@@ -103,4 +83,4 @@
 
 </body>
 
-</html>
+</html
