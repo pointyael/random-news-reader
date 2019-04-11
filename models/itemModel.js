@@ -2,22 +2,13 @@ var db = require("../database/dbFactory").db;
 var ItemsRetrieved = require("../retrieveFromWeb/retrieveData.js");
 var FeedModel = require("./feedModel");
 
-let name;
-let description;
-let type;
-let dateInsert;
-let language;
-let theme;
-
 /* Query all items from db => only for test */
 const getAllItems = () =>
 {
   return new Promise(function(resolve, reject){
     db
     .any("SELECT * from item")
-    .then(
-      function(data) { resolve(data); }
-    )
+    .then( function(data) { resolve(data); })
     .catch(function (error) { reject(error) });
   });
 }
@@ -26,9 +17,7 @@ const getAllItems = () =>
 const getRandomItems = () => {
   return new Promise((resolve, reject) => {
     db.any('SELECT "getRandomItems"()')
-    .then(function (data) {
-      resolve(data[0].getRandomItems);
-    })
+    .then(function (data) { resolve(data[0].getRandomItems); })
     .catch(function (error) { reject(error); });
   });
 }
@@ -41,9 +30,7 @@ const getRandomItemsNotLike = (request) => {
       + splitRequestParamters(request.params.notLike)
       +'])'
     )
-    .then(function (data) {
-      resolve(data[0].getRandomItemsNotLike);
-    })
+    .then(function (data) { resolve(data[0].getRandomItemsNotLike); })
     .catch(function (error) { reject (error); });
   });
 }
@@ -57,16 +44,12 @@ const insertItems = (feed) => {
     .any("SELECT * FROM source WHERE sou_link = '" + feed + "' LIMIT 1")
     .then(async function(source) {
       source = source[0];
-
       var res = await ItemsRetrieved.getItems(source.sou_link),
       [feedString, itemsString] = parseAsParameters(source, res);
-
-
       await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
       resolve();
-    }).catch(function(error) {
-        reject(error);
-    });
+
+    }).catch(function(error) { reject(error); });
   })
 }
 

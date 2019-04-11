@@ -4,12 +4,8 @@ var db = require("../database/dbFactory").db;
 const getButtonQuote = (request, response) => {
   return new Promise( (resolve, reject) => {
     db.any("SELECT * FROM buttonquote ORDER BY RANDOM() LIMIT 1")
-    .then(function (data) {
-      resolve(data[0]);
-    })
-    .catch(function (error) {
-      reject(error);
-    });
+    .then(function (data) { resolve(data[0]); })
+    .catch(function (error) { reject(error); });
   });
 }
 
@@ -17,12 +13,8 @@ const getButtonQuote = (request, response) => {
 const getQuote = (request, response) => {
   return new Promise( (resolve, reject) => {
     db.any("SELECT * FROM sidebarquote ORDER BY RANDOM() LIMIT 1")
-    .then(function (data) {
-      resolve(data[0]);
-    })
-    .catch(function (error) {
-      reject(error);
-    });
+    .then(function (data) { resolve(data[0]); })
+    .catch(function (error) { reject(error); });
   })
 }
 module.exports = {

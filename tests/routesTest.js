@@ -114,7 +114,7 @@ describe('/GET random-quote', () => {
     .get('/random-quote')
     .then((res) => {
       quote = res.body;
-      quote.should.be.a('object');
+      quote.should.be.a('object').not.empty;;
       quote.should.have.property("quo_id");
       quote.should.have.property("quo_quote");
       done();
@@ -129,7 +129,7 @@ describe('/GET random-btnQuote', () => {
     .get('/random-btnQuote')
     .then((res) => {
       quote = res.body;
-      quote.should.be.a('object');
+      quote.should.be.a('object').not.empty;;
       quote.should.have.property("but_id");
       quote.should.have.property("but_quote");
       done();
