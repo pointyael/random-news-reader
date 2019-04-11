@@ -28,7 +28,7 @@ const getRandomItemsNotLike = (notLike, lang) => {
     db.any(
       'SELECT "getRandomItemsNotLike"( ARRAY['
       + splitRequestParamters(notLike)
-      +']'
+      +'], '
       + lang
       +')'
     )

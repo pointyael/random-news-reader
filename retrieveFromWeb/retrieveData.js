@@ -43,6 +43,7 @@ function _processItems(parsedFeed){
         itemSchema = parseItem(item);
 
         if (
+          itemSchema.pubDate != "Invalid date" && 
           moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
           > dateMinusTwoDays
         )

@@ -169,7 +169,7 @@ btnShuffle.addEventListener('click', function(){
 	// 	removeRadioURLToLS();
 	// }
 	addRadioURLToLS();
-	
+
 });
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -243,10 +243,11 @@ function displayItems() {
 	}
 
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion );
+		// 0 par defaut -> pas de filtre de langue choisi
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items");
+		req.open("GET", "http://localhost:3000/random-items/0");
 	}
 
 	req.send();
@@ -392,7 +393,7 @@ function displayFiltre(filtre) {
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
 		else
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
-			
+
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;

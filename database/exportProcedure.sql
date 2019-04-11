@@ -155,32 +155,39 @@ END;$$;
 -- Name: getRandomItems(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItems"() RETURNS json[]
+
+CREATE OR REPLACE FUNCTION public."getRandomItems"(lang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
   vJson json[];
   vAItem json;
-  vSourcesId integer[];
   vSourceId integer;
   vItemsId integer[];
   vIndexArray integer;
 BEGIN
-  SELECT ARRAY(
-    SELECT ite_source FROM item
-    where (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
-    GROUP BY ite_source
-    ORDER BY RANDOM()
-    LIMIT 12
-  ) INTO vSourcesId;
-
-	FOREACH vSourceId IN ARRAY vSourcesId LOOP
-
-    SELECT ARRAY(
-  		SELECT ite_id FROM item
-  		WHERE  ite_source=vSourceId
-  		AND (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
-    ) INTO vItemsId;
+	FOR vSourceId IN
+		(
+      SELECT ite_source FROM item
+      WHERE (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
+      GROUP BY ite_source
+			ORDER BY RANDOM()
+			LIMIT 12
+		) LOOP
+      IF lang = 0 THEN
+        SELECT ARRAY(
+            SELECT ite_id FROM item
+            where ite_source=vSourceId
+            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+        ) INTO vItemsId;
+      ELSE
+        SELECT ARRAY(
+            SELECT ite_id FROM item
+            where ite_source=vSourceId
+            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+            AND ite_language = lang
+        ) INTO vItemsId;
+      END IF;
 
     vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
 
@@ -197,13 +204,14 @@ BEGIN
 END;$$;
 
 
-ALTER FUNCTION public."getRandomItems"() OWNER TO postgres;
+ALTER FUNCTION public."getRandomItems"(lang integer) OWNER TO postgres;
 
 --
 -- Name: getRandomItemsNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) RETURNS json[]
+
+CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -217,7 +225,7 @@ BEGIN
   SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord, lang) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
@@ -227,8 +235,7 @@ BEGIN
 
 END;$$;
 
-
-ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[]) OWNER TO postgres;
+ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) OWNER TO postgres;
 
 --
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres

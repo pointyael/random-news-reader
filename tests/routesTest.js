@@ -12,21 +12,21 @@ chai.use(chaiHttp);
   * Test the /GET route
   */
 
-describe('/GET random-items', () => {
+describe('/GET random-items/:lang', () => {
 
     var items;
+
     before(
       async function(){
         await chai.request(server)
-        .get('/random-items')
-        .then( (res) =>  items = res.body )
-        .catch();
+        .get('/random-items/16')
+        .then( (res) =>  { items = res.body } )
+        .catch((error) => console.log(err));
       }
     );
 
     it('it expect GET an array of 12 items', (done) => {
-
-      items.should.be.a('array');
+      items.should.be.a('array').not.empty;
       expect(items.length == 12).to.be.true;
       done();
     });
@@ -42,35 +42,19 @@ describe('/GET random-items', () => {
             > dateMinusTwoDays
         ).to.be.true;
       });
-
-        items.should.be.a('array');
-
-        // Can't test the length < 12 because too few sources
-        expect(items.length == 12).to.be.true;
-
-        items.forEach(item => {
-          expect(item.ite_title).be.a('string').not.empty;
-          expect(item).to.have.property("ite_pubdate");
-          expect
-          (
-            moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
-            >= dateMinusTwoDays
-          ).to.be.true;
-        });
-        done();
-      })
+      done();
+    })
 });
 
-describe('/GET random-items/:notLike', () =>{
+describe('/GET random-items/:notLike/:lang', () =>{
   var items;
 
-  it('itemsNoLibe must not contain \'Liberation\' in the title, (if exists) description and link fields, match case ',
+  it('itemsNoLibe must not contain \'Liberation\' in the title, (if exists) description and link fields, match case and french',
     (done) => {
       chai.request(server)
-      .get('/random-items/liberation')
+      .get('/random-items/liberation/16')
       .then((res) => {
         items = res.body
-        expect(items.length == 12).to.be.true;
         items.forEach(item => {
           if (item.ite_title){
             expect(item.ite_title.includes("liberation")).to.be.false;
@@ -85,13 +69,12 @@ describe('/GET random-items/:notLike', () =>{
     }
   );
 
-  it('itemsNoEcho must not contain \'echos\' in the title, (if exists) description and link fields, match case ',
+  it('itemsNoEcho must not contain \'echos\' in the title, (if exists) description and link fields, match case and french',
     (done) => {
       chai.request(server)
-      .get('/random-items/echos')
+      .get('/random-items/echos/16')
       .then((res) => {
         items = res.body
-        expect(items.length == 12).to.be.true;
         items.forEach(item => {
           if (item.ite_title) { // IDK why a item is null ???  no pb during run on pgadmin posgtres
             expect(!(item.ite_title.includes("echos"))).to.be.true;
@@ -103,20 +86,20 @@ describe('/GET random-items/:notLike', () =>{
       .catch((err) => { done(err); });
     }
   );
-  it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case ',
+  it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case and french ',
     (done) => {
       chai.request(server)
-      .get('/random-items/liberation+echos')
+      .get('/random-items/liberation+echos/16')
       .then((res) => {
         items = res.body;
         items.forEach(item => {
-          expect(item.ite_title.match(/liberation/i)).to.be.false;
-          expect(item.ite_link.match(/liberation/i)).to.be.false;
-          expect(item.ite_title.match(/echos/i)).to.be.false;
-          expect(item.ite_link.match(/echos/i)).to.be.false;
+          expect(item.ite_title.match(/liberation/i)).to.be.null;
+          expect(item.ite_link.match(/liberation/i)).to.be.null;
+          expect(item.ite_title.match(/echos/i)).to.be.null;
+          expect(item.ite_link.match(/echos/i)).to.be.null;
           if(item.ite_description){
-            expect(item.ite_description.match(/liberation/i)).to.be.false;
-            expect(item.ite_description.match(/echos/i)).to.be.false;
+            expect(item.ite_description.match(/liberation/i)).to.be.null;
+            expect(item.ite_description.match(/echos/i)).to.be.null;
           }
         });
         done();

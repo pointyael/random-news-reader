@@ -13,10 +13,6 @@ router.get('/', function(req, res, next) {
 router.get('/about', function(req, res, next) {
   res.render('about', { title: 'À propos' });
 });
-router.get('/random-items/:lang', itemDB.getRandomItems);
-
-/* GET API random Items not like parameter. */
-router.get('/random-items/:notLike/:lang', itemDB.getRandomItemsNotLike);
 
 /* GET API random items. */
 router.get('/random-items/:lang', function(req, res, next) {
@@ -30,7 +26,7 @@ router.get('/random-items/:lang', function(req, res, next) {
 });
 
 /* GET API random items. */
-router.get('/random-items/:notLike', function(req, res, next) {
+router.get('/random-items/:notLike/:lang', function(req, res, next) {
   itemDB.getRandomItemsNotLike(req.params.notLike, req.params.lang)
   .then(function(data){
     res.status(200).json(data);
