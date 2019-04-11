@@ -5,8 +5,10 @@ rFL = require('../retrieveFromWeb/retrieveFeedLinks');
 rData = require('../retrieveFromWeb/retrieveData');
 feedModel = require('../models/feedModel');
 itemModel = require('../models/itemModel');
+wordModel = require('../models/wordModel');
 
-rURL.getRandomWord()
+
+wordModel.getRandomWord()
     .then(word => {
         return rURL.getSearchResult(word);
     })
