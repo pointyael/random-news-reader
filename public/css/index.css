@@ -1,368 +1,323 @@
-html,
-body {
-    height: 100%;
-    margin: 0;
-    font-family: Helvetica;
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: Helvetica;
 }
 
 body {
-    display: flex;
+	display: flex;
 }
 
 ::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
+	width: 0;
+	background: transparent;
 }
 
-header,
-footer {
-    position: fixed;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+header, footer {
+	position: fixed;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
-footer {
-    height: 50px;
-    bottom: 0;
+footer { 
+	height: 50px; 
+	bottom: 0;
 }
 
 header img {
-    height: 100px;
+	height: 100px;
 }
 
 main {
-    display: grid;
-    margin: 100px 0 50px;
-    padding: 10px;
-    grid-gap: 10px;
-    grid-auto-rows: 45%;
-    grid-template-columns: repeat(2, 1fr);
-    overflow-y: auto;
+	display: grid;
+	margin: 100px 0 50px;
+	padding: 10px;
+	grid-gap: 10px;
+	grid-auto-rows: 45%;
+	grid-template-columns: repeat(2, 1fr);
+	overflow-y: auto;
 }
 
-
 /*-------*/
-
-
 /* ITEMS */
-
-
 /*-------*/
 
 a.item {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 figure {
-    position: relative;
-    height: 100%;
-    margin: 0 auto;
-    cursor: pointer;
+	position: relative;
+	height: 100%;
+	margin: 0 auto;
+	cursor: pointer;
 }
 
 figure img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 figure figcaption {
-    position: absolute;
-    width: 100%;
-    padding: 16px;
-    bottom: 0;
-    color: #000;
-    background: rgba(250, 250, 250, 0.9);
-    box-sizing: border-box;
-    font-size: 14px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+	position: absolute;
+	width: 100%;
+	max-height: 70px;
+	min-height: 70px;
+	padding: 16px;
+	bottom: 0;
+	color: #000;
+	background: rgba(250,250,250, 0.9);	
+	box-sizing: border-box;
+	font-size: 14px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/* white-space: nowrap; */
 }
 
-
 /*----------------*/
-
-
 /* BOUTON REFRESH */
-
-
 /*----------------*/
 
 div#btnRefresh {
-    padding: 10px 20px;
-    color: #FFF;
-    border-radius: 50px;
-    cursor: pointer;
+	padding: 10px 20px;
+	color: #FFF;
+	border-radius: 50px;
+	cursor: pointer;
 }
 
-div .fa.fa-refresh.fa-spin {
-    margin-left: 10px;
+div .fa.fa-refresh.fa-spin{
+	margin-left: 10px;
 }
-
 
 /*---------*/
-
-
 /* SIDEBAR */
-
-
 /*---------*/
 
 .sidebar {
-    position: fixed;
-    width: 0;
-    height: 100%;
-    padding-top: 20px;
-    top: 100px;
-    right: 0;
-    z-index: 1;
-    transition: 0.5s;
+	position: fixed;
+	width: 0;
+	height: 100%;
+	padding-top: 20px;
+	top: 100px;
+	right: 0;
+	z-index: 1;
+	transition: 0.5s;
 }
 
 .sidebar div {
-    display: block;
-    padding: 10px 20px;
-    color: #818181;
-    font-size: 25px;
-    white-space: nowrap;
-    transition: 0.3s;
-}
-
-.sidebar div:nth-child(n+2):hover {
-    color: #fff;
-}
+	display: block;
+	padding: 10px 20px;
+	color: #818181;
+	font-size: 25px;
+	white-space: nowrap;
+	transition: 0.3s;
+} 
 
 .sidebar div.bottomLink {
-    position: fixed;
-    bottom: 20px;
-    font-size: 12px;
+	position: fixed;
+	bottom: 20px;
+	font-size: 12px;
 }
 
-
 /*----------------*/
-
-
 /* SIDEBAR  QUOTE */
-
-
 /*-----------------*/
 
 blockquote {
-    position: relative;
-    margin: 0px 18px 25px;
-    width: 220px;
-    border-top: 1px solid #eaeaea;
-    border-bottom: 1px solid #eaeaea;
-    text-align: center;
-    font-size: 15px;
+	position: relative;
+	margin: 0px 18px 25px;
+	width: 220px;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+	text-align: center;
+	font-size: 15px;	
 }
 
 blockquote:after {
-    position: absolute;
-    width: 55px;
-    height: 55px;
-    top: -30px;
-    color: #eaeaea;
-    background: #000;
-    content: '\201D';
-    font-size: 80px;
-    transform: translateX(-50%);
+	position: absolute;
+	width: 55px;
+	height: 55px;
+	top: -30px;
+	color:#eaeaea;
+	background:#000;
+	content: '\201D';
+	font-size: 80px;
+	transform: translateX(-50%);
 }
 
 blockquote p {
-    padding: 15px;
-    color: #eaeaea;
-}
-
+	padding: 15px;
+	color: #eaeaea;
+}	
 
 /*----------------*/
-
-
 /* SIDEBAR FILTER */
-
-
 /*----------------*/
 
 #keywordsFilter {
-    max-width: 250px;
-    display: flex;
-    min-width: 250px;
-    padding: 0;
-    flex-wrap: wrap;
+	max-width: 230px;
+	display: flex;
+	min-width: 230px;
+	padding: 0;
+	flex-wrap: wrap;
 }
 
 .sidebar input {
-    display: none;
+	display: none;
 }
 
 .sidebar label {
-    cursor: pointer;
-    margin: 5px 2px;
-    padding: 10px;
-    background-color: #fff;
-    font-size: 12px;
-    border-radius: 25px;
-    box-shadow: -5px 6px 15px -4px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	margin: 5px 2px;
+	padding: 10px;
+	background-color: #fff;
+	font-size: 12px;
+	border-radius: 25px;
+	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
 }
 
-
 /*------------------*/
-
-
 /* ANIMATION BURGER */
-
-
 /*------------------*/
 
 .bar {
-    width: 25px;
-    height: 2px;
-    margin: 5px auto;
-    background: #db5030;
-    border-radius: 50px;
-    transition: all .5s ease;
+	width: 25px;
+	height: 2px;
+	margin: 5px auto;
+	background: #db5030;
+	border-radius: 50px;
+	transition: all .5s ease;
 }
 
 .switchButton {
-    position: absolute;
-    right: 20px;
-    cursor: pointer;
+	position: absolute;
+	right: 20px;
+	cursor: pointer;
 }
 
 .opened {
-    width: 250px;
+	width: 250px;
 }
 
 .top {
-    transform: translateY(7px) rotateZ(45deg);
+	transform: translateY(7px) rotateZ(45deg);
 }
 
 .middle {
-    width: 0;
-    background-color: red;
-    transform: rotateZ(360deg);
+	width: 0;
+	background-color: red;
+	transform: rotateZ(360deg);
 }
 
 .bottom {
-    transform: translateY(-7px) rotateZ(-45deg);
+	transform: translateY(-7px) rotateZ(-45deg);
 }
 
-
 /*------------------*/
-
-
 /* MODAL DISCLAIMER */
-
-
 /*------------------*/
 
 .modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0,0,0,0.9);
+	z-index: 1;
 }
 
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    margin: 10%;
-    padding: 20px;
-    border-radius: 5px;
-    color: #00ff01;
-    background-color: #000;
+	display: flex;
+	flex-direction: column;
+	max-width: 500px;
+	margin: 10%;
+	padding: 20px;
+	border-radius: 5px;
+	color: #00ff01;
+	background-color: #000;
 }
 
 .modal-content2 {
-    display: flex;
-    flex-direction: column;
-    margin: 10%;
-    padding: 20px;
-    border-radius: 5px;
-    color: #00ff01;
-    background-color: #000;
+	display: flex;
+	flex-direction: column;
+	margin: 10%;
+	padding: 20px;
+	border-radius: 5px;
+	color: #00ff01;
+	background-color: #000;
 }
 
 .modal-content p {
-    font-family: monospace;
-    font-size: 16px;
-    letter-spacing: 1px;
-    line-height: 20px;
+	font-family: monospace;
+	font-size: 16px;
+	letter-spacing: 1px;
+	line-height: 20px;
 }
 
 .modal-content2 p {
-    text-align: center;
-    font-size: 36px;
+	text-align: center;
+	font-size: 36px;
 }
 
-.close,
-.redirect {
-    border: none;
-    background: transparent;
-    color: #ccc;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.close, .redirect {
+	border: none;
+	background: transparent;
+	color: #ccc;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .yesNoBox {
-    display: flex;
-    justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 
 .displayNone {
-    display: none;
+	display: none;
 }
 
 .displayFlex {
-    display: flex;
+	display: flex;
 }
 
 .blink {
-    animation: blink-animation 1s steps(5, start) infinite;
-    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+  	animation: blink-animation 1s steps(5, start) infinite;
+  	-webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
 
 @keyframes blink-animation {
-    to {
-        visibility: hidden;
-    }
+ 	to {
+    	visibility: hidden;
+  	}
 }
 
 @-webkit-keyframes blink-animation {
-    to {
-        visibility: hidden;
-    }
+  	to {
+    	visibility: hidden;
+  	}
 }
 
-
 /*---------------*/
-
-
 /* MEDIA QUERIES */
-
-
 /*---------------*/
 
 @media only screen and (min-width: 600px) {
-    main {
-        grid-template-columns: repeat(3, 1fr);
-    }
+	main {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
 @media only screen and (min-width: 960px) {
-    main {
-        grid-template-columns: repeat(4, 1fr);
-    }
+	main {
+		grid-template-columns: repeat(4, 1fr);
+	}
 }

@@ -11,11 +11,8 @@
 </head>
 
 <body>
+
     <header>
-        <button onclick="generateRadio()">changer de radio</button>
-        <audio id="player" controls="controls">
-                <source id="src_radio" src="" type="audio/mpeg">
-            </audio>
         <img id="logo" src="../public/img/GoldfishNews.png" alt="Goldfish News Logo">
 
         <div class="switchButton">
@@ -51,36 +48,27 @@
         <blockquote>
             <p id="quote"></p>
         </blockquote>
-        <div>Ne pas voir:
+        <div>Ne pas voir :
             <div id='keywordsFilter'>
-                <input type="checkbox" id="checkbox1" class="checkbox" value="NSFW">
-                <label class="label-check" for="checkbox1">#NSFW</label>
-                <input type="checkbox" id="checkbox2" class="checkbox" value="Renault">
-                <label class="label-check" for="checkbox2">#Renault</label>
-                <input type="checkbox" id="checkbox3" class="checkbox" value="Gilets Jaunes">
-                <label class="label-check" for="checkbox3">#GilJau</label>
-                <input type="checkbox" id="checkbox4" class="checkbox" value="cadeau">
-                <label class="label-check" for="checkbox4">#Cadeau</label>
-                <input type="checkbox" id="checkbox5" class="checkbox" value="Voitures">
-                <label class="label-check" for="checkbox5">#Voitures</label>
+                
             </div>
         </div>
-        <a href="./about">
-            <div class="bottomLink">A propos</div>
-        </a>
+        <a href="./about"><div class="bottomLink">A propos</div></a>
     </div>
 
     <main>
+            
+    </main>
 
-        <footer>
-            <div id='btnRefresh'>
-                <span id="randomizePhrase "></span>
-                <i class="fa fa-refresh fa-spin "></i>
-            </div>
-        </footer>
+    <footer>
+        <div id='btnRefresh'>
+            <span id="randomizePhrase"></span>
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
+    </footer>
 
-        <script src="../public/js/indexFunction.js "></script>
+    <script src="../public/js/indexFunction.js"></script>
 
 </body>
 
-</html
+</html>
