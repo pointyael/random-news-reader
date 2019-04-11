@@ -9,23 +9,6 @@ function isURL(str) {
 }
 
 describe("retrieveURL Cron script", () => {
-
-    // Cannot be tested on travis for the moment
-
-    /*describe('"getRandomWord"', () => {
-        it('should give a object not empty, containing a word, a frequence and a language id', function (done) {
-            // Test when website contains an RSS
-            rURL.getRandomWord().then(word => {
-                expect(word).to.be.an('Object').not.empty;
-                expect(word.mot_lib).to.be.a('String').not.null;
-                expect(word.mot_lang).to.be.a('number').not.null;
-                expect(word.mot_freq).to.be.a('number').not.null;
-                done();
-            }).catch(err => {
-                done(err);
-            });
-        });
-    });*/
     
     describe('"getSearchResult and processResult"', () => {
         it('processResult should give an URL', function (done) {
