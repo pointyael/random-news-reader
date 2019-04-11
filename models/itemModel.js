@@ -2,61 +2,36 @@ var db = require("../database/dbFactory").db;
 var ItemsRetrieved = require("../retrieveFromWeb/retrieveData.js");
 var FeedModel = require("./feedModel");
 
-let name;
-let description;
-let type;
-let dateInsert;
-let language;
-let theme;
-
 /* Query all items from db => only for test */
 const getAllItems = () =>
 {
   return new Promise(function(resolve, reject){
     db
     .any("SELECT * from item")
-    .then(
-      function(data) { resolve(data); }
-    )
+    .then( function(data) { resolve(data); })
     .catch(function (error) { reject(error) });
   });
 }
 
 /* Query 12 random items from data base */
-const getRandomItems = (request, response) => {
+const getRandomItems = () => {
+  return new Promise((resolve, reject) => {
     db.any('SELECT "getRandomItems"()')
-    .then(function (data) {
-      response.status(200).json(data[0].getRandomItems);
-    })
-    .catch(function (error) {
-        console.log("ERROR:", error);
-    });
+    .then(function (data) { resolve(data[0].getRandomItems); })
+    .catch(function (error) { reject(error); });
+  });
 }
 
 /* Query 12 random items from data base */
-const getRandomItemsNotLike = (request, response) => {
-  var notLike = "";
-  request.params.notLike
-  .split("+")
-  .forEach(
-    param =>
-    {
-      if(param.length > 1)
-      notLike += "'" + param + "',"
-    }
-  );
-  notLike = notLike.substring(0, notLike.length - 1);
-
-  db.any(
+const getRandomItemsNotLike = (request) => {
+  return new Promise( (resolve, reject) => {
+    db.any(
       'SELECT "getRandomItemsNotLike"( ARRAY['
-      + notLike
+      + splitRequestParamters(request.params.notLike)
       +'])'
-  )
-  .then(function (data) {
-      response.status(200).json(data[0].getRandomItemsNotLike);
-  })
-  .catch(function (error) {
-      console.log("ERROR:", error);
+    )
+    .then(function (data) { resolve(data[0].getRandomItemsNotLike); })
+    .catch(function (error) { reject (error); });
   });
 }
 
@@ -69,40 +44,49 @@ const insertItems = (feed) => {
     .any("SELECT * FROM source WHERE sou_link = '" + feed + "' LIMIT 1")
     .then(async function(source) {
       source = source[0];
-      ItemsRetrieved.getItems(source.sou_link)
-      .then( function(res) {
-        feedInfo = {
-            id: source.sou_id,
-            link: source.sou_link
-        }
+      var res = await ItemsRetrieved.getItems(source.sou_link),
+      [feedString, itemsString] = parseAsParameters(source, res);
+      await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
+      resolve();
 
-        feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
-
-        itemsJsonString = (JSON.stringify(res));
-
-        db.any("CALL \"insertNewItems\"("+feedInfoStringified+", '"+itemsJsonString+"')")
-        .then(function(status) {
-          resolve(status);
-        })
-        .catch(function(err) {
-            reject(err)
-        });
-     })
-     .catch(function(err) {
-        reject(err);
-     });
-    }).catch(function(err2) {
-        reject(err2);
-    });
+    }).catch(function(error) { reject(error); });
   })
 }
 
 const deleteOldItems = function() {
+  return new Promise((resolve, reject) => {
     db
     .any('CALL "deleteOldItemsProc"()')
-    .then( function() {})
-    .catch(function(err) {console.log(err);} );
+    .then( function() { resolve(); })
+    .catch(function(err) {console.log(err); reject(err); } );
+  });
+}
+
+const splitRequestParamters = (params) => {
+  var notLike = "";
+  params
+  .split("+")
+  .forEach( (param) => {
+      if(param.length > 1)
+      notLike += "'" + param + "',"
+  });
+
+  notLike = notLike.substring(0, notLike.length - 1);
+
+  return notLike;
+}
+
+const parseAsParameters = (source, items) => {
+  feedInfo = {
+      id: source.sou_id,
+      link: source.sou_link
   }
+
+  feedInfoStringified = "'" + JSON.stringify(feedInfo).replace( /'/, "''") + "'::json";
+  itemsStringified = (JSON.stringify(items));
+
+  return [feedInfoStringified, itemsStringified];
+}
 
 module.exports = {
     getAllItems,

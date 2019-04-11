@@ -13,11 +13,15 @@ const itemParser = require('./itemParser.js');
 
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
+  return new Promise( async (resolve, reject) => {
     let parsedFeed = await RSSParser.parseURL(link);
-    return parsedFeed;
+    if(parsedFeed)
+      resolve(parsedFeed);
+    reject();
+  })
 }
 
-async function _processFeedInfo(parsedFeed){
+function _processFeedInfo(parsedFeed){
     let feedSchema = Object();
     parsedFeed.title = parsedFeed.title.replace(/'/g, "''");
     feedSchema = {
@@ -29,7 +33,7 @@ async function _processFeedInfo(parsedFeed){
 }
 
 
-async function _processItems(parsedFeed){
+function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
     let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
@@ -38,8 +42,7 @@ async function _processItems(parsedFeed){
 
         itemSchema = parseItem(item);
 
-        if
-        (
+        if (
           moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
           > dateMinusTwoDays
         )
@@ -54,14 +57,23 @@ function parseItem(item) {
 }
 
 async function getItems(link) {
-    parsedFeed = await _retrieveFeedData(link);
-    return await _processItems(parsedFeed);
+  return new Promise( async (resolve, reject) => {
+    if( (parsedFeed = await _retrieveFeedData(link)) )
+      if( (parsedItems = _processItems(parsedFeed)) )
+        resolve(parsedItems);
+
+    reject();
+  });
 }
 
 async function getFeedData(link) {
-    parsedFeed = await _retrieveFeedData(link);
-    processedInfo = await _processFeedInfo(parsedFeed);
-    return processedInfo;
+  return new Promise( async (resolve, reject) => {
+    if( parsedFeed = await _retrieveFeedData(link) )
+      if( (processedInfo = await _processFeedInfo(parsedFeed)) )
+        resolve(processedInfo);
+
+    reject();
+  });
 }
 
 module.exports = {

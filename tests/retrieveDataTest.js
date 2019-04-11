@@ -20,17 +20,18 @@ describe("items Cron script", () => {
         before(async function(){
             items = await itemRetrieving.getItems(link);
         });
-        it('getItems return should be an array not empty', async function(){
+
+        it('getItems return should be an array not empty', function(){
             expect(items).to.be.an('array').not.empty;
         });
 
-        it('items should have a title and a link not empty', async function(){
+        it('items should have a title and a link not empty', function(){
             items.forEach(item => {
                 expect(item.title).to.be.a('string').not.empty;
                 expect(item.link).to.be.a('string').not.empty;
             });
         });
 
-        
+
     });
 });

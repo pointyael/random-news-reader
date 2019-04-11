@@ -64,7 +64,7 @@ describe('/GET random-items/:notLike', () =>{
         });
         done();
       })
-      .catch((err) => {});
+      .catch((err) => { done(err); });
     }
   );
 
@@ -82,27 +82,58 @@ describe('/GET random-items/:notLike', () =>{
         });
         done();
       })
-      .catch((err) => {});
+      .catch((err) => { done(err); });
     }
   );
   it('itemsNoLibeAndEcho must not contain \'Liberation\' and \'echos\' in the title, (if exists) description and link fields, match case ',
     (done) => {
-      chai.request(server).get('/random-items/liberation+echos')
+      chai.request(server)
+      .get('/random-items/liberation+echos')
       .then((res) => {
-          items = res.body;
-          items.forEach(item => {
-            expect(!(item.ite_title.match(/liberation/i))).to.be.true;
-            expect(!(item.ite_link.match(/liberation/i))).to.be.true;
-            expect(!(item.ite_title.match(/echos/i))).to.be.true;
-            expect(!(item.ite_link.match(/echos/i))).to.be.true;
-            if(item.ite_description){
-              expect(!(item.ite_description.match(/liberation/i))).to.be.true;
-              expect(!(item.ite_description.match(/echos/i))).to.be.true;
-            }
-          });
-          done();
+        items = res.body;
+        items.forEach(item => {
+          expect(!(item.ite_title.match(/liberation/i))).to.be.true;
+          expect(!(item.ite_link.match(/liberation/i))).to.be.true;
+          expect(!(item.ite_title.match(/echos/i))).to.be.true;
+          expect(!(item.ite_link.match(/echos/i))).to.be.true;
+          if(item.ite_description){
+            expect(!(item.ite_description.match(/liberation/i))).to.be.true;
+            expect(!(item.ite_description.match(/echos/i))).to.be.true;
+          }
+        });
+        done();
       })
-      .catch((err) => {});
+      .catch((err) => { done(err); });
     }
   );
+});
+
+describe('/GET random-quote', () => {
+  it('Returned quote must be an object with an ID and a quote', function(done) {
+    chai.request(server)
+    .get('/random-quote')
+    .then((res) => {
+      quote = res.body;
+      quote.should.be.a('object').not.empty;;
+      quote.should.have.property("quo_id");
+      quote.should.have.property("quo_quote");
+      done();
+    })
+    .catch((err) => { done(err); });
+  })
+});
+
+describe('/GET random-btnQuote', () => {
+  it('Returned button quote must be an object with an ID and a quote', function(done) {
+    chai.request(server)
+    .get('/random-btnQuote')
+    .then((res) => {
+      quote = res.body;
+      quote.should.be.a('object').not.empty;;
+      quote.should.have.property("but_id");
+      quote.should.have.property("but_quote");
+      done();
+    })
+    .catch((err) => { done(err); });
+  })
 });
