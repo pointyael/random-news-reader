@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #2b4162;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     color: #f5f0f6;
     background-color: #ff5a5f;
 }
