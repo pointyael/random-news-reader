@@ -1,21 +1,9 @@
 const fs = require('fs');
-const se_scraper = require('se-scraper');
-var pgp = require("pg-promise")();
-var db = pgp("postgres://postgres:md5244af1e2823d5eaeeffc42c5096d8260@localhost:5432/randomizer");
+const se_scraper = require('se-scraper'); 
+const wordModel = require('../models/wordModel');
 var request = require('request');
 
 var searchEngines = ['google', 'bing', 'baidu'];
-
-function getRandomWord() {
-    return new Promise(function(resolve, reject){
-        db.one('SELECT * FROM  (SELECT DISTINCT 1 + trunc(random() * 31434241)::integer AS mot_id FROM generate_series(1,1) g) r JOIN   mot USING (mot_id) LIMIT  1;').then(function (word) {
-            resolve(word);
-        }).catch(function (error) {
-            reject(error);
-        });
-    });
-
-}
 
 function getSearchResult(word){
     return new Promise(function(resolve, reject){
@@ -83,6 +71,5 @@ function processSearchResults(searchResult) {
 
 module.exports = {
     getSearchResult,
-    processSearchResults,
-    getRandomWord
+    processSearchResults
 }
