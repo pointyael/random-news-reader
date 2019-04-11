@@ -289,7 +289,7 @@ function displayRefreshPhrase() {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
-			var phrase = JSON.parse(this.responseText)[0];
+			var phrase = JSON.parse(this.responseText);
 			var spanPhrase = document.getElementById('randomizePhrase');
 
 			/* Affichage */
@@ -337,7 +337,7 @@ function displayQuote() {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
-			var quote = JSON.parse(this.responseText)[0];
+			var quote = JSON.parse(this.responseText);
 			var quoteSpan = document.getElementById('quote');
 
 			/* Affichage */
