@@ -20,7 +20,8 @@ describe("items Cron script", () => {
         before(async function(){
             items = await itemRetrieving.getItems(link);
         });
-        it('getItems return should be an array not empty', async function(){
+
+        it('getItems return should be an array not empty', function(){
             expect(items).to.be.an('array').not.empty;
         });
 

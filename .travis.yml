@@ -25,13 +25,22 @@ before_script:
 - psql -c 'CREATE EXTENSION postgres_fdw;' -U postgres
 - psql -c 'CREATE SERVER randomizerServerCI FOREIGN DATA WRAPPER postgres_fdw;' -U postgres
 - psql -c 'CREATE DATABASE randomizer;' -U postgres
-- psql -U postgres randomizer < ./database/exportSql.sql
+- psql -U postgres randomizer < ./database/exportSchema.sql
+- psql -U postgres randomizer < ./database/exportProcedure.sql
+- psql -U postgres randomizer < ./database/exportInserts.sql
 - PYTHONPATH=$(which python)
-- sed -i '/PYPATH*/d' .env
+- touch .env
+- echo "DB_HOST=localhost" >> .env
+- echo "DB_PORT=5432" >> .env
+- echo "DB_NAME=randomizer" >> .env
+- echo "DB_USER=postgres" >> .env
+- echo "DB_PASS=md5244af1e2823d5eaeeffc42c5096d8260" >> .env
 - echo "PYPATH=$PYTHONPATH" >> .env
+- pwd && cat .env
+
 script :
   - npm install
-  - npm test
+  - mocha --timeout 30000 --require co-mocha ./tests/retr*.js ./tests/DB*.js ./tests/itemP*.js
 
 notifications:
   email: false

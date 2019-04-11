@@ -29,7 +29,7 @@ const aItem = (item) => {
 const getLanguage = (item) => {
   var resultTitle = franc(parsedItem.title);
 
-  if(resultTitle != 'und'){$
+  if(resultTitle != 'und'){
     parsedItem.language = resultTitle.substring(0, 2);
   }
   else if (item.description) {

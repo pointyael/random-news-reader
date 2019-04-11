@@ -13,26 +13,32 @@ describe("retrieveFeedLinks Cron script", () => {
     describe('"getFeedLinks"', () => {
         it('linternaute.com should give an array not empty', function (done) {
             // Test when website contains an RSS
-            feedLinksRetrieving.getFeedLinks(linkWithRss, function(feedLinks){
+            feedLinksRetrieving.getFeedLinks(linkWithRss)
+            .then( function(feedLinks){
                 expect(feedLinks).to.be.an('array').not.empty;
                 done();
-            });
+            })
+            .catch((err) => done(err));
         });
 
         it('9gag.com should give an empty array', function (done) {
             // Test when website don't contains RSS
-            feedLinksRetrieving.getFeedLinks(linkWithoutRss, function(feedLinks){
+            feedLinksRetrieving.getFeedLinks(linkWithoutRss)
+            .then( function(feedLinks){
                 expect(feedLinks).to.be.an('array').empty;
                 done();
-            });
+            })
+            .catch( (err) => done(err));
         });
 
         it('lepoint.fr should give an array of 15 RSS feeds', function (done) {
             // Test when website contains multiple RSS feeds
-            feedLinksRetrieving.getFeedLinks(linkMultipleRss, function(feedLinks){
+            feedLinksRetrieving.getFeedLinks(linkMultipleRss)
+            .then(function(feedLinks){
                 expect(feedLinks).to.have.lengthOf(15);
                 done();
-            });
+            })
+            .catch((err) => done(err));
         });
     });
 });

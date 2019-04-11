@@ -19,6 +19,8 @@ function getFeedLinks(rawUrl){
 
     PythonShell.run('feedfinder.py', options, function (err, results) {
         if (err) reject(err);
+        if(results[0] === '')
+          results = new Array();
         resolve(results);
     });
   });
