@@ -101,6 +101,10 @@ function displayItems() {
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('mouseup', checkButton);
 				actualItems[i].addEventListener('click', generateAll);
+				var actualImage = actualItems[i].children[0].firstChild;
+				if (actualImage.src.includes('/public/img/logo')){
+					actualImage.style.backgroundColor = headerColor[randomNumber-1];
+				};
 			}
 		}
 	};
@@ -126,8 +130,6 @@ function displayItems() {
 			else{
 				exclusion += "+" + localStorage.getItem('checkbox'+i);
 			}
-			
-			
 		}
 	}
 
@@ -141,6 +143,8 @@ function displayItems() {
 	req.send();
 }
 
+var headerColor = ["#000", "#2b4162", "#FCF8CC", "#66bd84", "#000"];
+
 function displayItem(item) {
 	var html;
 	if(item){
@@ -148,8 +152,9 @@ function displayItem(item) {
 		'<figure>';
 		if (item["ite_enclosure"] != null)
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
-		else
+		else{
 			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
+		}
 		html +='<figcaption>' + item["ite_title"] + '</figcaption>' +
 		'</figure>' +
 		'</a>';
