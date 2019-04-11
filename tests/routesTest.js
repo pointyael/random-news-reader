@@ -107,3 +107,33 @@ describe('/GET random-items/:notLike', () =>{
     }
   );
 });
+
+describe('/GET random-quote', () => {
+  it('Returned quote must be an object with an ID and a quote', function(done) {
+    chai.request(server)
+    .get('/random-quote')
+    .then((res) => {
+      quote = res.body;
+      quote.should.be.a('object');
+      quote.should.have.property("quo_id");
+      quote.should.have.property("quo_quote");
+      done();
+    })
+    .catch((err) => { done(err); });
+  })
+});
+
+describe('/GET random-btnQuote', () => {
+  it('Returned button quote must be an object with an ID and a quote', function(done) {
+    chai.request(server)
+    .get('/random-btnQuote')
+    .then((res) => {
+      quote = res.body;
+      quote.should.be.a('object');
+      quote.should.have.property("but_id");
+      quote.should.have.property("but_quote");
+      done();
+    })
+    .catch((err) => { done(err); });
+  })
+});
