@@ -164,6 +164,7 @@ function displayItem(item) {
 
 function checkButton(event) {
 	if (event.button == 1) {
+		closeSidebarMenu();
 		refreshItems();
 		displayRefreshPhrase();
 	}
