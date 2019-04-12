@@ -13,9 +13,9 @@ DROP PROCEDURE IF EXISTS public."testGetRandomItemsNotLike"();
 DROP PROCEDURE IF EXISTS public."deleteOldItemsProc"();
 DROP PROCEDURE  IF EXISTS public."insertNewItems"(json,json);
 DROP FUNCTION  IF EXISTS public."getRandomFilterWords"();
-DROP FUNCTION  IF EXISTS public."getRandomItems"();
-DROP FUNCTION IF EXISTS public."getRandomItemsNotLike"(text[]);
-DROP FUNCTION  IF EXISTS public."itemNotLike"(integer, text[]);
+DROP FUNCTION  IF EXISTS public."getRandomItems"(integer);
+DROP FUNCTION IF EXISTS public."getRandomItemsNotLike"(text[], integer);
+DROP FUNCTION  IF EXISTS public."itemNotLike"(integer, text[], integer);
 DROP FUNCTION  IF EXISTS public."sourcesNotLike"(text[]);
 
 CREATE OR REPLACE PROCEDURE public."testGetRandomItems"()
@@ -36,7 +36,7 @@ BEGIN
       ELSE 0
       END
     INTO vIsNull
-    FROM (SELECT "getRandomItems"()) t;
+    FROM (SELECT "getRandomItems"(0)) t;
 
     IF vIsNull > 0 THEN
       RAISE NOTICE 'NULL Item is present';
@@ -68,20 +68,20 @@ BEGIN
       ELSE 0
       END
     INTO vIsLibe
-    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation'])) t;
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation'], 0)) t;
     SELECT CASE
       WHEN t::text like '%liberation%' THEN 1
       ELSE 0
       END
     INTO vIsEchos
-    FROM (SELECT "getRandomItemsNotLike"(ARRAY['echos'])) t;
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['echos'], 0)) t;
 
     SELECT CASE
       WHEN t::text like '%liberation%' THEN 1
       ELSE 0
       END
     INTO vIsLibeEcho
-    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation', 'echos'])) t;
+    FROM (SELECT "getRandomItemsNotLike"(ARRAY['liberation', 'echos'], 0)) t;
 
     IF vIsLibe > 0 THEN
       vCountLiberation := vCountLiberation + 1;
@@ -272,9 +272,9 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
                 vLangId := 13; --English language default
               END IF;
 
-              SELECT cat_id INTO vCategoryId
-              FROM category
-              WHERE cat_lib=vAItem->>'category';
+              -- SELECT cat_id INTO vCategoryId
+              -- FROM category
+              -- WHERE cat_lib=vAItem->>'category';
 
               INSERT INTO public.item
                (
@@ -285,7 +285,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
                  ite_link,
                  ite_pubdate,
                  ite_language,
-                 ite_category,
+                 --ite_category,
                  ite_source
                )
               VALUES
@@ -297,7 +297,7 @@ CREATE OR REPLACE PROCEDURE public."insertNewItems"(pSource json, pItems json)
                   vAItem->>'link',
                   to_timestamp(vAItem->>'pubDate', 'YYYY-MM-DD HH24:MI:SS'),
                   vLangId,
-                  vCategoryId,
+                  --vCategoryId,
                   to_number(pSource->>'id', '99G999D9S')
                 );
             END IF;
@@ -311,7 +311,7 @@ ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO post
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[]) RETURNS json
+CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[], lang integer) RETURNS json
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -329,7 +329,8 @@ BEGIN
       vSelectClause
       || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
       || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
+      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')'
+      || ' AND ite_language = ' || lang;
   END LOOP;
 
   vSelectClause :=
@@ -363,8 +364,9 @@ DECLARE
 BEGIN
 
   vSelectClause :=
-    'SELECT ARRAY(SELECT sou_id FROM source'
-    || ' WHERE sou_id IN ( SELECT ite_source FROM item GROUP BY ite_source ) ';
+    'SELECT ARRAY(SELECT ite_source FROM item'
+    || ' JOIN source on sou_id=ite_source'
+    || ' WHERE (ite_pubdate||''+02'') :: timestamp > (NOW() - interval ''2 days'') :: timestamp';
 
   FOREACH vWhereClause IN ARRAY pClause
   LOOP
@@ -375,7 +377,7 @@ BEGIN
 
   vSelectClause :=
     vSelectClause
-    || ' ORDER BY RANDOM() LIMIT 12)';
+    || 'GROUP BY ite_source ORDER BY RANDOM() LIMIT 12)';
 
     EXECUTE vSelectClause INTO vSourceIds;
 
