@@ -10,12 +10,13 @@ const aItem = (item) => {
   parsedItem =
   {
       title: item.title.replace(/'/g, "''"),
-      pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
       type : ETypeMedia.article,
       link: item.link,
-      category: item.category
+      //category: item.category
+      // unused field
   };
 
+  getDate(item);
   getEnclosure(item);
   getDescription(item);
   getLanguage(item);
@@ -24,6 +25,14 @@ const aItem = (item) => {
       parsedItem.type = ETypeMedia.mp3;
   }
   return parsedItem;
+}
+
+const getDate = (item) => {
+
+  if (item.isoDate)
+    parsedItem.pubDate =  moment(item.isoDate).format("YYYY-MM-DD HH:mm:ss");
+  else
+    parsedItem.pubDate =  moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss");
 }
 
 const getLanguage = (item) => {
@@ -68,14 +77,15 @@ const analyseContent = (item) => {
 
 const getDescription = (item) => {
   var descriptionSplitted =
-  item.description && item.description.split(/<(a href|\/a>|img .* \/>)/)
-  || item.content &&  item.content.split(/<(a href|\/a>|img .* \/>)/);
+  item.description && item.description.split(/<(a href|\/a>|\/?p>)/)
+  || item.content &&  item.content.split(/<(a href|\/a>|\/?p>)/);
 
 
   if(descriptionSplitted) {
     descriptionSplitted.forEach(ds => {
-      if(!(ds.match(/<(a href|\/a>|img .* \/>)/g) ) ) {
-        parsedItem.description = ds.replace(/'/g, "''");
+      if(!(ds.match(/(<a href|<\/a>|\/?p>|img)/g) ) ) {
+        if(ds.length >=5)
+          parsedItem.description = ds.replace(/'/g, "''");
       }
     });
   }
