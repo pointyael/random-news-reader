@@ -16,33 +16,27 @@ describe('/GET random-items/:lang', () => {
 
     var items;
 
-    before(
-      async function(){
-        await chai.request(server)
-        .get('/random-items/16')
-        .then( (res) =>  { items = res.body } )
-        .catch((error) => console.log(err));
-      }
-    );
+    it('it GET array of 12 items published less than 2 days', (done) => {
+      chai.request(server)
+      .get('/random-items/0')
+      .then( (res) =>  {
+        items = res.body;
+        items.should.be.a('array').not.empty;
+        (items.length == 12).should.be.true;
 
-    it('it expect GET an array of 12 items', (done) => {
-      items.should.be.a('array').not.empty;
-      expect(items.length == 12).to.be.true;
-      done();
-    });
-
-    it('it GET items published less than 2 days', (done) => {
-      let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
-      items.forEach(item => {
-        expect(item).to.have.property("ite_title");
-        expect(item).to.have.property("ite_pubdate");
-        expect
-        (
-          moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
+        let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
+        items.forEach(item => {
+          item.should.to.have.property("ite_title");
+          item.should.to.have.property("ite_pubdate");
+          expect
+          (
+            moment(item.ite_pubdate).format("YYYY-MM-DD HH:mm:ss")
             > dateMinusTwoDays
-        ).to.be.true;
-      });
-      done();
+          ).to.be.true;
+        });
+        done();
+      })
+      .catch((err) => done(err));
     })
 });
 
@@ -93,13 +87,15 @@ describe('/GET random-items/:notLike/:lang', () =>{
       .then((res) => {
         items = res.body;
         items.forEach(item => {
-          expect(item.ite_title.match(/liberation/i)).to.be.null;
-          expect(item.ite_link.match(/liberation/i)).to.be.null;
-          expect(item.ite_title.match(/echos/i)).to.be.null;
-          expect(item.ite_link.match(/echos/i)).to.be.null;
-          if(item.ite_description){
-            expect(item.ite_description.match(/liberation/i)).to.be.null;
-            expect(item.ite_description.match(/echos/i)).to.be.null;
+          if(item.ite_title){
+            expect(item.ite_title.match(/liberation/i)).to.be.null;
+            expect(item.ite_link.match(/liberation/i)).to.be.null;
+            expect(item.ite_title.match(/echos/i)).to.be.null;
+            expect(item.ite_link.match(/echos/i)).to.be.null;
+            if(item.ite_description){
+              expect(item.ite_description.match(/liberation/i)).to.be.null;
+              expect(item.ite_description.match(/echos/i)).to.be.null;
+            }
           }
         });
         done();
