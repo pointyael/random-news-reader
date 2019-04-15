@@ -77,13 +77,13 @@ const analyseContent = (item) => {
 
 const getDescription = (item) => {
   var descriptionSplitted =
-  item.description && item.description.split(/<(a href|\/a>|\/?p>)/)
-  || item.content &&  item.content.split(/<(a href|\/a>|\/?p>)/);
+  item.description && item.description.split(/(<a href.*">|<\/a>|<\/?p>|<img .*"\/?>)/g)
+  || item.content &&  item.content.split(/(<a href.*">|<\/a>|<\/?p>|<img .*"\/?>)/g);
 
 
   if(descriptionSplitted) {
     descriptionSplitted.forEach(ds => {
-      if(!(ds.match(/(<a href|<\/a>|\/?p>|img)/g) ) ) {
+      if(!(ds.match(/(<a href=".*">|<\/a>|\/?p>|img)/g) ) ) {
         if(ds.length >=5)
           parsedItem.description = ds.replace(/'/g, "''");
       }
