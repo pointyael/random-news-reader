@@ -397,11 +397,11 @@ function displayFiltres() {
 function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
-		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) == filtre["fll_localise"])
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
-		else
+		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
-			
+		else
+			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+	
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
