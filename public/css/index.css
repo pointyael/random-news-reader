@@ -126,7 +126,6 @@ div .fa.fa-refresh.fa-spin{
 /*---------*/
 /* SIDEBAR */
 /*---------*/
-
 .sidebar {
 	position: fixed;
 	width: 0;
@@ -187,7 +186,6 @@ blockquote p {
 /*----------------*/
 /* SIDEBAR FILTER */
 /*----------------*/
-
 #keywordsFilter {
 	max-width: 230px;
 	display: flex;
@@ -196,11 +194,11 @@ blockquote p {
 	flex-wrap: wrap;
 }
 
-.sidebar input {
+.sidebar .checkbox {
 	display: none;
 }
 
-.sidebar label {
+.sidebar .label-check {
 	cursor: pointer;
 	margin: 5px 2px;
 	padding: 10px;
@@ -210,10 +208,41 @@ blockquote p {
 	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
 }
 
+/*--------------------*/
+/* SIDEBAR ADD FILTER */
+/*--------------------*/
+#customFilter{
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	white-space: nowrap;
+}
+
+#labelAddFilter{
+	display: block;
+}
+
+#inputFilter{
+	min-width: 210px;
+	width: 210px;
+	height: 20px;
+}
+
+#btnAjouterFiltre{
+	min-width: 180px;
+	margin: 5px auto;
+	padding: 10px 20px;
+	color: #FFF;
+	font-size: 15px;
+	width: auto;
+	border-radius: 50px;
+	cursor: pointer;
+	text-align: center;
+}
+
 /*------------------*/
 /* ANIMATION BURGER */
 /*------------------*/
-
 .bar {
 	width: 25px;
 	height: 2px;
