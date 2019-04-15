@@ -16,7 +16,8 @@ DROP FUNCTION  IF EXISTS public."getRandomFilterWords"();
 DROP FUNCTION  IF EXISTS public."getRandomItems"(integer);
 DROP FUNCTION IF EXISTS public."getRandomItemsNotLike"(text[], integer);
 DROP FUNCTION  IF EXISTS public."itemNotLike"(integer, text[], integer);
-DROP FUNCTION  IF EXISTS public."sourcesNotLike"(text[]);
+DROP FUNCTION  IF EXISTS public."sourcesNotLike"(text[], vLang integer);
+DROP FUNCTION  IF EXISTS public."getLocalizedClause"(text, integer);
 
 CREATE OR REPLACE PROCEDURE public."testGetRandomItems"()
     LANGUAGE plpgsql
@@ -156,7 +157,7 @@ END;$$;
 --
 
 
-CREATE OR REPLACE FUNCTION public."getRandomItems"(lang integer) RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItems"(vLang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -174,7 +175,7 @@ BEGIN
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
-      IF lang = 0 THEN
+      IF vLang = 0 THEN
         SELECT ARRAY(
             SELECT ite_id FROM item
             where ite_source=vSourceId
@@ -185,7 +186,7 @@ BEGIN
             SELECT ite_id FROM item
             where ite_source=vSourceId
             AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-            AND ite_language = lang
+            AND ite_language = vLang
         ) INTO vItemsId;
       END IF;
 
@@ -204,14 +205,14 @@ BEGIN
 END;$$;
 
 
-ALTER FUNCTION public."getRandomItems"(lang integer) OWNER TO postgres;
+ALTER FUNCTION public."getRandomItems"(vLang integer) OWNER TO postgres;
 
 --
 -- Name: getRandomItemsNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 
-CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) RETURNS json[]
+CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[], vLang integer) RETURNS json[]
     LANGUAGE plpgsql
     AS $$DECLARE
 
@@ -222,10 +223,10 @@ CREATE OR REPLACE FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang 
   vSources integer[];
 BEGIN
 
-  SELECT "sourcesNotLike"(pKeyWord) INTO vSources;
+  SELECT "sourcesNotLike"(pKeyWord, vLang) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord, lang) INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
@@ -235,7 +236,7 @@ BEGIN
 
 END;$$;
 
-ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[], lang integer) OWNER TO postgres;
+ALTER FUNCTION public."getRandomItemsNotLike"(pkeyword text[], vLang integer) OWNER TO postgres;
 
 --
 -- Name: insertNewItems(json, json); Type: PROCEDURE; Schema: public; Owner: postgres
@@ -311,7 +312,7 @@ ALTER PROCEDURE public."insertNewItems"(pSource json, pItems json) OWNER TO post
 -- Name: itemNotLike(integer, text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pclause text[], lang integer) RETURNS json
+CREATE OR REPLACE FUNCTION public."itemNotLike"(pSource integer, pClause text[], vLang integer) RETURNS json
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -325,12 +326,15 @@ BEGIN
 
   FOREACH vWhereClause IN ARRAY pClause
   LOOP
+      SELECT "getLocalizedClause"(vWhereClause, vLang) INTO vWhereClause;
+
       vSelectClause :=
-      vSelectClause
-      || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
-      || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')'
-      || ' AND ite_language = ' || lang;
+        vSelectClause
+        || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
+        || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
+
+
   END LOOP;
 
   vSelectClause :=
@@ -348,13 +352,13 @@ END;
 $$;
 
 
-ALTER FUNCTION public."itemNotLike"(psource integer, pclause text[]) OWNER TO postgres;
+ALTER FUNCTION public."itemNotLike"(pSource integer, pClause text[]) OWNER TO postgres;
 
 --
 -- Name: sourcesNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION public."sourcesNotLike"(pclause text[]) RETURNS integer[]
+CREATE OR REPLACE FUNCTION public."sourcesNotLike"(pClause text[], vLang integer) RETURNS integer[]
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -371,9 +375,13 @@ BEGIN
   FOREACH vWhereClause IN ARRAY pClause
   LOOP
       vSelectClause :=
-      vSelectClause
-      || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%''';
+        vSelectClause
+        || ' AND lower(sou_link) NOT LIKE ''%' || lower(vWhereClause) || '%''';
   END LOOP;
+
+  IF vLang <> 0 THEN
+    vSelectClause := vSelectClause || ' AND ite_language = ' || vLang;
+  END IF;
 
   vSelectClause :=
     vSelectClause
@@ -386,4 +394,33 @@ END;
 $$;
 
 
-ALTER FUNCTION public."sourcesNotLike"(pclause text[]) OWNER TO postgres;
+ALTER FUNCTION public."sourcesNotLike"(pClause text[], vLang integer) OWNER TO postgres;
+
+-----------------------------------
+
+
+CREATE OR REPLACE FUNCTION public."getLocalizedClause"(vClause text, vLang integer) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  vLocalizedClause text;
+BEGIN
+    IF vLang = 0 THEN
+      RETURN vClause;
+    END IF;
+
+    SELECT fll_localise INTO vLocalizedClause FROM filtreLocalise
+    WHERE fll_localise LIKE '%' || vClause || '%'
+    AND fll_language = vLang;
+
+    IF vLocalizedClause IS NOT NULL THEN
+      RETURN vLocalizedClause;
+    ELSE
+      RETURN vClause;
+    END IF;
+
+END;
+$$;
+
+
+ALTER FUNCTION public."getLocalizedClause"(vClause text, vLang integer) OWNER TO postgres;
