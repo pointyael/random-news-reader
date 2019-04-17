@@ -226,7 +226,7 @@ BEGIN
   SELECT "sourcesNotLike"(pKeyWord, vLang) INTO vSources;
   FOREACH vSourceId IN ARRAY vSources LOOP
 
-      SELECT "itemNotLike"(vSourceId, pKeyWord) INTO vAItem;
+      SELECT "itemNotLike"(vSourceId, pKeyWord, vLang) INTO vAItem;
       vJson := array_append(vJson, vAItem);
 
   END LOOP;
@@ -333,9 +333,11 @@ BEGIN
         || ' AND ( lower(ite_title) NOT LIKE ''%' || lower(vWhereClause) || '%'''
         || ' AND lower(ite_description) NOT LIKE ''%' || lower(vWhereClause) || '%'''
         || ' AND lower(ite_link) NOT LIKE ''%' || lower(vWhereClause) || '%'')';
-
-
   END LOOP;
+
+  IF vLang <> 0 THEN
+    vSelectClause := vSelectClause || 'AND ite_language=' || vLang;
+  END IF;
 
   vSelectClause :=
     vSelectClause
@@ -352,7 +354,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public."itemNotLike"(pSource integer, pClause text[]) OWNER TO postgres;
+ALTER FUNCTION public."itemNotLike"(pSource integer, pClause text[], vLang integer) OWNER TO postgres;
 
 --
 -- Name: sourcesNotLike(text[]); Type: FUNCTION; Schema: public; Owner: postgres

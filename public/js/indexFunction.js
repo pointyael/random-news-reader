@@ -243,7 +243,7 @@ function displayItems() {
 	}
 
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/" + exclusion );
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/0" );
 		// 0 par defaut -> pas de filtre de langue choisi
 	}
 	else{
