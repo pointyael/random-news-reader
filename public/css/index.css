@@ -1,387 +1,105 @@
-html, body {
-	height: 100%;
-	margin: 0;
-	font-family: Helvetica;
-}
+<!DOCTYPE html>
+<html lang="fr">
 
-body {
-	display: flex;
-}
+<head>
+    <title>Randomizer</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../public/css/index.css">
+    <link id="style" rel="stylesheet" type="text/css" href="../public/css/index.css">
+    <link rel="shortcut icon" href="../public/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
-::-webkit-scrollbar {
-	width: 0;
-	background: transparent;
-}
+<body>
 
-header, footer {
-	position: fixed;
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-}
+    <header>
+        <div id="playerAudio">
+            <button id="btnShuffle" onclick="generateRadio()">
+                <img id="logoShuffle" src="/public/img/logoShuffle.png" alt="">
+            </button>
+            <audio id="player" controls>
+                <source id="src_radio" src="" type="audio/mpeg">
+            </audio>
+        </div>
 
-a {
-	text-decoration: none;
-}
+        <img id="logo" src="../public/img/GoldfishNews.png" alt="Goldfish News Logo">
 
-footer { 
-	height: 50px; 
-	bottom: 0;
-}
+        <div class="switchButton">
+            <div id="topbar" class="bar"></div>
+            <div id="middlebar" class="bar"></div>
+            <div id="bottombar" class="bar"></div>
+        </div>
+    </header>
 
-header img {
-	height: 100px;
-}
+    <div class="modal displayNone">
+        <div class="modal-content">
+            <p>Bienvenue. Vous allez naviguer sur un site qui ne vous connaît pas et ne se souviendra pas de vous.</p>
 
-main {
-	display: grid;
-	margin: 100px 0 50px;
-	padding: 10px;
-	grid-gap: 10px;
-	grid-auto-rows: 45%;
-	grid-template-columns: repeat(2, 1fr);
-	overflow-y: auto;
-}
+            <p>Nous ne produisons pas de contenu. Nous ne présumons pas de ce qui constituerait une information
+                pertinente pour vous.</p>
 
-/*-------*/
-/* RADIO */
-/*-------*/
-#btnShuffle{
-	padding: 10px;
-	margin: 0 15px;
-	color: #FFF;
-	border: 0px;
-	border-radius: 100%;
-	cursor: pointer;
-}
+            <p>Nous allons vous proposer un fil d’actualités récentes recueillies sur internet durant les dernières 48
+                heures.</p>
 
-#btnShuffle #logoShuffle{
-	width: 35px;
-	height: 35px;
-}
+            <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
+            <div class="yesNoBox">
+                <button class="close">Y[es]<span class="blink">|</span></button>
+                <button class="redirect">N[o]</button>
+            </div>
+        </div>
+    </div>
 
-#playerAudio{
-	position: absolute;
-	left: 15px;
-}
+    <div class="modal displayNone">
+        <div class="modal-content2">
+            <p>See you SpaceCowboy...</p>
+        </div>
+    </div>
 
-#player {
-	width: 60px;
-	border-radius: 50px;
-}
+    <div class="sidebar">
+        <blockquote>
+            <p id="quote"></p>
+        </blockquote>
+        <div>Voir du contenu en :
+            <div id="languageFilter">
+                <input type="radio" name="langFilter" id="enFilter" class="checkbox" value="13"/>
+                <label class="label-check" for="enFilter">English</label>
+                <input type="radio" name="langFilter" id="frFilter" class="checkbox" value="16"/>
+                <label class="label-check" for="frFilter">Français</label>
+                <input type="radio" name="langFilter" id="esFilter" class="checkbox" value="38"/>
+                <label class="label-check" for="esFilter">Español</label>
+                <input type="radio" name="langFilter" id="allFilter" class="checkbox" value="0" checked />
+                <label class="label-check" for="allFilter">No matter</label>
+            </div>
+        </div>
+        <div>Bannir :
+            <div id='keywordsFilter'>
 
-/*-------*/
-/* ITEMS */
-/*-------*/
+            </div>
 
-a.item {
-	cursor: pointer;
-}
+            <div id="customFilter">
+                <label id='labelAddFilter'>Ajouter un filtre :</label>
+                <input id='inputFilter' type="text">
+                <div id='btnAjouterFiltre'>Ajouter</div>
+            </div>
+        </div>
+        <a href="./about">
+            <div class="bottomLink">A propos</div>
+        </a>
+    </div>
 
-figure {
-	position: relative;
-	height: 100%;
-	margin: 0 auto;
-	cursor: pointer;
-}
+    <main>
 
-figure img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
+    </main>
 
-figure figcaption {
-	position: absolute;
-	width: 100%;
-	max-height: 70px;
-	min-height: 70px;
-	padding: 16px;
-	bottom: 0;
-	color: #000;
-	background: rgba(250,250,250, 0.9);	
-	box-sizing: border-box;
-	font-size: 14px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	/* white-space: nowrap; */
-}
+    <footer>
+        <div id='btnRefresh'>
+            <span id="randomizePhrase"></span>
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
+    </footer>
 
-/*----------------*/
-/* BOUTON REFRESH */
-/*----------------*/
-div#btnRefresh {
-	padding: 10px 20px;
-	color: #FFF;
-	border: 0px;
-	border-radius: 50px;
-	cursor: pointer;
-}
+    <script src="../public/js/indexFunction.js"></script>
 
-div .fa.fa-refresh.fa-spin{
-	margin-left: 10px;
-}
+</body>
 
-/*---------*/
-/* SIDEBAR */
-/*---------*/
-.sidebar {
-	position: fixed;
-	width: 0;
-	height: 100%;
-	padding-top: 20px;
-	top: 100px;
-	right: 0;
-	z-index: 1;
-	transition: 0.5s;
-}
-
-.sidebar div {
-	display: block;
-	padding: 10px 20px;
-	color: #818181;
-	font-size: 25px;
-	white-space: nowrap;
-	transition: 0.3s;
-} 
-
-.sidebar div.bottomLink {
-	position: fixed;
-	bottom: 20px;
-	font-size: 12px;
-}
-
-/*----------------*/
-/* SIDEBAR  QUOTE */
-/*-----------------*/
-
-blockquote {
-	position: relative;
-	margin: 0px 18px 25px;
-	width: 220px;
-	border-top: 1px solid #eaeaea;
-	border-bottom: 1px solid #eaeaea;
-	text-align: center;
-	font-size: 15px;	
-}
-
-blockquote:after {
-	position: absolute;
-	width: 55px;
-	height: 55px;
-	top: -30px;
-	color:#eaeaea;
-	background:#000;
-	content: '\201D';
-	font-size: 80px;
-	transform: translateX(-50%);
-}
-
-blockquote p {
-	padding: 15px;
-	color: #eaeaea;
-}	
-
-/*----------------*/
-/* SIDEBAR FILTER */
-/*----------------*/
-#keywordsFilter {
-	max-width: 230px;
-	display: flex;
-	min-width: 230px;
-	padding: 0;
-	flex-wrap: wrap;
-}
-
-.sidebar .checkbox {
-	display: none;
-}
-
-.sidebar .label-check {
-	cursor: pointer;
-	margin: 5px 2px;
-	padding: 10px;
-	background-color: #fff;
-	font-size: 12px;
-	border-radius: 25px;
-	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
-}
-
-/*--------------------*/
-/* SIDEBAR ADD FILTER */
-/*--------------------*/
-#customFilter{
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-	white-space: nowrap;
-}
-
-#labelAddFilter{
-	display: block;
-}
-
-#inputFilter{
-	min-width: 210px;
-	width: 210px;
-	height: 20px;
-}
-
-#btnAjouterFiltre{
-	min-width: 180px;
-	margin: 5px auto;
-	padding: 10px 20px;
-	color: #FFF;
-	font-size: 15px;
-	width: auto;
-	border-radius: 50px;
-	cursor: pointer;
-	text-align: center;
-}
-
-/*------------------*/
-/* ANIMATION BURGER */
-/*------------------*/
-.bar {
-	width: 25px;
-	height: 2px;
-	margin: 5px auto;
-	background: #db5030;
-	border-radius: 50px;
-	transition: all .5s ease;
-}
-
-.switchButton {
-	position: absolute;
-	right: 20px;
-	cursor: pointer;
-}
-
-.opened {
-	width: 250px;
-}
-
-.top {
-	transform: translateY(7px) rotateZ(45deg);
-}
-
-.middle {
-	width: 0;
-	background-color: red;
-	transform: rotateZ(360deg);
-}
-
-.bottom {
-	transform: translateY(-7px) rotateZ(-45deg);
-}
-
-/*------------------*/
-/* MODAL DISCLAIMER */
-/*------------------*/
-
-.modal {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(0,0,0,0.9);
-	z-index: 1;
-}
-
-.modal-content {
-	display: flex;
-	flex-direction: column;
-	max-width: 500px;
-	margin: 10%;
-	padding: 20px;
-	border-radius: 5px;
-	color: #00ff01;
-	background-color: #000;
-}
-
-.modal-content2 {
-	display: flex;
-	flex-direction: column;
-	margin: 10%;
-	padding: 20px;
-	border-radius: 5px;
-	color: #00ff01;
-	background-color: #000;
-}
-
-.modal-content p {
-	font-family: monospace;
-	font-size: 16px;
-	letter-spacing: 1px;
-	line-height: 20px;
-}
-
-.modal-content2 p {
-	text-align: center;
-	font-size: 36px;
-}
-
-.close, .redirect {
-	border: none;
-	background: transparent;
-	color: #ccc;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.yesNoBox {
-	display: flex;
-	justify-content: space-around;
-}
-
-.displayNone {
-	display: none;
-}
-
-.displayFlex {
-	display: flex;
-}
-
-.blink {
-	animation: blink-animation 1s steps(5, start) infinite;
-	-webkit-animation: blink-animation 1s steps(5, start) infinite;
-}
-
-@keyframes blink-animation {
-	to {
-		visibility: hidden;
-	}
-}
-
-@-webkit-keyframes blink-animation {
-	to {
-		visibility: hidden;
-	}
-}
-
-/*---------------*/
-/* MEDIA QUERIES */
-/*---------------*/
-
-@media only screen and (min-width: 600px) {
-	main {
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	#player {
-		width: 120px;
-	}
-}
-
-@media only screen and (min-width: 960px) {
-	main {
-		grid-template-columns: repeat(4, 1fr);
-	}
-
-	#player {
-		width: 120px;
-	}
-}
+</html>
