@@ -274,15 +274,26 @@ function displayItems() {
 
 var headerColor = ["#000", "#2b4162", "#FCF8CC", "#66bd84", "#000"];
 
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+	  color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+  }
+
 function displayItem(item) {
 	var html;
+	let randomColor = getRandomColor();
 	if(item){
 		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>';
 		if (item["ite_enclosure"] != null)
+			// Là il y a moyen de faire du XSS mais c'est improbable donc ça va.
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
 		else{
-			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
+			html += '<img style="background-color:' + randomColor + '"/> ';
 		}
 		html +='<figcaption>' + item["ite_title"] + '</figcaption>' +
 		'</figure>' +
