@@ -1,21 +1,25 @@
 var db = require("../database/dbFactory").db;
 
 const getFilters = (request, reponse) => {
+  return new Promise( (resolve, reject) => {
     db
     .any("SELECT * FROM (select DISTINCT * from filtrelocalise WHERE fll_language=16 and fll_filtre < 6) filtre ORDER BY RANDOM() LIMIT 5")
     .then((data) => {
-      reponse.status(200).json(data)
+      resolve(data);
     })
-    .catch((err) => { console.log(err); })
+    .catch((err) => { reject(err); })
+  });
 }
 
 const getRandomFilters = (request, reponse) => {
-  db
-  .any('SELECT "getRandomFilterWords"()')
-  .then((data) => {
-    reponse.status(200).json(data[0].getRandomFilterWords);
-  })
-  .catch((err) => { console.log(err); });
+  return new Promise( (resolve, reject) => {
+    db
+    .any('SELECT "getRandomFilterWords"()')
+    .then((data) => {
+      resolve(data[0].getRandomFilterWords);
+    })
+    .catch((err) => { reject(err); });
+  });
 }
 
 module.exports = {
