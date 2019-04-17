@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #000000;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #246a73;
     color: #fff;
 }
@@ -55,4 +55,8 @@ blockquote p, blockquote::after {
     background-color: #d68fd6;
     color: #fff;
     font-weight: bold;
+}
+
+#labelAddFilter{
+    color: #FFF;
 }

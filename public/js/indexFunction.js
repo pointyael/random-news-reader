@@ -1,42 +1,28 @@
 /*----------------------------------------------------------*/
-/*                 DISPLAY/HIDE MODAL A PROPOS                     */
-/*----------------------------------------------------------*/var modal = document.getElementsByClassName('modal')[0];
-var modal2 = document.getElementsByClassName('modal')[1];
+/* 				DISPLAY/HIDE MODAL DISCLAIMER	 			*/
+/*----------------------------------------------------------*/
+var modal = document.getElementsByClassName('modal')[0];
 var close = document.getElementsByClassName("close")[0];
-var redirect = document.getElementsByClassName("redirect")[0]; function redirectGoogleNews() {
-	modal2.classList.replace("displayNone", "displayFlex");
-	closeModal();
-	setTimeout(function () {
-		window.location.href = "https://news.google.com/";
-	},
-		2000);
-} 
+
 function checkLocalStorage() {
 	if (localStorage.getItem('visited')) {
-		closeModal();
+		modal.classList.replace("displayFlex", "displayNone");
 	} else {
-		openModal();
+		localStorage.setItem('visited', 1);
+		modal.classList.replace("displayNone", "displayFlex");
 	}
-}
-
-function setLocalStorage() {
-	localStorage.setItem('visited', 1);
 }
 
 function closeModal() {
 	modal.classList.replace("displayFlex", "displayNone");
 }
 
-function openModal() {
-	modal.classList.replace("displayNone", "displayFlex");
-}
+window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
+close.addEventListener('click', closeModal);
 
-redirect.addEventListener('click', redirectGoogleNews); close.addEventListener('click', closeModal);
-close.addEventListener('click', setLocalStorage); window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
-		setLocalStorage();
 	}
 });
 
@@ -56,7 +42,8 @@ function generateAll(){
 	generateStyle();
     refreshItems();
     displayRefreshPhrase();
-    displayQuote();
+	displayQuote();
+	displayFiltres();
 }
 
 buttonRefresh.addEventListener('click', generateAll);
@@ -74,20 +61,19 @@ window.onload = function(){
 /*-----------------------------*/
 var styleLink = document.getElementById('style');
 var logo = document.getElementById('logo');
-var randomNumber = Math.floor(Math.random() * 5) + 1;
+var randomNumber;
 
 function generateStyle() {
-
-	var randomNumberStyle = Math.floor(Math.random() * 5) + 1;
+	randomNumber = Math.floor(Math.random() * 5) + 1;
 
 	if (styleLink.getAttribute('theme')) {
 		var currentTheme = styleLink.getAttribute('theme');
 	}
 
-	if (randomNumberStyle != currentTheme) {
-		styleLink.setAttribute('theme', randomNumberStyle);
-		styleLink.setAttribute('href', '../public/css/style' + randomNumberStyle + '.css');
-		logo.setAttribute('src', '../public/img/logo' + randomNumberStyle + '.png');
+	if (randomNumber != currentTheme) {
+		styleLink.setAttribute('theme', randomNumber);
+		styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css');
+		logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
 	} else {
 		generateStyle();
 	}
@@ -185,7 +171,7 @@ btnShuffle.addEventListener('click', function(){
 	// 	removeRadioURLToLS();
 	// }
 	addRadioURLToLS();
-
+	
 });
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -237,7 +223,7 @@ function displayItems() {
 	var exclusion="";
 	var checkboxs = document.getElementsByClassName('checkbox');
 	for (var i = 0; i < checkboxs.length; i++){
-		if (checkboxs[i].checked && checkboxs[i].name === "filters"){
+		if (checkboxs[i].checked){
 			if (exclusion == ""){
 				exclusion += checkboxs[i].value;
 			}
@@ -247,25 +233,22 @@ function displayItems() {
 		}
 	}
 
-	for (var i = 0; i < 5; i++) {
-		var filterSelected = localStorage.getItem('checkbox'+i);
-		if ( filterSelected != null && !exclusion.includes(filterSelected) ){
+	for (var i = 0; i < recupererMaxIdCheckbox; i++) {
+		if (localStorage.getItem('checkbox'+i) != null){
 			if (exclusion == ""){
-				exclusion = filterSelected;
+				exclusion = localStorage.getItem('checkbox'+i);
 			}
 			else{
-				exclusion += "+" + filterSelected;
+				exclusion += "+" + localStorage.getItem('checkbox'+i);
 			}
 		}
 	}
 
-	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
-		// 0 par defaut -> pas de filtre de langue choisi
+		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items/" + lang);
+		req.open("GET", "http://localhost:3000/random-items");
 	}
 
 	req.send();
@@ -371,7 +354,10 @@ function displayQuote() {
 /*----------------------------------------------------------*/
 /* 					DISPLAY LES FILTRES 					*/
 /*----------------------------------------------------------*/
+var divFiltre = document.getElementById('keywordsFilter');
+
 function displayFiltres() {
+	divFiltre.innerHTML = "";
 	var req = new XMLHttpRequest();
 
 	req.onreadystatechange = function () {
@@ -379,25 +365,27 @@ function displayFiltres() {
 
 			/* Recuperation */
 			var filtres = JSON.parse(this.responseText);
-			var divFiltre = document.getElementById('keywordsFilter');
-
+		
 			/* Affichage */
 			for (var i = 0; i < filtres.length; i++) {
 				divFiltre.innerHTML += displayFiltre(filtres[i]);
 			}
 
+			var customFiltre = localStorage.getItem('checkbox'+(filtres.length+1).toString());
+			if (customFiltre != null){
+				displayFiltreIntoLS(customFiltre);
+			}
+				
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				if(actualFilters[i].name === "filters"){
-					actualFilters[i].addEventListener('change', function(){
-						if (this.checked){
-							localStorage.setItem(this.id, this.value);
-						}
-						else{
-							localStorage.removeItem(this.id);
-						}
-					});
-				}
+				actualFilters[i].addEventListener('change', function(){
+					if (this.checked){
+						localStorage.setItem(this.id, this.value);
+					}
+					else{
+						localStorage.removeItem(this.id);
+					}
+				});
 			}
 		}
 	};
@@ -409,15 +397,57 @@ function displayFiltres() {
 function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
-		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) == filtre["fll_localise"])
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
+			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
-
+			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+	
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
 }
+
+function addFiltre(){
+	var html;
+	var inputValue = document.getElementById('inputFilter').value;
+	html = '<input id="checkbox'+ recupererMaxIdCheckbox() +'" type="checkbox" class="checkbox" value="' + inputValue + '" checked>';
+	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
+	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
+	divFiltre.innerHTML += html;
+	
+	var filtresCourant = document.getElementsByClassName('checkbox');
+	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
+	document.getElementById(checkboxName).addEventListener('click', function(){
+		localStorage.removeItem(checkboxName);
+	});
+}
+
+function recupererMaxIdCheckbox(){
+	var maxIdCheckbox = 0;
+	var inputsFiltre = 	document.getElementsByClassName('checkbox');
+	for (var i = 0; i < inputsFiltre.length; i++) {
+		var inputFiltre = inputsFiltre[i];
+		if (localStorage.getItem(inputFiltre.id) != null)
+			inputFiltre.checked = true;
+	}
+	for (var i = 0; i < inputsFiltre.length; i++) {
+		if (maxIdCheckbox < inputsFiltre[i].id.charAt(8)){
+			maxIdCheckbox = inputsFiltre[i].id.charAt(8);
+		};
+	}
+	return Number(maxIdCheckbox)+1;
+}
+
+function displayFiltreIntoLS(filtrePerso){
+	var html;
+	var inputValue = filtrePerso;
+	html = '<input id="checkbox'+ recupererMaxIdCheckbox() +'" type="checkbox" class="checkbox" value="' + inputValue + '" checked>';
+	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
+	divFiltre.innerHTML += html;
+}
+
+var btnAjouterFiltre = document.getElementById('btnAjouterFiltre');
+btnAjouterFiltre.addEventListener('click', addFiltre);
 
 /*----------------------------------------------------------*/
 /*                    CLOSE SIDEBAR MENU                    */
