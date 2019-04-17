@@ -221,7 +221,7 @@ function displayItems() {
 	var exclusion="";
 	var checkboxs = document.getElementsByClassName('checkbox');
 	for (var i = 0; i < checkboxs.length; i++){
-		if (checkboxs[i].checked){
+		if (checkboxs[i].checked && checkboxs[i].name === "filters"){
 			if (exclusion == ""){
 				exclusion += checkboxs[i].value;
 			}
@@ -232,15 +232,17 @@ function displayItems() {
 	}
 
 	for (var i = 0; i < 5; i++) {
-		if (localStorage.getItem('checkbox'+i) != null){
+		var filterSelected = localStorage.getItem('checkbox'+i);
+		if ( filterSelected != null && !exclusion.includes(filterSelected) ){
 			if (exclusion == ""){
-				exclusion = localStorage.getItem('checkbox'+i);
+				exclusion = filterSelected;
 			}
 			else{
-				exclusion += "+" + localStorage.getItem('checkbox'+i);
+				exclusion += "+" + filterSelected;
 			}
 		}
 	}
+
 	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	if (exclusion != ""){
 		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
@@ -370,7 +372,7 @@ function displayFiltres() {
 
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				if(actualFilters[i].name === "filters"){	
+				if(actualFilters[i].name === "filters"){
 					actualFilters[i].addEventListener('change', function(){
 						if (this.checked){
 							localStorage.setItem(this.id, this.value);
