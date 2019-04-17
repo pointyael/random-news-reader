@@ -61,3 +61,18 @@ blockquote p, blockquote::after {
 #logoShuffle{
     filter: invert(1);
 }
+
+
+.spin:hover {
+	color: #095256;
+}
+
+.spin:hover::before {
+    border-top-color: #095256;
+	border-right-color: #095256;
+    border-bottom-color: #095256;
+}
+
+.spin:hover::after {
+    border-top: 2px solid #095256;
+}

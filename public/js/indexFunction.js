@@ -207,7 +207,7 @@ function displayItems() {
 			}
     
             /* event listener history */
-            var selectionButtons = document.getElementsByName('itemHistory');
+            var selectionButtons = document.getElementsByClassName('itemHistory');
             for (var i = 0; i < selectionButtons.length; i++) {
                 selectionButtons[i].addEventListener("click", saveItemIntoHistory);
             }
@@ -272,10 +272,11 @@ function displayItem(item) {
 			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
 		}
         html +='<figcaption>' + item["ite_title"] +
-        '</figcaption>' +
+		'</figcaption>' +
         '</figure>' +
 		'</a>' +
-        '<input type="button" name="itemHistory" id="' + item.ite_link + '">' + '</div>';
+		'<button class="itemHistory spin circle" id="' + item.ite_link + '"><img id="etoileHisto" src="../public/img/histo.png" alt="star"></button>' +
+    	'</div>';
 	}
 	return html;
 }
@@ -436,7 +437,6 @@ function saveItemIntoHistory(event) {
 function displaySavedItemsFromHistory() {
     var html;
     var items = JSON.parse(localStorage.getItem('savedItems'));
-    console.log(items);
     if (items !== null) {
         html = '';
         for (var i = 0; i < items.length; i++) {
@@ -445,7 +445,6 @@ function displaySavedItemsFromHistory() {
         }
         html += '';
     }
-    console.log(html);
     var zone = document.getElementById('history');
     zone.innerHTML = html;
 }
