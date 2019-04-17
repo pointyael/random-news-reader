@@ -46,10 +46,6 @@ function displayRefreshPhrase() {
 
 			/* Affichage */
 			spanPhrase.innerHTML = phrase["but_quote"];
-
-			/* Refresh on click */
-			var btnRefresh = document.getElementById('btnRefresh');
-			btnRefresh.addEventListener('click', generateAll);
 		}
 	};
 
@@ -58,30 +54,6 @@ function displayRefreshPhrase() {
 }
 
 window.onload = displayRefreshPhrase();
-
-/*----------------------------------------------------------*/
-/* 							QUOTE 							*/
-/*----------------------------------------------------------*/
-function displayQuote(){
-	var req = new XMLHttpRequest();
-
-	req.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-
-			/* Recuperation */
-			var quote = JSON.parse(this.responseText)[0];
-			var quoteSpan = document.getElementById('quote');
-
-			/* Affichage */
-			quoteSpan.innerHTML = quote["quo_quote"];
-		}
-	};
-	
-	req.open("GET", "http://localhost:3000/random-quote");
-	req.send();
-}
-
-window.onload = displayQuote();
 
 /*----------------------------------------------------------*/
 /*                  SHUFFLE TEXTE A PROPOS                  */
