@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #66bd84;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #fff;
     color: #000;
 }
@@ -42,7 +42,7 @@ blockquote p, blockquote::after {
 }
 
 #keywordsFilter {
-	min-width: 250px;
+	min-width: 230px;
 }
 
 .sidebar label {
@@ -60,4 +60,8 @@ blockquote p, blockquote::after {
 
 #logoShuffle{
     filter: invert(1);
+}
+
+#labelAddFilter{
+    font-size: 25px;
 }

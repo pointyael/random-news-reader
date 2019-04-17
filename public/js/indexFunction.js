@@ -56,7 +56,8 @@ function generateAll(){
 	generateStyle();
     refreshItems();
     displayRefreshPhrase();
-    displayQuote();
+	displayQuote();
+	displayFiltres();
 }
 
 buttonRefresh.addEventListener('click', generateAll);
@@ -74,9 +75,10 @@ window.onload = function(){
 /*-----------------------------*/
 var styleLink = document.getElementById('style');
 var logo = document.getElementById('logo');
-var randomNumber = Math.floor(Math.random() * 5) + 1;
+var randomNumber;
 
 function generateStyle() {
+	randomNumber = Math.floor(Math.random() * 5) + 1;
 
 	var randomNumberStyle = Math.floor(Math.random() * 5) + 1;
 
@@ -247,9 +249,8 @@ function displayItems() {
 		}
 	}
 
-	for (var i = 0; i < 5; i++) {
-		var filterSelected = localStorage.getItem('checkbox'+i);
-		if ( filterSelected != null && !exclusion.includes(filterSelected) ){
+	for (var i = 0; i < recupererMaxIdCheckbox; i++) {
+		if (localStorage.getItem('checkbox'+i) != null){
 			if (exclusion == ""){
 				exclusion = filterSelected;
 			}
@@ -371,7 +372,10 @@ function displayQuote() {
 /*----------------------------------------------------------*/
 /* 					DISPLAY LES FILTRES 					*/
 /*----------------------------------------------------------*/
+var divFiltre = document.getElementById('keywordsFilter');
+
 function displayFiltres() {
+	divFiltre.innerHTML = "";
 	var req = new XMLHttpRequest();
 
 	req.onreadystatechange = function () {
@@ -379,13 +383,17 @@ function displayFiltres() {
 
 			/* Recuperation */
 			var filtres = JSON.parse(this.responseText);
-			var divFiltre = document.getElementById('keywordsFilter');
-
+		
 			/* Affichage */
 			for (var i = 0; i < filtres.length; i++) {
 				divFiltre.innerHTML += displayFiltre(filtres[i]);
 			}
 
+			var customFiltre = localStorage.getItem('checkbox'+(filtres.length+1).toString());
+			if (customFiltre != null){
+				displayFiltreIntoLS(customFiltre);
+			}
+				
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
 				if(actualFilters[i].name === "filters"){
@@ -409,15 +417,56 @@ function displayFiltres() {
 function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
-		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) == filtre["fll_localise"])
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
+			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
-
+			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
 }
+
+function addFiltre(){
+	var html;
+	var inputValue = document.getElementById('inputFilter').value;
+	html = '<input id="checkbox'+ recupererMaxIdCheckbox() +'" type="checkbox" class="checkbox" value="' + inputValue + '" checked>';
+	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
+	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
+	divFiltre.innerHTML += html;
+	
+	var filtresCourant = document.getElementsByClassName('checkbox');
+	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
+	document.getElementById(checkboxName).addEventListener('click', function(){
+		localStorage.removeItem(checkboxName);
+	});
+}
+
+function recupererMaxIdCheckbox(){
+	var maxIdCheckbox = 0;
+	var inputsFiltre = 	document.getElementsByClassName('checkbox');
+	for (var i = 0; i < inputsFiltre.length; i++) {
+		var inputFiltre = inputsFiltre[i];
+		if (localStorage.getItem(inputFiltre.id) != null)
+			inputFiltre.checked = true;
+	}
+	for (var i = 0; i < inputsFiltre.length; i++) {
+		if (maxIdCheckbox < inputsFiltre[i].id.charAt(8)){
+			maxIdCheckbox = inputsFiltre[i].id.charAt(8);
+		};
+	}
+	return Number(maxIdCheckbox)+1;
+}
+
+function displayFiltreIntoLS(filtrePerso){
+	var html;
+	var inputValue = filtrePerso;
+	html = '<input id="checkbox'+ recupererMaxIdCheckbox() +'" type="checkbox" class="checkbox" value="' + inputValue + '" checked>';
+	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
+	divFiltre.innerHTML += html;
+}
+
+var btnAjouterFiltre = document.getElementById('btnAjouterFiltre');
+btnAjouterFiltre.addEventListener('click', addFiltre);
 
 /*----------------------------------------------------------*/
 /*                    CLOSE SIDEBAR MENU                    */
