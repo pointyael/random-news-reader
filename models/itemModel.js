@@ -55,6 +55,27 @@ const insertItems = (feed) => {
   })
 }
 
+/* Insert items in data base */
+const insertItemsAllSources  = (feed) => {
+  return new Promise(function(resolve, reject) {
+    deleteOldItems();
+
+    db
+    .any("SELECT * FROM source WHERE")
+    .then(async function(source) {
+      //source = source[0];
+      source.forEach(async (s) => {
+
+        var res = await ItemsRetrieved.getItems(s .sou_link),
+        [feedString, itemsString] = parseAsParameters(s , res);
+        await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
+      })
+      resolve();
+
+    }).catch(function(error) { reject(error); });
+  })
+}
+
 const deleteOldItems = function() {
   return new Promise((resolve, reject) => {
     db
@@ -95,5 +116,6 @@ module.exports = {
     getRandomItems,
     getRandomItemsNotLike,
     insertItems,
+    insertItemsAllSources,
     deleteOldItems
 }
