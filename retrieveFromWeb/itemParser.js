@@ -1,5 +1,8 @@
 const moment = require('moment');
-var franc = require('franc');
+
+const LanguageDetect = require('languagedetect');
+const lngDetector = new LanguageDetect();
+ 
 let ETypeMedia = {"article":1, "mp3": 2};
 var parsedItem = {};
 
@@ -36,8 +39,8 @@ const getDate = (item) => {
 }
 
 const getLanguage = (item) => {
-  var resultTitle = franc.all(parsedItem.title)[0],
-      resultDescription = franc.all(parsedItem.description)[0];
+  var resultTitle = lngDetector.detect(parsedItem.title)[0],
+      resultDescription = lngDetector.detect(parsedItem.description)[0];
 
   if(resultTitle[0] == resultDescription[0] || resultTitle[1] >= resultDescription[1])
     parsedItem.language = resultTitle[0].substring(0, 2);
