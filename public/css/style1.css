@@ -30,3 +30,10 @@ div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
 .spin:hover::after {
     border-top: 2px solid #db5030;
 }
+
+#history a{
+    font-size: 12px;
+    text-decoration: none;
+    color: #fff;
+	padding: 0;
+}

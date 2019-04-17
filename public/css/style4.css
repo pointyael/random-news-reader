@@ -76,3 +76,10 @@ blockquote p, blockquote::after {
 .spin:hover::after {
     border-top: 2px solid #095256;
 }
+
+#history a{
+    font-size: 12px;
+    text-decoration: none;
+    color: #090909;
+	padding: 0;
+}

@@ -245,10 +245,19 @@ blockquote:after {
 	transform: translateX(-50%);
 }
 
-blockquote p {
+blockquote p{
 	padding: 15px;
 	color: #eaeaea;
 }	
+
+#history a{
+	text-decoration: none;
+	padding: 0;
+}
+
+#star{
+	width: 10%;
+}
 
 /*----------------*/
 /* SIDEBAR FILTER */
