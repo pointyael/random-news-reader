@@ -61,15 +61,16 @@ const insertItemsAllSources  = (feed) => {
     deleteOldItems();
 
     db
-    .any("SELECT * FROM source WHERE")
+    .any("SELECT * FROM source")
     .then(async function(source) {
-      //source = source[0];
       source.forEach(async (s) => {
-
-        var res = await ItemsRetrieved.getItems(s .sou_link),
-        [feedString, itemsString] = parseAsParameters(s , res);
-        await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
-      })
+        ItemsRetrieved.getItems(s .sou_link)
+        .then(async (items) => {
+          [feedString, itemsString] = parseAsParameters(s , items);
+          await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
+        })
+        .catch((err) => {});
+      });
       resolve();
 
     }).catch(function(error) { reject(error); });
