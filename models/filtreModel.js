@@ -3,7 +3,7 @@ var db = require("../database/dbFactory").db;
 const getFilters = (request, reponse) => {
   return new Promise( (resolve, reject) => {
     db
-    .any("SELECT * FROM (select DISTINCT * from filtrelocalise WHERE fll_language=16 and fll_filtre < 6) filtre ORDER BY RANDOM() LIMIT 5")
+    .any("SELECT * FROM (select DISTINCT * from filtrelocalise WHERE fll_language=16 ORDER BY fll_filtre) filtre")
     .then((data) => {
       resolve(data);
     })
