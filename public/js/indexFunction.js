@@ -1,28 +1,42 @@
 /*----------------------------------------------------------*/
-/* 				DISPLAY/HIDE MODAL DISCLAIMER	 			*/
-/*----------------------------------------------------------*/
-var modal = document.getElementsByClassName('modal')[0];
+/*                 DISPLAY/HIDE MODAL A PROPOS                     */
+/*----------------------------------------------------------*/var modal = document.getElementsByClassName('modal')[0];
+var modal2 = document.getElementsByClassName('modal')[1];
 var close = document.getElementsByClassName("close")[0];
-
+var redirect = document.getElementsByClassName("redirect")[0]; function redirectGoogleNews() {
+	modal2.classList.replace("displayNone", "displayFlex");
+	closeModal();
+	setTimeout(function () {
+		window.location.href = "https://news.google.com/";
+	},
+		2000);
+} 
 function checkLocalStorage() {
 	if (localStorage.getItem('visited')) {
-		modal.classList.replace("displayFlex", "displayNone");
+		closeModal();
 	} else {
-		localStorage.setItem('visited', 1);
-		modal.classList.replace("displayNone", "displayFlex");
+		openModal();
 	}
+}
+
+function setLocalStorage() {
+	localStorage.setItem('visited', 1);
 }
 
 function closeModal() {
 	modal.classList.replace("displayFlex", "displayNone");
 }
 
-window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
-close.addEventListener('click', closeModal);
+function openModal() {
+	modal.classList.replace("displayNone", "displayFlex");
+}
 
+redirect.addEventListener('click', redirectGoogleNews); close.addEventListener('click', closeModal);
+close.addEventListener('click', setLocalStorage); window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
+		setLocalStorage();
 	}
 });
 
@@ -66,14 +80,16 @@ var randomNumber;
 function generateStyle() {
 	randomNumber = Math.floor(Math.random() * 5) + 1;
 
+	var randomNumberStyle = Math.floor(Math.random() * 5) + 1;
+
 	if (styleLink.getAttribute('theme')) {
 		var currentTheme = styleLink.getAttribute('theme');
 	}
 
-	if (randomNumber != currentTheme) {
-		styleLink.setAttribute('theme', randomNumber);
-		styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css');
-		logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
+	if (randomNumberStyle != currentTheme) {
+		styleLink.setAttribute('theme', randomNumberStyle);
+		styleLink.setAttribute('href', '../public/css/style' + randomNumberStyle + '.css');
+		logo.setAttribute('src', '../public/img/logo' + randomNumberStyle + '.png');
 	} else {
 		generateStyle();
 	}
@@ -171,7 +187,7 @@ btnShuffle.addEventListener('click', function(){
 	// 	removeRadioURLToLS();
 	// }
 	addRadioURLToLS();
-	
+
 });
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -223,7 +239,7 @@ function displayItems() {
 	var exclusion="";
 	var checkboxs = document.getElementsByClassName('checkbox');
 	for (var i = 0; i < checkboxs.length; i++){
-		if (checkboxs[i].checked){
+		if (checkboxs[i].checked && checkboxs[i].name === "filters"){
 			if (exclusion == ""){
 				exclusion += checkboxs[i].value;
 			}
@@ -236,19 +252,21 @@ function displayItems() {
 	for (var i = 0; i < recupererMaxIdCheckbox; i++) {
 		if (localStorage.getItem('checkbox'+i) != null){
 			if (exclusion == ""){
-				exclusion = localStorage.getItem('checkbox'+i);
+				exclusion = filterSelected;
 			}
 			else{
-				exclusion += "+" + localStorage.getItem('checkbox'+i);
+				exclusion += "+" + filterSelected;
 			}
 		}
 	}
 
+	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
+		// 0 par defaut -> pas de filtre de langue choisi
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items");
+		req.open("GET", "http://localhost:3000/random-items/" + lang);
 	}
 
 	req.send();
@@ -378,14 +396,16 @@ function displayFiltres() {
 				
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				actualFilters[i].addEventListener('change', function(){
-					if (this.checked){
-						localStorage.setItem(this.id, this.value);
-					}
-					else{
-						localStorage.removeItem(this.id);
-					}
-				});
+				if(actualFilters[i].name === "filters"){
+					actualFilters[i].addEventListener('change', function(){
+						if (this.checked){
+							localStorage.setItem(this.id, this.value);
+						}
+						else{
+							localStorage.removeItem(this.id);
+						}
+					});
+				}
 			}
 		}
 	};
@@ -401,7 +421,6 @@ function displayFiltre(filtre) {
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
-	
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
