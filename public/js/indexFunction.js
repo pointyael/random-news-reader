@@ -241,13 +241,13 @@ function displayItems() {
 			}
 		}
 	}
-
+	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/0" );
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
 		// 0 par defaut -> pas de filtre de langue choisi
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items/0");
+		req.open("GET", "http://localhost:3000/random-items/" + lang);
 	}
 
 	req.send();
@@ -370,14 +370,16 @@ function displayFiltres() {
 
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				actualFilters[i].addEventListener('change', function(){
-					if (this.checked){
-						localStorage.setItem(this.id, this.value);
-					}
-					else{
-						localStorage.removeItem(this.id);
-					}
-				});
+				if(actualFilters[i].name === "filters"){	
+					actualFilters[i].addEventListener('change', function(){
+						if (this.checked){
+							localStorage.setItem(this.id, this.value);
+						}
+						else{
+							localStorage.removeItem(this.id);
+						}
+					});
+				}
 			}
 		}
 	};
@@ -390,9 +392,9 @@ function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
 		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) == filtre["fll_localise"])
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
 		else
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
