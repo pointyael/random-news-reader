@@ -171,7 +171,7 @@ BEGIN
 		(
       SELECT ite_source FROM item
       WHERE (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
-
+      AND CASE WHEN vLang <> 0 THEN ite_language=vLang ELSE true END
       GROUP BY ite_source
 			ORDER BY RANDOM()
 			LIMIT 12
