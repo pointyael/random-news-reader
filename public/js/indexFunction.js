@@ -415,6 +415,7 @@ function addFiltre(){
 	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
 	divFiltre.innerHTML += html;
 	
+	var filtresCourant = document.getElementsByClassName('checkbox');
 	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
 	document.getElementById(checkboxName).addEventListener('click', function(){
 		localStorage.removeItem(checkboxName);
@@ -424,6 +425,11 @@ function addFiltre(){
 function recupererMaxIdCheckbox(){
 	var maxIdCheckbox = 0;
 	var inputsFiltre = 	document.getElementsByClassName('checkbox');
+	for (var i = 0; i < inputsFiltre.length; i++) {
+		var inputFiltre = inputsFiltre[i];
+		if (localStorage.getItem(inputFiltre.id) != null)
+			inputFiltre.checked = true;
+	}
 	for (var i = 0; i < inputsFiltre.length; i++) {
 		if (maxIdCheckbox < inputsFiltre[i].id.charAt(8)){
 			maxIdCheckbox = inputsFiltre[i].id.charAt(8);
