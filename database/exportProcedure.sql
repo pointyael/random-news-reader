@@ -171,37 +171,28 @@ BEGIN
 		(
       SELECT ite_source FROM item
       WHERE (ite_pubdate||'+02') :: timestamp > (NOW() - interval '2 days') :: timestamp
+      AND CASE WHEN vLang <> 0 THEN ite_language=vLang ELSE true END
       GROUP BY ite_source
 			ORDER BY RANDOM()
 			LIMIT 12
 		) LOOP
-      IF vLang = 0 THEN
-        SELECT ARRAY(
-            SELECT ite_id FROM item
-            where ite_source=vSourceId
-            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-        ) INTO vItemsId;
-      ELSE
-        SELECT ARRAY(
-            SELECT ite_id FROM item
-            where ite_source=vSourceId
-            AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
-            AND ite_language = vLang
-        ) INTO vItemsId;
-      END IF;
+      SELECT ARRAY(
+          SELECT ite_id FROM item
+          where ite_source=vSourceId
+          AND (ite_pubdate||'+01') :: timestamp > (NOW() - interval '2 days') :: timestamp
+          AND CASE WHEN vLang <> 0 THEN ite_language=vLang ELSE true END
+      ) INTO vItemsId;
 
-    vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
+      vIndexArray := floor(random() * array_length(vItemsId, 1)) + 1;
 
-    SELECT row_to_json(t)
-    INTO vAItem
-    FROM item t
-    WHERE ite_id = vItemsId[vIndexArray];
+      SELECT row_to_json(t)
+      INTO vAItem
+      FROM item t
+      WHERE ite_id = vItemsId[vIndexArray];
 
-    vJson := array_append(vJson, vAItem);
-  END LOOP;
-
-  RETURN vJson;
-
+      vJson := array_append(vJson, vAItem);
+    END LOOP;
+    RETURN vJson;
 END;$$;
 
 
