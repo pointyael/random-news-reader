@@ -52,7 +52,8 @@ window.onload = function(){
 	refreshItems();
 	displayRefreshPhrase();
 	displayQuote();
-	displayFiltres();
+    displayFiltres();
+    displaySavedItemsFromHistory();
 };
 
 /*-----------------------------*/
@@ -204,6 +205,12 @@ function displayItems() {
 				if (items[i]!=null && items[i]['ite_id']!=null)
 					main.innerHTML += displayItem(items[i]);
 			}
+    
+            /* event listener history */
+            var selectionButtons = document.getElementsByName('itemHistory');
+            for (var i = 0; i < selectionButtons.length; i++) {
+                selectionButtons[i].addEventListener("click", saveItemIntoHistory);
+            }
 
 			/* Refresh on click */
 			var actualItems = document.getElementsByClassName('item');
@@ -240,7 +247,7 @@ function displayItems() {
 				exclusion += "+" + localStorage.getItem('checkbox'+i);
 			}
 		}
-	}
+    }
 
 	if (exclusion != ""){
 		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
@@ -257,16 +264,18 @@ var headerColor = ["#000", "#2b4162", "#FCF8CC", "#66bd84", "#000"];
 function displayItem(item) {
 	var html;
 	if(item){
-		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
+		html = '<div><a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>';
 		if (item["ite_enclosure"] != null)
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
 		else{
 			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
 		}
-		html +='<figcaption>' + item["ite_title"] + '</figcaption>' +
-		'</figure>' +
-		'</a>';
+        html +='<figcaption>' + item["ite_title"] +
+        '</figcaption>' +
+        '</figure>' +
+		'</a>' +
+        '<input type="button" name="itemHistory" id="' + item.ite_link + '">' + '</div>';
 	}
 	return html;
 }
@@ -407,4 +416,36 @@ function closeSidebarMenu(){
 	topbar.classList.remove('top');
 	middlebar.classList.remove('middle');
 	bottombar.classList.remove('bottom');
+}
+
+
+var selectedItems = [];
+if (localStorage.getItem("savedItems") !== null) {
+    selectedItems = JSON.parse(localStorage.getItem("savedItems"));
+}
+
+function saveItemIntoHistory(event) {
+    if (selectedItems.length === 3) {
+        selectedItems.shift();
+    }
+    selectedItems.push(event.target.id);
+    localStorage.setItem("savedItems", JSON.stringify(selectedItems));
+    displaySavedItemsFromHistory();
+}
+
+function displaySavedItemsFromHistory() {
+    var html;
+    var items = JSON.parse(localStorage.getItem('savedItems'));
+    console.log(items);
+    if (items !== null) {
+        html = '';
+        for (var i = 0; i < items.length; i++) {
+            console.log(items[i]);
+            html += '<a href="' + items[i] + '"> ' + items[i] + '</a></br>';
+        }
+        html += '';
+    }
+    console.log(html);
+    var zone = document.getElementById('history');
+    zone.innerHTML = html;
 }
