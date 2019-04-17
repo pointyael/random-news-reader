@@ -14,21 +14,23 @@ const getAllItems = () =>
 }
 
 /* Query 12 random items from data base */
-const getRandomItems = () => {
+const getRandomItems = (lang) => {
   return new Promise((resolve, reject) => {
-    db.any('SELECT "getRandomItems"()')
+    db.any('SELECT "getRandomItems"(' + lang + ')')
     .then(function (data) { resolve(data[0].getRandomItems); })
     .catch(function (error) { reject(error); });
   });
 }
 
 /* Query 12 random items from data base */
-const getRandomItemsNotLike = (request) => {
+const getRandomItemsNotLike = (notLike, lang) => {
   return new Promise( (resolve, reject) => {
     db.any(
       'SELECT "getRandomItemsNotLike"( ARRAY['
-      + splitRequestParamters(request.params.notLike)
-      +'])'
+      + splitRequestParamters(notLike)
+      +'], '
+      + lang
+      +')'
     )
     .then(function (data) { resolve(data[0].getRandomItemsNotLike); })
     .catch(function (error) { reject (error); });

@@ -1,6 +1,5 @@
 const moment = require('moment');
-const LanguageDetect = require('languagedetect');
-const lngDetector = new LanguageDetect();
+var franc = require('franc');
 let ETypeMedia = {"article":1, "mp3": 2};
 var parsedItem = {};
 
@@ -11,12 +10,13 @@ const aItem = (item) => {
   parsedItem =
   {
       title: item.title.replace(/'/g, "''"),
-      pubDate: moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss"),
       type : ETypeMedia.article,
       link: item.link,
-      category: item.category
+      //category: item.category
+      // unused field
   };
 
+  getDate(item);
   getEnclosure(item);
   getDescription(item);
   getLanguage(item);
@@ -27,23 +27,25 @@ const aItem = (item) => {
   return parsedItem;
 }
 
+const getDate = (item) => {
+
+  if (item.isoDate)
+    parsedItem.pubDate =  moment(item.isoDate).format("YYYY-MM-DD HH:mm:ss");
+  else
+    parsedItem.pubDate =  moment(item.pubDate).format("YYYY-MM-DD HH:mm:ss");
+}
+
 const getLanguage = (item) => {
-  var resultTitle = lngDetector.detect(parsedItem.title);
+  var resultTitle = franc(parsedItem.title);
 
-  if (resultTitle && resultTitle[0][1] >= 0.275) {
-    parsedItem.language = resultTitle[0][0];
-  } else if (parsedItem.description) {
-    var resultDescription =  lngDetector.detect(parsedItem.description);
-
-      if(resultDescription && resultDescription[0][1] >= 0.25) {
-        parsedItem.language = resultDescription[0][0];
-      } else if (resultTitle[0][0] == resultDescription[0][0]) {
-        parsedItem.languge = resultTitle[0][0];
-      } else {
-        parsedItem.language = parsedItem.link.split(/www\W\w*\W/)[1];
-        if (parsedItem.language)
-          parsedItem.language = parsedItem.language.split(/\//)[0]
-      }
+  if(resultTitle != 'und'){
+    parsedItem.language = resultTitle.substring(0, 2);
+  }
+  else if (item.description) {
+    var resultDescription =  franc(parsedItem.description);
+    if(resultDescription != 'und'){
+      parsedItem.language = resultDescription.substring(0, 2);
+    }
   }
 }
 
@@ -75,14 +77,15 @@ const analyseContent = (item) => {
 
 const getDescription = (item) => {
   var descriptionSplitted =
-  item.description && item.description.split(/<(a href|\/a>|img .* \/>)/)
-  || item.content &&  item.content.split(/<(a href|\/a>|img .* \/>)/);
+  item.description && item.description.split(/(<a href.*">|<\/a>|<\/?p>|<img .*"\/?>)/g)
+  || item.content &&  item.content.split(/(<a href.*">|<\/a>|<\/?p>|<img .*"\/?>)/g);
 
 
   if(descriptionSplitted) {
     descriptionSplitted.forEach(ds => {
-      if(!(ds.match(/<(a href|\/a>|img .* \/>)/g) ) ) {
-        parsedItem.description = ds.replace(/'/g, "''");
+      if(!(ds.match(/(<a href=".*">|<\/a>|\/?p>|img)/g) ) ) {
+        if(ds.length >=5)
+          parsedItem.description = ds.replace(/'/g, "''");
       }
     });
   }
