@@ -1,28 +1,42 @@
 /*----------------------------------------------------------*/
-/* 				DISPLAY/HIDE MODAL DISCLAIMER	 			*/
-/*----------------------------------------------------------*/
-var modal = document.getElementsByClassName('modal')[0];
+/*                 DISPLAY/HIDE MODAL A PROPOS                     */
+/*----------------------------------------------------------*/var modal = document.getElementsByClassName('modal')[0];
+var modal2 = document.getElementsByClassName('modal')[1];
 var close = document.getElementsByClassName("close")[0];
-
+var redirect = document.getElementsByClassName("redirect")[0]; function redirectGoogleNews() {
+	modal2.classList.replace("displayNone", "displayFlex");
+	closeModal();
+	setTimeout(function () {
+		window.location.href = "https://news.google.com/";
+	},
+		2000);
+} 
 function checkLocalStorage() {
 	if (localStorage.getItem('visited')) {
-		modal.classList.replace("displayFlex", "displayNone");
+		closeModal();
 	} else {
-		localStorage.setItem('visited', 1);
-		modal.classList.replace("displayNone", "displayFlex");
+		openModal();
 	}
+}
+
+function setLocalStorage() {
+	localStorage.setItem('visited', 1);
 }
 
 function closeModal() {
 	modal.classList.replace("displayFlex", "displayNone");
 }
 
-window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
-close.addEventListener('click', closeModal);
+function openModal() {
+	modal.classList.replace("displayNone", "displayFlex");
+}
 
+redirect.addEventListener('click', redirectGoogleNews); close.addEventListener('click', closeModal);
+close.addEventListener('click', setLocalStorage); window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
+		setLocalStorage();
 	}
 });
 
