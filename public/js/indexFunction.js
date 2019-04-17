@@ -64,7 +64,12 @@ var randomNumber = Math.floor(Math.random() * 5) + 1;
 
 function generateStyle() {
 
-	var randomNumberStyle = Math.floor(Math.random() * 5) + 1;
+	let luckyCharm = Math.random();
+	var randomNumberStyle;
+    if (luckyCharm < 0.05) 
+		randomNumberStyle = "FuckedUp";	
+	else
+		randomNumberStyle = Math.floor(Math.random() * 5) + 1;
 
 	if (styleLink.getAttribute('theme')) {
 		var currentTheme = styleLink.getAttribute('theme');
