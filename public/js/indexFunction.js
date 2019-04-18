@@ -559,7 +559,7 @@ function displaySavedItemsFromHistory() {
     if (items !== null) {
         html = '';
         for (var i = 0; i < items.length; i++) {
-            html += '<a href="' + items[i] + '"> ' + items[i] + '</a></br>';
+            html += '<a href="' + items[i] + '" target="_blank"> ' + items[i] + '</a></br>';
         }
         html += '';
     }
