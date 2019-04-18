@@ -454,9 +454,7 @@ function displayFiltres() {
 			}
 				
 			var actualFilters = document.getElementsByClassName('checkbox');
-			console.log(actualFilters)
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				if(actualFilters[i].name === "filter" )
 				actualFilters[i].addEventListener('change', function(){
 					if (this.checked){
 						localStorage.setItem(this.id, this.value);
