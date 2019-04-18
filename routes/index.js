@@ -15,8 +15,8 @@ router.get('/about', function(req, res, next) {
 });
 
 /* GET API random items. */
-router.get('/random-items', function(req, res, next) {
-  itemDB.getRandomItems()
+router.get('/random-items/:lang', function(req, res, next) {
+  itemDB.getRandomItems(req.params.lang)
   .then(function(data){
     res.status(200).json(data);
   })
@@ -26,8 +26,8 @@ router.get('/random-items', function(req, res, next) {
 });
 
 /* GET API random items. */
-router.get('/random-items/:notLike', function(req, res, next) {
-  itemDB.getRandomItemsNotLike(req)
+router.get('/random-items/:notLike/:lang', function(req, res, next) {
+  itemDB.getRandomItemsNotLike(req.params.notLike, req.params.lang)
   .then(function(data){
     res.status(200).json(data);
   })
@@ -36,8 +36,16 @@ router.get('/random-items/:notLike', function(req, res, next) {
   });
 });
 
-/* GET API insertItems method. */
-router.get('/insertItems', itemDB.insertItems);
+/* GET API insertItemsAllSources method. */
+router.get('/insert', function(req, res, next){
+  itemDB.insertItemsAllSources()
+  .then((data) => {
+    res.status(200).json();
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+});
 
 /* GET API button quote. */
 router.get('/random-btnQuote', function(req, res, next){
@@ -47,7 +55,7 @@ router.get('/random-btnQuote', function(req, res, next){
   })
   .catch(function(err) {
     console.log(err);
-  })
+  });
 });
 
 /* GET API quote. */
@@ -58,14 +66,25 @@ router.get('/random-quote', function(req, res, next) {
   })
   .catch(function(err) {
     console.log(err);
-  })
+  });
 });
 
 /* GET API quote. */
-router.get('/random-defaultfilter', filtreDB.getFilters);
+router.get('/random-defaultfilter', function (req, res, next) {
+  filtreDB.getFilters()
+  .then( (data) => {
+    res.status(200).json(data);
+  })
+  .catch((err) => { console.log(err); });
+});
 
 /* GET API quote. */
-router.get('/random-filter', filtreDB.getRandomFilters);
-
+router.get('/random-filter', function (req, res, next) {
+  filtreDB.getRandomFilters()
+  .then( (data) => {
+    res.status(200).json(data);
+  })
+  .catch((err) => { console.log(err); });
+});
 
 module.exports = router;

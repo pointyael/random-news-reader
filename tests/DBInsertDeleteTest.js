@@ -43,18 +43,18 @@ describe( '"insertNewItems"', () => {
   before(async function() {
     Item.insertItems('https://mixmag.net/rss.xml')
     .then(function(status) {})
-    .catch(function(error) { console.log(error);});
+    .catch(function(error) { done(error);});
   });
 
   it( 'after insert, all items must be inserted into the database and must be younger than two days',
     function(done) {
+
       Item
       .getAllItems()
       .then((reponse) => {
         itemsData = reponse;
         let dateMinusTwoDays = moment().add(-2, 'days');
         itemsData.forEach( item => {
-
             expect(item).to.have.property("ite_pubdate");
             expect
             (
