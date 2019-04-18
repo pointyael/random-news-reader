@@ -171,7 +171,7 @@ btnShuffle.addEventListener('click', function(){
 	// 	removeRadioURLToLS();
 	// }
 	addRadioURLToLS();
-	
+
 });
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -223,7 +223,7 @@ function displayItems() {
 	var exclusion="";
 	var checkboxs = document.getElementsByClassName('checkbox');
 	for (var i = 0; i < checkboxs.length; i++){
-		if (checkboxs[i].checked){
+		if (checkboxs[i].checked && checkboxs[i].name === "filters"){
 			if (exclusion == ""){
 				exclusion += checkboxs[i].value;
 			}
@@ -236,19 +236,22 @@ function displayItems() {
 	for (var i = 0; i < recupererMaxIdCheckbox; i++) {
 		if (localStorage.getItem('checkbox'+i) != null){
 			if (exclusion == ""){
-				exclusion = localStorage.getItem('checkbox'+i);
+				exclusion = filterSelected;
 			}
 			else{
-				exclusion += "+" + localStorage.getItem('checkbox'+i);
+				exclusion += "+" + filterSelected;
 			}
 		}
 	}
 
+	var lang = document.querySelector('input[name="langFilter"]:checked').value;
+	console.log(exclusion);
 	if (exclusion != ""){
-		req.open("GET", "http://localhost:3000/random-items/"+exclusion);
+		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
+		// 0 par defaut -> pas de filtre de langue choisi
 	}
 	else{
-		req.open("GET", "http://localhost:3000/random-items");
+		req.open("GET", "http://localhost:3000/random-items/" + lang);
 	}
 
 	req.send();
@@ -365,7 +368,7 @@ function displayFiltres() {
 
 			/* Recuperation */
 			var filtres = JSON.parse(this.responseText);
-		
+
 			/* Affichage */
 			for (var i = 0; i < filtres.length; i++) {
 				divFiltre.innerHTML += displayFiltre(filtres[i]);
@@ -375,17 +378,19 @@ function displayFiltres() {
 			if (customFiltre != null){
 				displayFiltreIntoLS(customFiltre);
 			}
-				
+
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				actualFilters[i].addEventListener('change', function(){
-					if (this.checked){
-						localStorage.setItem(this.id, this.value);
-					}
-					else{
-						localStorage.removeItem(this.id);
-					}
-				});
+				if(actualFilters[i].name === "filters"){
+					actualFilters[i].addEventListener('change', function(){
+						if (this.checked){
+							localStorage.setItem(this.id, this.value);
+						}
+						else{
+							localStorage.removeItem(this.id);
+						}
+					});
+				}
 			}
 		}
 	};
@@ -398,10 +403,10 @@ function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
 		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
-	
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
@@ -414,7 +419,7 @@ function addFiltre(){
 	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
 	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
 	divFiltre.innerHTML += html;
-	
+
 	var filtresCourant = document.getElementsByClassName('checkbox');
 	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
 	document.getElementById(checkboxName).addEventListener('click', function(){

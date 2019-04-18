@@ -36,14 +36,11 @@ router.get('/random-items/:notLike/:lang', function(req, res, next) {
   });
 });
 
-/* GET API insertItems method. */
-router.get('/insertItems', itemDB.insertItems);
-
 /* GET API insertItemsAllSources method. */
 router.get('/insert', function(req, res, next){
   itemDB.insertItemsAllSources()
-  .then(() => {
-    res.status(200);
+  .then((data) => {
+    res.status(200).json();
   })
   .catch(function(err) {
     console.log(err);

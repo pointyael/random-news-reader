@@ -36,17 +36,14 @@ const getDate = (item) => {
 }
 
 const getLanguage = (item) => {
-  var resultTitle = franc(parsedItem.title);
+  var resultTitle = franc.all(parsedItem.title)[0],
+      resultDescription = franc.all(parsedItem.description)[0];
 
-  if(resultTitle != 'und'){
-    parsedItem.language = resultTitle.substring(0, 2);
-  }
-  else if (item.description) {
-    var resultDescription =  franc(parsedItem.description);
-    if(resultDescription != 'und'){
-      parsedItem.language = resultDescription.substring(0, 2);
-    }
-  }
+  if(resultTitle[0] == resultDescription[0] || resultTitle[1] >= resultDescription[1])
+    parsedItem.language = resultTitle[0].substring(0, 2);
+  else
+    parsedItem.language = resultDescription[0].substring(0, 2);
+
 }
 
 const getEnclosure = (item) => {
