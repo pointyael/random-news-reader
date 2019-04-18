@@ -1,9 +1,18 @@
 /*----------------------------------------------------------*/
-/* 				DISPLAY/HIDE MODAL DISCLAIMER	 			*/
+/*                 DISPLAY/HIDE MODAL A PROPOS              */
 /*----------------------------------------------------------*/
 var modal = document.getElementsByClassName('modal')[0];
+var modal2 = document.getElementsByClassName('modal')[1];
 var close = document.getElementsByClassName("close")[0];
-
+var redirect = document.getElementsByClassName("redirect")[0]; 
+function redirectGoogleNews() {
+	modal2.classList.replace("displayNone", "displayFlex");
+	closeModal();
+	setTimeout(function () {
+		window.location.href = "https://news.google.com/";
+	},
+		2000);
+} 
 function checkLocalStorage() {
 	if (localStorage.getItem('visited')) {
 		modal.classList.replace("displayFlex", "displayNone");
@@ -27,7 +36,8 @@ window.addEventListener('keypress', function (e) {
 });
 
 /*----------------------------------------------------------*/
-/* 					  REFRESH DE LA PAGE		 	   		*/
+/* 					  REFRESH DE LA PAGE		 	   		*
+/
 /*----------------------------------------------------------*/
 var main = document.getElementsByTagName('main')[0];
 var buttonRefresh = document.getElementById('btnRefresh');
@@ -289,15 +299,26 @@ function displayItems() {
 
 var headerColor = ["#000", "#2b4162", "#FCF8CC", "#66bd84", "#000"];
 
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+	  color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+  }
+
 function displayItem(item) {
 	var html;
-	if(item) {
+	let randomColor = getRandomColor();
+	if(item){
 		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>';
 		if (item["ite_enclosure"] != null)
+			// Là il y a moyen de faire du XSS mais c'est improbable donc ça va.
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
-		else {
-			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
+		else{
+			html += '<div class="imgBackgroundColor" style="background-color:' + randomColor + '"><img src="../public/img/logo5.png" class="broken-image"/> </div> ';
 		}
 		html +='<figcaption>' + decodeURI(encodeURI(item["ite_title"])) + '</figcaption>' +
 		'</figure>' +
@@ -368,7 +389,7 @@ switchButton.addEventListener('click', switchDisplay);
 function displayQuote() {
 	var req = new XMLHttpRequest();
 
-	req.onreadystatechange = function () {
+	req.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 
 			/* Recuperation */
