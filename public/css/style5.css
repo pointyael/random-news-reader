@@ -65,3 +65,24 @@ blockquote p, blockquote::after {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
+
+.spin:hover {
+	color: #246a73;;
+}
+
+.spin:hover::before {
+    border-top-color: #246a73;
+	border-right-color: #246a73;
+    border-bottom-color: #246a73;
+}
+
+.spin:hover::after {
+    border-top: 2px solid #246a73;
+}
+
+#history a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+	padding: 0;
+}
