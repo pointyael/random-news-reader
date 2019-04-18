@@ -2,31 +2,26 @@ header, footer, .sidebar, blockquote::after {
     background-color: #000000;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
     background-color: #246a73;
     color: #fff;
 }
 
 figure img{
-    border-radius: 20px;
+    border-radius: 200px;
 }
 
 figure figcaption {
-    background: #246a73;
-    font-size: 15px; 
-    font-weight: bold;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    color: #fff;
+    display: none;
 }
 
 figcaption, p, a {
-    font-family: noto_sanslight;
+    font-family: noto_sansregular;
 }
 
 .sidebar div {
     color:#fff;
-    font-family: noto_sanslight;
+    font-family: noto_sansregular;
 }
 
 .sidebar label {
@@ -34,7 +29,16 @@ figcaption, p, a {
 }
 
 main {
-    background-color: #f2f2f2;
+    animation: epileptic 0.05s infinite alternate linear;
+}
+
+@keyframes epileptic {
+    0%   {
+        background: black;
+    }
+    50%   {
+        background: yellow;
+    }
 }
 
 blockquote {
@@ -57,11 +61,7 @@ blockquote p, blockquote::after {
     font-weight: bold;
 }
 
-#labelAddFilter{
-    color: #FFF;
-}
-
-.imgBackgroundColor{
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+.epilepsieWarning {
+    color: white;
+    font-size: 36px;
 }

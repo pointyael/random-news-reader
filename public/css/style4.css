@@ -13,19 +13,18 @@ figure img{
 
 figure figcaption {
     background: #66bd84;
-    /* font-size: 12px; */
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     color: #000;
 }
 
 figcaption, p, a {
-    font-family: Arial Rounded MT;
+    font-family: noto_sansthin;
 }
 
 .sidebar div {
     color:#090909;
-    font-family: Arial Rounded MT;
+    font-family: noto_sansthin;
 }
 
 main {
