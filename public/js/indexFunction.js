@@ -547,10 +547,11 @@ if (localStorage.getItem("savedItems") !== null) {
 function saveItemIntoHistory(event) {
     if (selectedItems.length === 3) {
         selectedItems.shift();
-    }
+	}
+	document.getElementById(event.target.id).style.backgroundColor = "red";
     selectedItems.push(event.target.id);
-    localStorage.setItem("savedItems", JSON.stringify(selectedItems));
-    displaySavedItemsFromHistory();
+	localStorage.setItem("savedItems", JSON.stringify(selectedItems));
+	displaySavedItemsFromHistory();
 }
 
 function displaySavedItemsFromHistory() {
