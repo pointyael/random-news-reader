@@ -260,8 +260,10 @@ function displayItems() {
 				actualItems[i].addEventListener('mouseup', checkButton);
 				actualItems[i].addEventListener('click', generateAll);
 				var actualImage = actualItems[i].children[0].firstChild;
-				if (actualImage.src.includes('/public/img/logo')){
-					actualImage.style.backgroundColor = headerColor[randomNumber-1];
+				if (actualImage.src){
+					if (actualImage.src.includes('/public/img/logo')){
+						actualImage.style.backgroundColor = headerColor[randomNumber-1];
+					}
 				};
 			}
 		}
@@ -292,7 +294,6 @@ function displayItems() {
     }
 
 	var lang = document.querySelector('input[name="langFilter"]:checked').value;
-	console.log(exclusion);
 	if (exclusion != ""){
 		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
 		// 0 par defaut -> pas de filtre de langue choisi
@@ -545,7 +546,6 @@ function displaySavedItemsFromHistory() {
     if (items !== null) {
         html = '';
         for (var i = 0; i < items.length; i++) {
-            console.log(items[i]);
             html += '<a href="' + items[i] + '"> ' + items[i] + '</a></br>';
         }
         html += '';
