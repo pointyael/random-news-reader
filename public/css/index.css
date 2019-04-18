@@ -254,7 +254,7 @@ div .fa.fa-refresh.fa-spin{
 	padding-top: 20px;
 	top: 100px;
 	right: 0;
-	z-index: 3;
+	z-index: 9000;
 	transition: 0.5s;
 }
 
@@ -428,7 +428,7 @@ blockquote p{
 	align-items: center;
 	justify-content: center;
 	background-color: rgba(0,0,0,0.9);
-	z-index: 1;
+	z-index: 9000;
 }
 
 .modal-content {
