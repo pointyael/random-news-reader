@@ -50,7 +50,6 @@ window.addEventListener('keypress', function (e) {
 
 /*----------------------------------------------------------*/
 /* 					  REFRESH DE LA PAGE		 	   		*
-/
 /*----------------------------------------------------------*/
 var main = document.getElementsByTagName('main')[0];
 var buttonRefresh = document.getElementById('btnRefresh');
@@ -66,7 +65,7 @@ function generateAll(){
 	refreshItems();
 	displayRefreshPhrase();
 	displayQuote();
-
+	displayFiltres();
 }
 
 buttonRefresh.addEventListener('click', generateAll);
@@ -295,16 +294,17 @@ function displayItems() {
 		}
 	}
 
-	for (var i = 0; i < recupererMaxIdCheckbox; i++) {
+	for (var i = 0; i < recupererMaxIdCheckbox(); i++) {
 		if (localStorage.getItem('checkbox'+i) != null){
 			if (exclusion == ""){
-				exclusion = filterSelected;
+				exclusion = localStorage.getItem('checkbox'+i);
 			}
 			else{
-				exclusion += "+" + filterSelected;
+				exclusion += "+" + localStorage.getItem('checkbox'+i);
 			}
 		}
-    }
+	}
+
 
 	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	if (exclusion != ""){
@@ -442,7 +442,7 @@ function displayFiltres() {
 
 			/* Recuperation */
 			var filtres = JSON.parse(this.responseText);
-
+		
 			/* Affichage */
 			for (var i = 0; i < filtres.length; i++) {
 				divFiltre.innerHTML += displayFiltre(filtres[i]);
@@ -452,19 +452,19 @@ function displayFiltres() {
 			if (customFiltre != null){
 				displayFiltreIntoLS(customFiltre);
 			}
-
+				
 			var actualFilters = document.getElementsByClassName('checkbox');
+			console.log(actualFilters)
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
-				if(actualFilters[i].name === "filters"){
-					actualFilters[i].addEventListener('change', function(){
-						if (this.checked){
-							localStorage.setItem(this.id, this.value);
-						}
-						else{
-							localStorage.removeItem(this.id);
-						}
-					});
-				}
+				if(actualFilters[i].name === "filter" )
+				actualFilters[i].addEventListener('change', function(){
+					if (this.checked){
+						localStorage.setItem(this.id, this.value);
+					}
+					else{
+						localStorage.removeItem(this.id);
+					}
+				});
 			}
 		}
 	};
@@ -477,10 +477,10 @@ function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
 		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
+			html = '<input type="checkbox" name="filter" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
-			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
-
+			html = '<input type="checkbox" name="filter" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+	
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
@@ -493,7 +493,7 @@ function addFiltre(){
 	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
 	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
 	divFiltre.innerHTML += html;
-
+	
 	var filtresCourant = document.getElementsByClassName('checkbox');
 	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
 	document.getElementById(checkboxName).addEventListener('click', function(){
