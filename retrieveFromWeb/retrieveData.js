@@ -14,10 +14,12 @@ const itemParser = require('./itemParser.js');
 /* use an URL to return parsed object containing feed infos and items */
 async function _retrieveFeedData(link) {
   return new Promise( async (resolve, reject) => {
-    let parsedFeed = await RSSParser.parseURL(link);
-    if(parsedFeed)
+    RSSParser.parseURL(link)
+    .then((feed) => {
+      parsedFeed = feed;
       resolve(parsedFeed);
-    reject();
+    })
+    .catch((err) => { reject(err); });
   })
 }
 
@@ -43,6 +45,7 @@ function _processItems(parsedFeed){
         itemSchema = parseItem(item);
 
         if (
+          itemSchema.pubDate != "Invalid date" &&
           moment(itemSchema.pubDate).format("YYYY-MM-DD HH:mm:ss")
           > dateMinusTwoDays
         )
@@ -58,21 +61,23 @@ function parseItem(item) {
 
 async function getItems(link) {
   return new Promise( async (resolve, reject) => {
-    if( (parsedFeed = await _retrieveFeedData(link)) )
+    _retrieveFeedData(link)
+    .then((res) => {
       if( (parsedItems = _processItems(parsedFeed)) )
         resolve(parsedItems);
-
-    reject();
+    })
+    .catch((err) => { reject(); });
   });
 }
 
 async function getFeedData(link) {
   return new Promise( async (resolve, reject) => {
-    if( parsedFeed = await _retrieveFeedData(link) )
-      if( (processedInfo = await _processFeedInfo(parsedFeed)) )
+    _retrieveFeedData(link)
+    .then((res) => {
+      if( (processedInfo = _processFeedInfo(parsedFeed)) )
         resolve(processedInfo);
-
-    reject();
+    })
+    .catch((err) => reject(err));
   });
 }
 

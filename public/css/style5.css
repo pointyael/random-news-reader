@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #000000;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #246a73;
     color: #fff;
 }
@@ -21,12 +21,12 @@ figure figcaption {
 }
 
 figcaption, p, a {
-    font-family: Oswald;
+    font-family: noto_sanslight;
 }
 
 .sidebar div {
     color:#fff;
-    font-family: Oswald;
+    font-family: noto_sanslight;
 }
 
 .sidebar label {
@@ -57,6 +57,14 @@ blockquote p, blockquote::after {
     font-weight: bold;
 }
 
+#labelAddFilter{
+    color: #FFF;
+}
+
+.imgBackgroundColor{
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
 
 .spin:hover {
 	color: #246a73;;

@@ -1,0 +1,67 @@
+header, footer, .sidebar, blockquote::after {
+    background-color: #000000;
+}
+
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+    background-color: #246a73;
+    color: #fff;
+}
+
+figure img{
+    border-radius: 200px;
+}
+
+figure figcaption {
+    display: none;
+}
+
+figcaption, p, a {
+    font-family: noto_sansregular;
+}
+
+.sidebar div {
+    color:#fff;
+    font-family: noto_sansregular;
+}
+
+.sidebar label {
+    color:#000;
+}
+
+main {
+    animation: epileptic 0.05s infinite alternate linear;
+}
+
+@keyframes epileptic {
+    0%   {
+        background: black;
+    }
+    50%   {
+        background: yellow;
+    }
+}
+
+blockquote {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+blockquote p, blockquote::after {
+    color: #ffffff;
+}
+
+.checkbox:checked + .label-check{
+    background-color: #246a73;
+    color: #fff;
+}
+
+.label-check:hover{
+    background-color: #d68fd6;
+    color: #fff;
+    font-weight: bold;
+}
+
+.epilepsieWarning {
+    color: white;
+    font-size: 36px;
+}

@@ -14,21 +14,23 @@ const getAllItems = () =>
 }
 
 /* Query 12 random items from data base */
-const getRandomItems = () => {
+const getRandomItems = (lang) => {
   return new Promise((resolve, reject) => {
-    db.any('SELECT "getRandomItems"()')
+    db.any('SELECT "getRandomItems"(' + lang + ')')
     .then(function (data) { resolve(data[0].getRandomItems); })
     .catch(function (error) { reject(error); });
   });
 }
 
 /* Query 12 random items from data base */
-const getRandomItemsNotLike = (request) => {
+const getRandomItemsNotLike = (notLike, lang) => {
   return new Promise( (resolve, reject) => {
     db.any(
       'SELECT "getRandomItemsNotLike"( ARRAY['
-      + splitRequestParamters(request.params.notLike)
-      +'])'
+      + splitRequestParamters(notLike)
+      +'], '
+      + lang
+      +')'
     )
     .then(function (data) { resolve(data[0].getRandomItemsNotLike); })
     .catch(function (error) { reject (error); });
@@ -47,6 +49,28 @@ const insertItems = (feed) => {
       var res = await ItemsRetrieved.getItems(source.sou_link),
       [feedString, itemsString] = parseAsParameters(source, res);
       await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
+      resolve();
+
+    }).catch(function(error) { reject(error); });
+  })
+}
+
+/* Insert items in data base */
+const insertItemsAllSources  = (feed) => {
+  return new Promise(function(resolve, reject) {
+    deleteOldItems();
+
+    db
+    .any("SELECT * FROM source")
+    .then(async function(source) {
+      source.forEach(async (s) => {
+        ItemsRetrieved.getItems(s .sou_link)
+        .then(async (items) => {
+          [feedString, itemsString] = parseAsParameters(s , items);
+          await db.any("CALL \"insertNewItems\"("+ feedString +", '"+ itemsString +"')");
+        })
+        .catch((err) => {});
+      });
       resolve();
 
     }).catch(function(error) { reject(error); });
@@ -93,5 +117,6 @@ module.exports = {
     getRandomItems,
     getRandomItemsNotLike,
     insertItems,
+    insertItemsAllSources,
     deleteOldItems
 }

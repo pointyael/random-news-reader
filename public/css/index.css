@@ -1,7 +1,47 @@
+@font-face {
+    font-family: 'noto_sansregular';
+    src: url('../fonts/notosans-regular-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansitalic';
+    src: url('../fonts/notosans-italic-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansmedium';
+    src: url('../fonts/notosans-medium-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansthin';
+    src: url('../fonts/notosans-thin-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-thin-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sanslight';
+    src: url('../fonts/notosans-light-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
-	font-family: Helvetica;
+	font-family: noto_sansregular;
 }
 
 body {
@@ -36,6 +76,7 @@ header img {
 }
 
 main {
+	width: 100%;
 	display: grid;
 	margin: 100px 0 50px;
 	padding: 10px;
@@ -109,6 +150,19 @@ figure figcaption {
 	/* white-space: nowrap; */
 }
 
+.imgBackgroundColor{
+	width: 100%;
+	height: 100%;
+}
+
+.broken-image{
+	display: block;
+	width: 80%;
+	height: 80%;
+	margin: 0 auto;
+	opacity: 0.7;
+}
+
 /*--------------*/
 /* ITEM HISTORY */
 /*--------------*/
@@ -174,6 +228,7 @@ main div{
   .circle::before, .circle::after {
 	border-radius: 100%;
   }
+
 /*----------------*/
 /* BOUTON REFRESH */
 /*----------------*/
@@ -192,7 +247,6 @@ div .fa.fa-refresh.fa-spin{
 /*---------*/
 /* SIDEBAR */
 /*---------*/
-
 .sidebar {
 	position: fixed;
 	width: 0;
@@ -208,7 +262,7 @@ div .fa.fa-refresh.fa-spin{
 	display: block;
 	padding: 10px 20px;
 	color: #818181;
-	font-size: 25px;
+	font-size: 20px;
 	white-space: nowrap;
 	transition: 0.3s;
 } 
@@ -250,6 +304,17 @@ blockquote p{
 	color: #eaeaea;
 }	
 
+/*-----------------*/
+/* LANGUAGE FILTER */
+/*-----------------*/
+#languageFilter {
+	max-width: 230px;
+	display: flex;
+	min-width: 230px;
+	padding: 0;
+	flex-wrap: wrap;
+}
+
 #history a{
 	text-decoration: none;
 	padding: 0;
@@ -262,7 +327,6 @@ blockquote p{
 /*----------------*/
 /* SIDEBAR FILTER */
 /*----------------*/
-
 #keywordsFilter {
 	max-width: 230px;
 	display: flex;
@@ -271,11 +335,11 @@ blockquote p{
 	flex-wrap: wrap;
 }
 
-.sidebar input {
+.sidebar .checkbox {
 	display: none;
 }
 
-.sidebar label {
+.sidebar .label-check {
 	cursor: pointer;
 	margin: 5px 2px;
 	padding: 10px;
@@ -285,10 +349,41 @@ blockquote p{
 	box-shadow: -5px 6px 15px -4px rgba(0,0,0,0.2);
 }
 
+/*--------------------*/
+/* SIDEBAR ADD FILTER */
+/*--------------------*/
+#customFilter{
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	white-space: nowrap;
+}
+
+#labelAddFilter{
+	display: block;
+}
+
+#inputFilter{
+	min-width: 210px;
+	width: 210px;
+	height: 20px;
+}
+
+#btnAjouterFiltre{
+	min-width: 180px;
+	margin: 5px auto;
+	padding: 10px 20px;
+	color: #FFF;
+	font-size: 15px;
+	width: auto;
+	border-radius: 50px;
+	cursor: pointer;
+	text-align: center;
+}
+
 /*------------------*/
 /* ANIMATION BURGER */
 /*------------------*/
-
 .bar {
 	width: 25px;
 	height: 2px;

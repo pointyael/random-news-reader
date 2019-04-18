@@ -42,6 +42,9 @@
                 heures.</p>
 
             <p>C’est le hasard qui va déterminer le contenu de ce fil.</p>
+
+            <p>AVERTISSEMENT: Certaines pages présentent un risque pour les personnes susceptibles de faire des crises d'epilepsie.</p>
+
             <div class="yesNoBox">
                 <button class="close">Y[es]<span class="blink">|</span></button>
                 <button class="redirect">N[o]</button>
@@ -59,9 +62,27 @@
         <blockquote>
             <p id="quote"></p>
         </blockquote>
-        <div>Ne pas voir :
+        <div>Voir du contenu en :
+            <div id="languageFilter">
+                <input type="radio" name="langFilter" id="enFilter" class="checkbox" value="13"/>
+                <label class="label-check" for="enFilter">English</label>
+                <input type="radio" name="langFilter" id="frFilter" class="checkbox" value="16"/>
+                <label class="label-check" for="frFilter">Français</label>
+                <input type="radio" name="langFilter" id="esFilter" class="checkbox" value="38"/>
+                <label class="label-check" for="esFilter">Español</label>
+                <input type="radio" name="langFilter" id="allFilter" class="checkbox" value="0" checked />
+                <label class="label-check" for="allFilter">No matter</label>
+            </div>
+        </div>
+        <div>Bannir :
             <div id='keywordsFilter'>
 
+            </div>
+
+            <div id="customFilter">
+                <label id='labelAddFilter'>Ajouter un filtre :</label>
+                <input id='inputFilter' type="text">
+                <div id='btnAjouterFiltre'>Ajouter</div>
             </div>
         </div>
         <div>Historique :

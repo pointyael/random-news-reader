@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #2b4162;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     color: #f5f0f6;
     background-color: #ff5a5f;
 }
@@ -12,12 +12,12 @@ figure figcaption {
 }
 
 figcaption, p, a{
-    font-family: Arial Rounded MT;
+    font-family: noto_sansregular;
 }
 
 .sidebar div{
     color:#ff9699;
-    font-family: Arial Rounded MT;
+    font-family: noto_sansregular;
 }
 
 .checkbox:checked + .label-check{

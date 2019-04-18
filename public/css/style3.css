@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #FCF8CC;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #090909;
 }
 
@@ -12,12 +12,12 @@ figure figcaption {
 }
 
 figcaption, p, a{
-    font-family: Spectral Extrabold;
+    font-family: noto_sansitalic;
 }
 
 .sidebar div{
     color:#090909;
-    font-family: Spectral Extrabold;
+    font-family: noto_sansitalic;
 }
 
 main {

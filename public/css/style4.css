@@ -2,7 +2,7 @@ header, footer, .sidebar, blockquote::after {
     background-color: #66bd84;
 }
 
-div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
+div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #fff;
     color: #000;
 }
@@ -13,19 +13,18 @@ figure img{
 
 figure figcaption {
     background: #66bd84;
-    /* font-size: 12px; */
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     color: #000;
 }
 
 figcaption, p, a {
-    font-family: Arial Rounded MT;
+    font-family: noto_sansthin;
 }
 
 .sidebar div {
     color:#090909;
-    font-family: Arial Rounded MT;
+    font-family: noto_sansthin;
 }
 
 main {
@@ -42,7 +41,7 @@ blockquote p, blockquote::after {
 }
 
 #keywordsFilter {
-	min-width: 250px;
+	min-width: 230px;
 }
 
 .sidebar label {
@@ -62,6 +61,15 @@ blockquote p, blockquote::after {
     filter: invert(1);
 }
 
+
+#labelAddFilter{
+    font-size: 25px;
+}
+
+.imgBackgroundColor{
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
 
 .spin:hover {
 	color: #095256;
