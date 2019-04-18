@@ -38,11 +38,11 @@ function refreshItems() {
 }
 
 function generateAll(){
-    closeSidebarMenu();
+	closeSidebarMenu();
 	generateStyle();
-    refreshItems();
-    displayRefreshPhrase();
-    displayQuote();
+	refreshItems();
+	displayRefreshPhrase();
+	displayQuote();
 }
 
 buttonRefresh.addEventListener('click', generateAll);
@@ -66,19 +66,34 @@ function generateStyle() {
 
 	let luckyCharm = Math.random();
 	var randomNumberStyle;
-    if (luckyCharm < 0.05) 
+	if (luckyCharm < 0.01) {
 		randomNumberStyle = "FuckedUp";	
-	else
+	} else {
 		randomNumberStyle = Math.floor(Math.random() * 5) + 1;
+	}
 
 	if (styleLink.getAttribute('theme')) {
 		var currentTheme = styleLink.getAttribute('theme');
 	}
 
 	if (randomNumberStyle != currentTheme) {
+		if (randomNumberStyle == "FuckedUp") {		
+			logo.setAttribute('src', '../public/img/logo' + 6 + '.gif');
+			if (!document.getElementById('epilepsieWarning')) {
+				var newText = document.createElement( 'div' );
+				newText.innerHTML = "PeNSeZ à fAiRE dEs PAuSes réGUlIèrEmENt";
+				newText.classList.add('epilepsieWarning');
+				newText.setAttribute("id", "epilepsieWarning");
+				logo.parentNode.insertBefore( newText, logo.nextSibling );
+			}
+		} else {
+			if (document.getElementById('epilepsieWarning')) {
+				document.getElementById('epilepsieWarning').remove();
+			}
+			logo.setAttribute('src', '../public/img/logo' + randomNumberStyle + '.png');
+		}
 		styleLink.setAttribute('theme', randomNumberStyle);
 		styleLink.setAttribute('href', '../public/css/style' + randomNumberStyle + '.css');
-		logo.setAttribute('src', '../public/img/logo' + randomNumberStyle + '.png');
 	} else {
 		generateStyle();
 	}
@@ -88,56 +103,55 @@ function generateStyle() {
 /*           GENERATE WEBRADIO URL 4 PLAYER                 */
 /*----------------------------------------------------------*/
 function random_item(items) {
-    return items[Math.floor(Math.random() * items.length)];
+	return items[Math.floor(Math.random() * items.length)];
 }
 
 var items = ["http://fluoz-01.radiojar.com/cyva9z92cq5tv?",
-    "http://18193.live.streamtheworld.com/SAM08AAC038_SC",
-    "http://icepe4.infomaniak.ch/african1libreville-128",
-    "http://20073.live.streamtheworld.com/DUBAI_EYE.mp3",
-
-    "http://audiostreaming.twesto.com/megafm214",
-    "http://voninahi.radioca.st/stream?s=1442699748",
-    "http://direct.fipradio.fr/live/fip-lofi.mp3",
-    "http://direct.franceculture.fr/live/franceculture-lofi.mp3",
-    "https://scdn.nrjaudio.fm/fr/40041/aac_64.mp3?listenerid=f6a67f2bed4300af15bafc911e7b22f9&awparams=companionAds:true;playerid:&origine=playernostalgie&cdn_path=audio_lbs8",
-    "http://live02.rfi.fr/rfiafrique-64.mp3",
-    "http://ice-the.musicradio.com/SmoothScotlandMP3",
-    "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_cymru2_mf_p?s=1516894190&e=1516908590&h=541489170db3f643d57a07129afabdf4",
-    "http://abc.ihrcast.arn.com.au/iHRabc20",
-    "https://schlagerzone.stream.laut.fm/schlagerzone?ref=radiode&t302=2019-04-10_12-22-11&uuid=f58a72b2-57c6-401a-a9c4-56618678fa39",
-    "http://radiocast.rtp.pt/rdpafrica80a.mp3",
-    "http://icy.unitedradio.it/VirginHardRock.mp3",
-    "http://stream.tmwradio.com/bianconera.aac",
-    "http://server6.20comunicacion.com:8102/;stream.jh16",
-    "https://dg-hr-https-dus-dtag-cdn.sslcast.addradio.de/hr/hrinfo/live/mp3/128/stream.mp3?r=252491",
-    "http://dg-ndr-http-fra-dtag-cdn.cast.addradio.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3",
-    "http://live.radiokiss.gr/kissfm1006hq.mp3",
-    "http://icecast.omroep.nl/funx-arab-bb-mp3",
-    "http://top.showlikes.com/uploads/tracks/1928097711_141640704_702738033.mp3",
-    "ttp://icecast.vrtcdn.be/sporza-mid.mp3",
-    "https://streaming.radio.co/sc46fb8389/listen",
-    "http://audio1.video.ria.ru/voicerus",
-    "http://listen.shoutcast.com/radiobudva",
-    "http://icy.unitedradio.it/VirginHardRock.mp3",
-    "http://ice.abradio.cz/metalomanie128.mp3",
-    "http://http-live.sr.se/p1-mp3-192",
-    "http://http-live.sr.se/p4norrbotten-aac-32",
-    "http://stream.open.fm/34",
-    "http://162.210.196.140/records/radiouser2633647/record.mp3",
-    "http://edge.espn.cdn.abacast.net/espn-deportesmp3-48",
-    "http://15383.live.streamtheworld.com/RADIO_CAPITAL_SC",
-    "http://16613.live.streamtheworld.com/ADN_SC",
-    "http://c13icy.prod.playlists.ihrhls.com/249_icy",
-    "http://http.qingting.fm/live/386/64k.mp3",
-    "http://http.qingting.fm/live/344/64k.mp3",
-    "http://http.qingting.fm/live/387/64k.mp3",
-    "https://prclive4.listenon.in/BollywoodMix",
-    "http://bb30.sonixcast.com:9628/stream/1/?esPlayer&cb=923521.mp3",
-    "https://musicbird.leanstream.co/JCB094-MP3?args=web_02&uid=c5a362ee-4906-472a-a60e-9a7ce18e9620",
-    "http://d.liveatc.net/rjtt_twr",
-    "http://ewr2.liveatc.net/rjtt_control",
-    "http://icy3.abacast.com/dialglobal-nbcsportsmp3-48?token=9636270f1bc18d9810d54fef88670bd0%2F70fdd99d",
+"http://18193.live.streamtheworld.com/SAM08AAC038_SC",
+"http://icepe4.infomaniak.ch/african1libreville-128",
+"http://20073.live.streamtheworld.com/DUBAI_EYE.mp3",
+"http://audiostreaming.twesto.com/megafm214",
+"http://voninahi.radioca.st/stream?s=1442699748",
+"http://direct.fipradio.fr/live/fip-lofi.mp3",
+"http://direct.franceculture.fr/live/franceculture-lofi.mp3",
+"https://scdn.nrjaudio.fm/fr/40041/aac_64.mp3?listenerid=f6a67f2bed4300af15bafc911e7b22f9&awparams=companionAds:true;playerid:&origine=playernostalgie&cdn_path=audio_lbs8",
+"http://live02.rfi.fr/rfiafrique-64.mp3",
+"http://ice-the.musicradio.com/SmoothScotlandMP3",
+"http://bbcmedia.ic.llnwd.net/stream/bbcmedia_cymru2_mf_p?s=1516894190&e=1516908590&h=541489170db3f643d57a07129afabdf4",
+"http://abc.ihrcast.arn.com.au/iHRabc20",
+"https://schlagerzone.stream.laut.fm/schlagerzone?ref=radiode&t302=2019-04-10_12-22-11&uuid=f58a72b2-57c6-401a-a9c4-56618678fa39",
+"http://radiocast.rtp.pt/rdpafrica80a.mp3",
+"http://icy.unitedradio.it/VirginHardRock.mp3",
+"http://stream.tmwradio.com/bianconera.aac",
+"http://server6.20comunicacion.com:8102/;stream.jh16",
+"https://dg-hr-https-dus-dtag-cdn.sslcast.addradio.de/hr/hrinfo/live/mp3/128/stream.mp3?r=252491",
+"http://dg-ndr-http-fra-dtag-cdn.cast.addradio.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3",
+"http://live.radiokiss.gr/kissfm1006hq.mp3",
+"http://icecast.omroep.nl/funx-arab-bb-mp3",
+"http://top.showlikes.com/uploads/tracks/1928097711_141640704_702738033.mp3",
+"ttp://icecast.vrtcdn.be/sporza-mid.mp3",
+"https://streaming.radio.co/sc46fb8389/listen",
+"http://audio1.video.ria.ru/voicerus",
+"http://listen.shoutcast.com/radiobudva",
+"http://icy.unitedradio.it/VirginHardRock.mp3",
+"http://ice.abradio.cz/metalomanie128.mp3",
+"http://http-live.sr.se/p1-mp3-192",
+"http://http-live.sr.se/p4norrbotten-aac-32",
+"http://stream.open.fm/34",
+"http://162.210.196.140/records/radiouser2633647/record.mp3",
+"http://edge.espn.cdn.abacast.net/espn-deportesmp3-48",
+"http://15383.live.streamtheworld.com/RADIO_CAPITAL_SC",
+"http://16613.live.streamtheworld.com/ADN_SC",
+"http://c13icy.prod.playlists.ihrhls.com/249_icy",
+"http://http.qingting.fm/live/386/64k.mp3",
+"http://http.qingting.fm/live/344/64k.mp3",
+"http://http.qingting.fm/live/387/64k.mp3",
+"https://prclive4.listenon.in/BollywoodMix",
+"http://bb30.sonixcast.com:9628/stream/1/?esPlayer&cb=923521.mp3",
+"https://musicbird.leanstream.co/JCB094-MP3?args=web_02&uid=c5a362ee-4906-472a-a60e-9a7ce18e9620",
+"http://d.liveatc.net/rjtt_twr",
+"http://ewr2.liveatc.net/rjtt_control",
+"http://icy3.abacast.com/dialglobal-nbcsportsmp3-48?token=9636270f1bc18d9810d54fef88670bd0%2F70fdd99d",
 ];
 
 var srcRadio = document.getElementById("src_radio");
@@ -145,13 +159,13 @@ var player = document.getElementById('player');
 var btnShuffle = document.getElementById('btnShuffle');
 
 function generateRadio() {
-    var radioSrc = random_item(items);
+	var radioSrc = random_item(items);
 
-    if (radioSrc != null) {
-        srcRadio.setAttribute('src', radioSrc);
+	if (radioSrc != null) {
+		srcRadio.setAttribute('src', radioSrc);
 		player.load();
 		player.play();
-    }
+	}
 }
 
 function addRadioURLToLS(){
@@ -206,13 +220,23 @@ function displayItems() {
 			var items = JSON.parse(this.responseText);
 			var main = document.getElementsByTagName('main')[0];
 
+			let currentTheme = styleLink.getAttribute('theme');
+			if (currentTheme == "FuckedUp") {
+				var fuckedUp = true;
+			}
+
 			/* Affichage */
 			for (var i = 0; i < items.length; i++) {
-				if (items[i]!=null && items[i]['ite_id']!=null)
+				if (items[i]!=null && items[i]['ite_id']!=null && !fuckedUp) {
 					main.innerHTML += displayItem(items[i]);
+				} else {
+					let randomIllusion = Math.floor(Math.random() * 4) + 1;
+					main.innerHTML += '<a class="item"><figure><img src="./public/img/optical'+ randomIllusion +'.gif"></figure></a>';
+				}
 			}
 
 			/* Refresh on click */
+
 			var actualItems = document.getElementsByClassName('item');
 			for (var i = actualItems.length - 1; i >= 0; i--) {
 				actualItems[i].addEventListener('mouseup', checkButton);
@@ -263,15 +287,15 @@ var headerColor = ["#000", "#2b4162", "#FCF8CC", "#66bd84", "#000"];
 
 function displayItem(item) {
 	var html;
-	if(item){
+	if(item) {
 		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>';
 		if (item["ite_enclosure"] != null)
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
-		else{
+		else {
 			html += '<img src="./public/img/logo' + randomNumber + '.png" alt=""/> ';
 		}
-		html +='<figcaption>' + item["ite_title"] + '</figcaption>' +
+		html +='<figcaption>' + decodeURI(encodeURI(item["ite_title"])) + '</figcaption>' +
 		'</figure>' +
 		'</a>';
 	}
@@ -399,7 +423,7 @@ function displayFiltre(filtre) {
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
 		else
 			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
-			
+
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;

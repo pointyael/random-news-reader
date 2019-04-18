@@ -8,25 +8,20 @@ div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle{
 }
 
 figure img{
-    border-radius: 20px;
+    border-radius: 200px;
 }
 
 figure figcaption {
-    background: #246a73;
-    font-size: 15px; 
-    font-weight: bold;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    color: #fff;
+    display: none;
 }
 
 figcaption, p, a {
-    font-family: Oswald;
+    font-family: noto_sansregular;
 }
 
 .sidebar div {
     color:#fff;
-    font-family: Oswald;
+    font-family: noto_sansregular;
 }
 
 .sidebar label {
@@ -34,7 +29,16 @@ figcaption, p, a {
 }
 
 main {
-    background-color: red;
+    animation: epileptic 0.05s infinite alternate linear;
+}
+
+@keyframes epileptic {
+    0%   {
+        background: black;
+    }
+    50%   {
+        background: yellow;
+    }
 }
 
 blockquote {
@@ -55,4 +59,9 @@ blockquote p, blockquote::after {
     background-color: #d68fd6;
     color: #fff;
     font-weight: bold;
+}
+
+.epilepsieWarning {
+    color: white;
+    font-size: 36px;
 }

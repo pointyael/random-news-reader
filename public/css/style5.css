@@ -21,12 +21,12 @@ figure figcaption {
 }
 
 figcaption, p, a {
-    font-family: Oswald;
+    font-family: noto_sanslight;
 }
 
 .sidebar div {
     color:#fff;
-    font-family: Oswald;
+    font-family: noto_sanslight;
 }
 
 .sidebar label {

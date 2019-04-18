@@ -12,12 +12,12 @@ figure figcaption {
 }
 
 figcaption, p, a{
-    font-family: Spectral Extrabold;
+    font-family: noto_sansitalic;
 }
 
 .sidebar div{
     color:#090909;
-    font-family: Spectral Extrabold;
+    font-family: noto_sansitalic;
 }
 
 main {

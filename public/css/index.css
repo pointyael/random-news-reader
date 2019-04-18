@@ -1,7 +1,47 @@
+@font-face {
+    font-family: 'noto_sansregular';
+    src: url('../fonts/notosans-regular-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansitalic';
+    src: url('../fonts/notosans-italic-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansmedium';
+    src: url('../fonts/notosans-medium-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sansthin';
+    src: url('../fonts/notosans-thin-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-thin-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto_sanslight';
+    src: url('../fonts/notosans-light-webfont.woff2') format('woff2'),
+         url('../fonts/notosans-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
-	font-family: Helvetica;
+	font-family: noto_sansregular;
 }
 
 body {
