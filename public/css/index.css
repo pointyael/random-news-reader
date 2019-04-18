@@ -154,7 +154,7 @@ div .fa.fa-refresh.fa-spin{
 	display: block;
 	padding: 10px 20px;
 	color: #818181;
-	font-size: 25px;
+	font-size: 20px;
 	white-space: nowrap;
 	transition: 0.3s;
 } 
@@ -196,6 +196,16 @@ blockquote p {
 	color: #eaeaea;
 }	
 
+/*-----------------*/
+/* LANGUAGE FILTER */
+/*-----------------*/
+#languageFilter {
+	max-width: 230px;
+	display: flex;
+	min-width: 230px;
+	padding: 0;
+	flex-wrap: wrap;
+}
 /*----------------*/
 /* SIDEBAR FILTER */
 /*----------------*/

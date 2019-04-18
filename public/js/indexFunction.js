@@ -15,35 +15,29 @@ function redirectGoogleNews() {
 } 
 function checkLocalStorage() {
 	if (localStorage.getItem('visited')) {
-		closeModal();
+		modal.classList.replace("displayFlex", "displayNone");
 	} else {
-		openModal();
+		localStorage.setItem('visited', 1);
+		modal.classList.replace("displayNone", "displayFlex");
 	}
-}
-
-function setLocalStorage() {
-	localStorage.setItem('visited', 1);
 }
 
 function closeModal() {
 	modal.classList.replace("displayFlex", "displayNone");
 }
 
-function openModal() {
-	modal.classList.replace("displayNone", "displayFlex");
-}
+window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
+close.addEventListener('click', closeModal);
 
-redirect.addEventListener('click', redirectGoogleNews); close.addEventListener('click', closeModal);
-close.addEventListener('click', setLocalStorage); window.addEventListener('DOMContentLoaded', checkLocalStorage, false);
 window.addEventListener('keypress', function (e) {
 	if (e.keyCode == 13) {
 		closeModal();
-		setLocalStorage();
 	}
 });
 
 /*----------------------------------------------------------*/
-/* 					  REFRESH DE LA PAGE		 	   		*/
+/* 					  REFRESH DE LA PAGE		 	   		*
+/
 /*----------------------------------------------------------*/
 var main = document.getElementsByTagName('main')[0];
 var buttonRefresh = document.getElementById('btnRefresh');
@@ -82,16 +76,14 @@ var randomNumber;
 function generateStyle() {
 	randomNumber = Math.floor(Math.random() * 5) + 1;
 
-	var randomNumberStyle = Math.floor(Math.random() * 5) + 1;
-
 	if (styleLink.getAttribute('theme')) {
 		var currentTheme = styleLink.getAttribute('theme');
 	}
 
-	if (randomNumberStyle != currentTheme) {
-		styleLink.setAttribute('theme', randomNumberStyle);
-		styleLink.setAttribute('href', '../public/css/style' + randomNumberStyle + '.css');
-		logo.setAttribute('src', '../public/img/logo' + randomNumberStyle + '.png');
+	if (randomNumber != currentTheme) {
+		styleLink.setAttribute('theme', randomNumber);
+		styleLink.setAttribute('href', '../public/css/style' + randomNumber + '.css');
+		logo.setAttribute('src', '../public/img/logo' + randomNumber + '.png');
 	} else {
 		generateStyle();
 	}
@@ -263,6 +255,7 @@ function displayItems() {
 	}
 
 	var lang = document.querySelector('input[name="langFilter"]:checked').value;
+	console.log(exclusion);
 	if (exclusion != ""){
 		req.open("GET", "http://localhost:3000/random-items/" + exclusion + "/" + lang );
 		// 0 par defaut -> pas de filtre de langue choisi
@@ -396,7 +389,7 @@ function displayFiltres() {
 
 			/* Recuperation */
 			var filtres = JSON.parse(this.responseText);
-		
+
 			/* Affichage */
 			for (var i = 0; i < filtres.length; i++) {
 				divFiltre.innerHTML += displayFiltre(filtres[i]);
@@ -406,7 +399,7 @@ function displayFiltres() {
 			if (customFiltre != null){
 				displayFiltreIntoLS(customFiltre);
 			}
-				
+
 			var actualFilters = document.getElementsByClassName('checkbox');
 			for (var i = actualFilters.length - 1; i >= 0; i--) {
 				if(actualFilters[i].name === "filters"){
@@ -431,9 +424,10 @@ function displayFiltre(filtre) {
 	var html;
 	if (filtre) {
 		if (localStorage.getItem('checkbox' + filtre["fll_filtre"]) != filtre["fll_localise"])
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '">';
 		else
-			html = '<input type="checkbox" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+			html = '<input type="checkbox" name="filters" id="checkbox' + filtre["fll_filtre"] + '" class="checkbox" value="' + filtre["fll_localise"] + '" checked>';
+
 		html += '<label class="label-check" for="checkbox' + filtre["fll_filtre"] + '">#' + filtre["fll_localise"].charAt(0).toUpperCase() + filtre["fll_localise"].slice(1) + '</label>';
 	}
 	return html;
@@ -446,7 +440,7 @@ function addFiltre(){
 	html += '<label class="label-check" for="checkbox'+ recupererMaxIdCheckbox() +'">#' + inputValue.charAt(0).toUpperCase() + inputValue.slice(1) + '</label>';
 	localStorage.setItem("checkbox"+ recupererMaxIdCheckbox(), inputValue);
 	divFiltre.innerHTML += html;
-	
+
 	var filtresCourant = document.getElementsByClassName('checkbox');
 	var checkboxName = ('checkbox' + Number(recupererMaxIdCheckbox()-1));
 	document.getElementById(checkboxName).addEventListener('click', function(){
