@@ -61,6 +61,7 @@ blockquote p, blockquote::after {
     filter: invert(1);
 }
 
+
 #labelAddFilter{
     font-size: 25px;
 }
@@ -68,4 +69,25 @@ blockquote p, blockquote::after {
 .imgBackgroundColor{
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+
+.spin:hover {
+	color: #095256;
+}
+
+.spin:hover::before {
+    border-top-color: #095256;
+	border-right-color: #095256;
+    border-bottom-color: #095256;
+}
+
+.spin:hover::after {
+    border-top: 2px solid #095256;
+}
+
+#history a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #090909;
+	padding: 0;
 }

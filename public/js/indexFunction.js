@@ -63,7 +63,8 @@ window.onload = function(){
 	refreshItems();
 	displayRefreshPhrase();
 	displayQuote();
-	displayFiltres();
+    displayFiltres();
+    displaySavedItemsFromHistory();
 };
 
 /*-----------------------------*/
@@ -245,6 +246,12 @@ function displayItems() {
 					main.innerHTML += '<a class="item"><figure><img src="./public/img/optical'+ randomIllusion +'.gif"></figure></a>';
 				}
 			}
+    
+            /* event listener history */
+            var selectionButtons = document.getElementsByClassName('itemHistory');
+            for (var i = 0; i < selectionButtons.length; i++) {
+                selectionButtons[i].addEventListener("click", saveItemIntoHistory);
+            }
 
 			/* Refresh on click */
 
@@ -282,7 +289,7 @@ function displayItems() {
 				exclusion += "+" + filterSelected;
 			}
 		}
-	}
+    }
 
 	var lang = document.querySelector('input[name="langFilter"]:checked').value;
 	console.log(exclusion);
@@ -312,7 +319,7 @@ function displayItem(item) {
 	var html;
 	let randomColor = getRandomColor();
 	if(item){
-		html = '<a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
+		html = '<div><a class="item" href="' + item["ite_link"] + '" target="_blank" >' +
 		'<figure>';
 		if (item["ite_enclosure"] != null)
 			// Là il y a moyen de faire du XSS mais c'est improbable donc ça va.
@@ -322,7 +329,9 @@ function displayItem(item) {
 		}
 		html +='<figcaption>' + decodeURI(encodeURI(item["ite_title"])) + '</figcaption>' +
 		'</figure>' +
-		'</a>';
+		'</a>' +
+		'<button class="itemHistory spin circle" id="' + item.ite_link + '"><img id="etoileHisto" src="../public/img/histo.png" alt="star"></button>' +
+    	'</div>';
 	}
 	return html;
 }
@@ -514,4 +523,33 @@ function closeSidebarMenu(){
 	topbar.classList.remove('top');
 	middlebar.classList.remove('middle');
 	bottombar.classList.remove('bottom');
+}
+
+var selectedItems = [];
+if (localStorage.getItem("savedItems") !== null) {
+    selectedItems = JSON.parse(localStorage.getItem("savedItems"));
+}
+
+function saveItemIntoHistory(event) {
+    if (selectedItems.length === 3) {
+        selectedItems.shift();
+    }
+    selectedItems.push(event.target.id);
+    localStorage.setItem("savedItems", JSON.stringify(selectedItems));
+    displaySavedItemsFromHistory();
+}
+
+function displaySavedItemsFromHistory() {
+    var html;
+    var items = JSON.parse(localStorage.getItem('savedItems'));
+    if (items !== null) {
+        html = '';
+        for (var i = 0; i < items.length; i++) {
+            console.log(items[i]);
+            html += '<a href="' + items[i] + '"> ' + items[i] + '</a></br>';
+        }
+        html += '';
+    }
+    var zone = document.getElementById('history');
+    zone.innerHTML = html;
 }

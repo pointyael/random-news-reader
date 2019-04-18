@@ -29,3 +29,25 @@ figcaption, p, a{
     background-color: #00cecb;
     color: #f5f0f6;
 }
+
+
+.spin:hover {
+	color: #ff9699;
+}
+
+.spin:hover::before {
+    border-top-color: #ff9699;
+	border-right-color: #ff9699;
+    border-bottom-color: #ff9699;
+}
+
+.spin:hover::after {
+    border-top: 2px solid #ff9699;
+}
+
+#history a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+	padding: 0;
+}

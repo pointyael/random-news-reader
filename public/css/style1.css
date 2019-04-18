@@ -16,3 +16,24 @@ div#btnRefresh, #topbar, #middlebar, #bottombar, #btnShuffle, #btnAjouterFiltre{
     background-color: #db5030;
     color: #fff;
 }
+
+.spin:hover {
+	color: #db5030;
+}
+
+.spin:hover::before {
+    border-top-color: #db5030;
+	border-right-color: #db5030;
+    border-bottom-color: #db5030;
+}
+
+.spin:hover::after {
+    border-top: 2px solid #db5030;
+}
+
+#history a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+	padding: 0;
+}
