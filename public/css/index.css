@@ -250,12 +250,13 @@ div .fa.fa-refresh.fa-spin{
 .sidebar {
 	position: fixed;
 	width: 0;
-	height: 100%;
 	padding-top: 20px;
 	top: 100px;
+	bottom: 50px;
 	right: 0;
 	z-index: 9000;
 	transition: 0.5s;
+	overflow-y: auto;
 }
 
 .sidebar div {
@@ -268,8 +269,6 @@ div .fa.fa-refresh.fa-spin{
 } 
 
 .sidebar div.bottomLink {
-	position: fixed;
-	bottom: 20px;
 	font-size: 12px;
 }
 
