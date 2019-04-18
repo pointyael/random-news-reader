@@ -295,7 +295,7 @@ function displayItem(item) {
 			// Là il y a moyen de faire du XSS mais c'est improbable donc ça va.
 			html += '<img src="' + item["ite_enclosure"] + '" alt=""/> ';
 		else{
-			html += '<img style="background-color:' + randomColor + '"/> ';
+			html += '<div class="imgBackgroundColor" style="background-color:' + randomColor + '"><img src="../public/img/brokenImage.png" class="broken-image"/> </div> ';
 		}
 		html +='<figcaption>' + item["ite_title"] + '</figcaption>' +
 		'</figure>' +
