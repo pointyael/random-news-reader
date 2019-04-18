@@ -19,7 +19,7 @@ async function _retrieveFeedData(link) {
       parsedFeed = feed;
       resolve(parsedFeed);
     })
-    .catch((err) => reject(err));
+    .catch((err) => { reject(err); });
   })
 }
 
@@ -39,7 +39,7 @@ function _processItems(parsedFeed){
     let itemArray = [];
     let itemSchema = Object();
     let dateMinusTwoDays = moment().add(-2, 'days').format("YYYY-MM-DD HH:mm:ss");
-  
+
     parsedFeed.items.forEach(item => {
 
         itemSchema = parseItem(item);
@@ -66,7 +66,7 @@ async function getItems(link) {
       if( (parsedItems = _processItems(parsedFeed)) )
         resolve(parsedItems);
     })
-    .catch((err) => { reject(err); });
+    .catch((err) => { reject(); });
   });
 }
 
