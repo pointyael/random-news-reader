@@ -257,6 +257,7 @@ div .fa.fa-refresh.fa-spin{
 	z-index: 9000;
 	transition: 0.5s;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .sidebar div {
